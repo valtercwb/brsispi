@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import modelDao.UsuarioDAO;
 
-
 public class Usuario {
 
     int codigo;
@@ -83,7 +82,6 @@ public class Usuario {
 //        }
 //        return retorno;
 //    }
-
 //    public static void getUsersDb(JTable tabela) {
 //        DefaultTableModel myModel = (DefaultTableModel)tabela.getModel();
 //
@@ -128,8 +126,7 @@ public class Usuario {
 //            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
- public static boolean logon(String login, String senha) {
+    public static boolean logon(String login, String senha) {
         return UsuarioDAO.autenticar(login, senha);
     }
 }
