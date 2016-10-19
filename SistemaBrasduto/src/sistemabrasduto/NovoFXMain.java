@@ -1,4 +1,4 @@
-package sistemabrsaduto;
+package sistemabrasduto;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
