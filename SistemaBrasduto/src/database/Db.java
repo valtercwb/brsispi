@@ -4,9 +4,10 @@ import java.sql.*;
 
 public class Db {
 
+    private static Db instancia = new Db();
     private Connection conexao;
     private Statement statement;
-    public PreparedStatement preStatement;
+    public PreparedStatement pst;
 
     //--------------------------------------------------------------------------
     public void open() throws ClassNotFoundException, SQLException {
@@ -67,15 +68,25 @@ public class Db {
             open();
         }
 
-        this.preStatement = this.conexao.prepareStatement(sql);
+        this.pst = this.conexao.prepareStatement(sql);
 
     }
 
     //--------------------------------------------------------------------------
     public PreparedStatement setQueryParameter() {
 
-        return this.preStatement;
+        return this.pst;
 
     }
 
+    public static Db instancia() {
+        if (instancia == null) {
+            instancia = new Db();
+        }
+        return instancia;
+    }
+
+    public Connection getConnection() {
+        return conexao;
+    }
 }

@@ -2,10 +2,36 @@ package modelDao;
 
 import DataBase.Db;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.Usuario;
 
-public class UsuarioDAO {
+ public class UsuarioDAO extends DAO {
 
-    public static boolean autenticar(String login, String senha) {
+    public UsuarioDAO() {
+        super();
+    }
+        
+        public void inserir(Usuario usuario) {
+        try {
+            String sql = "INSERT INTO usuario (login, email, status, descricao, data_criacao, fk_tipo_usuario ) VALUES (?, ?, ?, ?, ?, ?, now(),?)";
+
+            pst = conector.prepareStatement(sql);
+
+            
+            pst.setString(1, usuario.getLogin());
+            pst.setString(2, usuario.getNome());
+            pst.setString(3, usuario.getEmail());
+            pst.setString(4, usuario.getStatus());
+            pst.executeUpdate();
+            pst.close();
+
+        } catch (SQLException ex) {
+           
+        }
+    }
+
+    public static boolean autenticar(String login, String senha){ 
+            
         boolean retorno = false;
         try {
 
