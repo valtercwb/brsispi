@@ -27,9 +27,9 @@ public class SistemaBrasduto extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        anchorPane = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
+        anchorPane = FXMLLoader.load(SistemaBrasduto.class.getResource("/view/Login.fxml"));
         Scene scene = new Scene(anchorPane);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.DECORATED);
             stage.setX(windows.getMinX());
             stage.setY(windows.getMinY());
             stage.setWidth(windows.getWidth());
@@ -43,7 +43,7 @@ public class SistemaBrasduto extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+      Application.launch(SistemaBrasduto.class, (java.lang.String[]) null);
     }
     
 }

@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="515.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <children>
-        <Button fx:id="btnLogin" layoutX="357.0" layoutY="360.0" onAction="#handleBtnLoginAction" text="Login" />
-      <TextField fx:id="txtUsuario" layoutX="306.0" layoutY="269.0" promptText="Usuario" />
-      <PasswordField fx:id="txtSenha" layoutX="306.0" layoutY="313.0" promptText="Senha" />
-      <Label layoutX="349.0" layoutY="213.0" text="Login">
+        <Button fx:id="btnLogin" layoutX="649.0" layoutY="429.0" onAction="#handleBtnLoginAction" text="Login" />
+      <TextField fx:id="txtUsuario" layoutX="597.0" layoutY="343.0" promptText="Usuario" />
+      <PasswordField fx:id="txtSenha" layoutX="597.0" layoutY="384.0" promptText="Senha" />
+      <Label layoutX="640.0" layoutY="293.0" text="Login">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label fx:id="lbErroLogin" layoutX="306.0" layoutY="338.0" prefHeight="17.0" prefWidth="62.0" />
+      <Label fx:id="lbErroLogin" layoutX="597.0" layoutY="409.0" prefHeight="17.0" prefWidth="62.0" />
     </children>
 </AnchorPane>
