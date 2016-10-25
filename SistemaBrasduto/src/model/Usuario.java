@@ -10,9 +10,10 @@ import modelDAO.TipoUsuario;
 
 /**
  *
- * @author elenice.carvalho
+ * @author valter.franco
  */
 public class Usuario {
+
     private int id;
     private String nome;
     private String login;

@@ -1,9 +1,5 @@
 package modelDAO;
 
-//import br.com.museuid.model.TipoUsuario;
-//import br.com.museuid.model.Usuario;
-//import br.com.museuid.util.Mensagem;
-//import br.com.museuid.util.Tempo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

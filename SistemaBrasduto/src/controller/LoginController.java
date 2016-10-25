@@ -7,7 +7,7 @@ package controller;
 
 import AppLauncher.HomeLauncher;
 import AppLauncher.SistemaBrasduto;
-import banco.ControleDAO;
+import database.ControleDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,20 +25,20 @@ import service.Campo;
 
 /**
  *
- * @author elenice.carvalho
+ * @author valter.franco
  */
 public class LoginController implements Initializable {
-    
+
     @FXML
     private Button btnLogin;
 
     @FXML
     private TextField txtUsuario;
-     @FXML
+    @FXML
     private Label lbErroLogin;
     @FXML
     private PasswordField txtSenha;
-    
+
     public static Usuario usuarioLogado = null;
 
     @FXML
@@ -48,13 +48,15 @@ public class LoginController implements Initializable {
 
         if (ControleDAO.getBanco().getLoginDAO().autenticarUsername(login)) {
             if (ControleDAO.getBanco().getLoginDAO().autenticarSenha(login, senha)) {
-                usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
                 try {
+                    // usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
+
                     new HomeLauncher().start(new Stage());
+                    SistemaBrasduto.entrar.close();
                 } catch (Exception ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                SistemaBrasduto.stage.close();
+
             } else {
                 lbErroLogin.setText("Senha incorreta, verifique os valores!");
                 Campo.erroLogin(txtSenha);
@@ -64,10 +66,10 @@ public class LoginController implements Initializable {
             Campo.erroLogin(txtUsuario);
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

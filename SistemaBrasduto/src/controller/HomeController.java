@@ -13,24 +13,27 @@ import javafx.scene.layout.VBox;
 /**
  * FXML Controller class
  *
- * @author elenice.carvalho
+ * @author valter.franco
  */
 public class HomeController implements Initializable {
+
     private static HomeController instance;
- public static HomeController getInstance() {
+
+    public static HomeController getInstance() {
         return instance;
     }
- 
- public VBox boxNotas() {
+
+    public VBox boxNotas() {
         VBox boxNotas = null;
         return boxNotas;
     }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

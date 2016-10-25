@@ -12,10 +12,9 @@ import javafx.scene.control.DatePicker;
 import javafx.util.Callback;
 
 /**
- * Tratar, formatar e clacular datas, auxiliando principalmente na conversão de datas da nova api do java LocalDate
- * para Timestamp para inserção na base de dados
+ * Tratar, formatar e clacular datas, auxiliando principalmente na conversão de datas da nova api do java LocalDate para Timestamp para inserção na base de dados
  *
- * @author Angelica
+ * @author valter.franco
  */
 public class Tempo {
 
@@ -23,8 +22,7 @@ public class Tempo {
     }
 
     /**
-     * Converte um LocalDate para Timestamp com os horarios zerados, ou seja
-     * meia noite
+     * Converte um LocalDate para Timestamp com os horarios zerados, ou seja meia noite
      */
     public static Timestamp toTimestamp(LocalDate data) {
         return Timestamp.valueOf(data.atStartOfDay());
