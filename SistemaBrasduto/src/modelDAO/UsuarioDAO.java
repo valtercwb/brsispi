@@ -17,18 +17,13 @@ public class UsuarioDAO extends DAO {
     // Inserir usuário na base de dados
     public void inserir(Usuario usuario) {
         try {
-            String sql = "INSERT INTO tb_usuario ( nome, login, senha, email, status, descricao, data_criacao, fk_tipo_usuario ) VALUES (?, ?, ?, ?, ?, ?, now(),?)";
+            String sql = "INSERT INTO usuario ( nome, login, senha) VALUES (?, ?, ?)";
 
             stm = conector.prepareStatement(sql);
 
             stm.setString(1, usuario.getNome());
             stm.setString(2, usuario.getLogin());
             stm.setString(3, usuario.getSenha());
-            stm.setString(4, usuario.getEmail());
-            stm.setInt(5, usuario.isStatus() ? 1 : 0);
-            stm.setString(6, usuario.getDescricao());
-            stm.setInt(7, usuario.getTipoUsuario().getId());
-
             stm.executeUpdate();
             stm.close();
 

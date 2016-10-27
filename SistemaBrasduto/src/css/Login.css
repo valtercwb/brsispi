@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : Oct 25, 2016, 4:13:36 PM
     Author     : valter.franco
 */
-.mainFxmlClass {
-
+.mainFxmlClass {}
+.background {
+    -fx-background-image: url("/image/background.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-color: transparent;
+    -fx-background-position: top;
+    -fx-background-repeat: no-repeat;
 }
+

@@ -23,7 +23,7 @@ import javafx.stage.StageStyle;
  */
 public class SistemaBrasduto extends Application {
 
-    public static Stage entrar;
+    public static Stage loginStage;
     private Scene scene;
     private AnchorPane anchorPane;
     private Screen screen = Screen.getPrimary();
@@ -32,7 +32,7 @@ public class SistemaBrasduto extends Application {
     @Override
     public void start(final Stage stage) {
         try {
-            entrar = stage;
+            loginStage = stage;
             anchorPane = FXMLLoader.load(SistemaBrasduto.class.getResource("/view/Login.fxml"));
             scene = new Scene(anchorPane);
             stage.initStyle(StageStyle.DECORATED);

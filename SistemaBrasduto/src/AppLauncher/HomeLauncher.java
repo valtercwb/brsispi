@@ -11,11 +11,10 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -24,24 +23,24 @@ import javafx.stage.StageStyle;
  */
 public class HomeLauncher extends Application {
 
-    public static Stage home;
-    private static Scene scene;
-    private static AnchorPane anchorPane;
-
     private Screen screen = Screen.getPrimary();
+
     private Rectangle2D windows = screen.getVisualBounds();
 
     @Override
     public void start(final Stage stage) {
         try {
-            home = stage;
-            anchorPane = FXMLLoader.load(HomeLauncher.class.getResource("/view/Home.fxml"));
-            scene = new Scene(anchorPane);
-            stage.initStyle(StageStyle.DECORATED);
+
+            Parent root = FXMLLoader.load(HomeLauncher.class.getResource("/view/Home.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.centerOnScreen();
             stage.setX(windows.getMinX());
             stage.setY(windows.getMinY());
             stage.setWidth(windows.getWidth());
             stage.setHeight(windows.getHeight());
+            stage.show();
 
             //stage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("icone.png")));
             stage.setScene(scene);
