@@ -21,8 +21,9 @@ public class Criptografia {
             for (byte b : messageDigest) {
                 hexString.append(String.format("%02X", 0xFF & b));
             }
-
-            return hexString.toString();
+            hexString.toString();
+            String Str = new String(hexString);
+            return Str.toLowerCase();
 
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Mensagem.erro("Erro ao converter senha do usuário \n" + ex);

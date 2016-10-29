@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" focusTraversable="true" prefHeight="720.0" prefWidth="1280.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CriarUsuarioController">
+<AnchorPane id="mainAnchor" fx:id="mainAnchor" focusTraversable="true" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CriarUsuarioController">
     <stylesheets>
         <URL value="@/css/criarusuario.css" />
     </stylesheets>
@@ -25,7 +25,7 @@
                <children>
                   <AnchorPane prefHeight="265.0" prefWidth="297.0">
                      <children>
-                        <Hyperlink fx:id="linkPossuiConta" layoutX="87.0" layoutY="537.0" onAction="#linkPossuiConta" text="Já possui uma Conta?" />
+                        <Hyperlink fx:id="linkPossuiConta" layoutX="87.0" layoutY="523.0" onAction="#linkPossuiConta" text="Já possui uma Conta?" />
                         <Label layoutX="37.0" layoutY="196.0" text="Criar conta de usuario">
                            <font>
                               <Font size="24.0" />
@@ -41,7 +41,7 @@
             </HBox>
          </center>
          <bottom>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+            <HBox alignment="CENTER" prefHeight="96.0" prefWidth="1280.0" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </children>

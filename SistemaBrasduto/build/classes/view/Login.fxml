@@ -11,18 +11,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane id="mainAnchor" fx:id="mainAnchor" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <stylesheets>
         <URL value="@/css/login.css" />
     </stylesheets>
    <children>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="mainFxmlClass" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" stylesheets="@../css/login.css" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="720.0" prefWidth="308.0" styleClass="background" stylesheets="@../css/login.css">
+                  <AnchorPane prefHeight="720.0" prefWidth="308.0" stylesheets="@../css/login.css">
                      <children>
-                        <Hyperlink layoutX="92.0" layoutY="528.0" onAction="#linkCriarConta" text="Criar conta de Usuario" />
+                        <Hyperlink fx:id="linkCriar" layoutX="92.0" layoutY="528.0" onAction="#linkCriarConta" text="Criar conta de Usuario" />
                         <AnchorPane layoutX="54.0" layoutY="312.0" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <TextField fx:id="txtUsuario" layoutX="26.0" layoutY="71.0" promptText="Usuario" />

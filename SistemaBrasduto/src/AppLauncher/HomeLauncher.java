@@ -54,6 +54,6 @@ public class HomeLauncher extends Application {
      * Initializes the controller class.
      */
     public static void main(String[] args) {
-        Application.launch(HomeLauncher.class, (java.lang.String[]) null);
+        launch(args);
     }
 }

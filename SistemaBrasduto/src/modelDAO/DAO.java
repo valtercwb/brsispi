@@ -16,7 +16,7 @@ public class DAO {
 
     protected Connection conector = ConexaoBanco.instancia().getConnection();
     protected ResultSet rs;
-    protected PreparedStatement stm;
+    protected PreparedStatement pst;
 
     public DAO() {
     }

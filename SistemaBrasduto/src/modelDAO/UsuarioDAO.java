@@ -14,24 +14,42 @@ public class UsuarioDAO extends DAO {
         super();
     }
 
-    // Inserir usuário na base de dados
-    public void inserir(Usuario usuario) {
+    public void inserir(Usuario usuario) throws SQLException {
+
         try {
-            String sql = "INSERT INTO usuario ( nome, login, senha) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO Usuario (usu_nome, usu_login, usu_senha) VALUES (?, ?,MD5(?))";
 
-            stm = conector.prepareStatement(sql);
-
-            stm.setString(1, usuario.getNome());
-            stm.setString(2, usuario.getLogin());
-            stm.setString(3, usuario.getSenha());
-            stm.executeUpdate();
-            stm.close();
-
+            pst = conector.prepareStatement(sql);
+            // set parameters, then execute insertNewPerson
+            pst.setString(1, usuario.getNome());
+            pst.setString(2, usuario.getLogin());
+            pst.setString(3, usuario.getSenha());
+            pst.executeUpdate();
+            pst.close();
         } catch (SQLException ex) {
             Mensagem.erro("Erro ao inserir usuário na base de dados! \n" + ex);
         }
+        System.out.println("Usuario inserido com sucesso");
+
     }
 
+    // Inserir usuário na base de dados
+//    public void inserir(Usuario usuario) {
+//        try {
+//            String sql = "INSERT INTO usuario ( nome, login, senha) VALUES (?, ?, ?)";
+//
+//            stm = conector.prepareStatement(sql);
+//
+//            stm.setString(1, usuario.getNome());
+//            stm.setString(2, usuario.getLogin());
+//            stm.setString(3, usuario.getSenha());
+//            stm.executeUpdate();
+//            stm.close();
+//
+//        } catch (SQLException ex) {
+//            Mensagem.erro("Erro ao inserir usuário na base de dados! \n" + ex);
+//        }
+//    }
     /**
      * Atualizar dados usuário na base de dados
      */
@@ -39,20 +57,20 @@ public class UsuarioDAO extends DAO {
         try {
             String sql = "UPDATE tb_usuario SET nome =?, login =?, senha =?, email =?, status =?, descricao =?, fk_tipo_usuario =? WHERE id_usuario =?";
 
-            stm = conector.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
 
-            stm.setString(1, usuario.getNome());
-            stm.setString(2, usuario.getLogin());
-            stm.setString(3, usuario.getSenha());
-            stm.setString(4, usuario.getEmail());
-            stm.setInt(5, usuario.isStatus() ? 1 : 0);
-            stm.setString(6, usuario.getDescricao());
-            stm.setInt(7, usuario.getTipoUsuario().getId());
+            pst.setString(1, usuario.getNome());
+            pst.setString(2, usuario.getLogin());
+            pst.setString(3, usuario.getSenha());
+            pst.setString(4, usuario.getEmail());
+            pst.setInt(5, usuario.isStatus() ? 1 : 0);
+            pst.setString(6, usuario.getDescricao());
+            pst.setInt(7, usuario.getTipoUsuario().getId());
 
-            stm.setInt(8, usuario.getId());
+            pst.setInt(8, usuario.getId());
 
-            stm.executeUpdate();
-            stm.close();
+            pst.executeUpdate();
+            pst.close();
 
         } catch (SQLException ex) {
             Mensagem.erro("Erro ao atualizar usuário na base de dados! \n" + ex);
@@ -66,12 +84,12 @@ public class UsuarioDAO extends DAO {
         try {
             String sql = "DELETE FROM tb_usuario WHERE id_usuario=?";
 
-            stm = conector.prepareStatement(sql);
+            pst = conector.prepareStatement(sql);
 
-            stm.setInt(1, idUsuario);
-            stm.execute();
+            pst.setInt(1, idUsuario);
+            pst.execute();
 
-            stm.close();
+            pst.close();
         } catch (SQLException ex) {
             Mensagem.erro("Erro ao excluir usuário na base de dados! \n" + ex);
         }
@@ -88,8 +106,8 @@ public class UsuarioDAO extends DAO {
             String sql = "SELECT tb_usuario.*, tb_tipo_usuario.nome FROM tb_usuario, tb_tipo_usuario "
                     + "WHERE tb_usuario.fk_tipo_usuario = tb_tipo_usuario.id_tipo_usuario ";
 
-            stm = conector.prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+            pst = conector.prepareStatement(sql);
+            rs = pst.executeQuery(sql);
 
             while (rs.next()) {
                 TipoUsuario tipo = new TipoUsuario(rs.getInt(9), rs.getString(10));
@@ -98,7 +116,7 @@ public class UsuarioDAO extends DAO {
                 usuarios.add(user);
             }
 
-            stm.close();
+            pst.close();
             rs.close();
 
         } catch (SQLException ex) {
@@ -142,17 +160,17 @@ public class UsuarioDAO extends DAO {
         try {
             String sql = "SELECT login FROM tb_usuario WHERE login = ? AND id_usuario != ? ";
 
-            stm = conector.prepareStatement(sql);
-            stm.setString(1, nome);
-            stm.setInt(2, id);
-            rs = stm.executeQuery();
+            pst = conector.prepareStatement(sql);
+            pst.setString(1, nome);
+            pst.setInt(2, id);
+            rs = pst.executeQuery();
 
             if (rs.next()) {
                 String usuario = rs.getString(1);
                 return usuario.trim().equalsIgnoreCase(login);
             }
 
-            stm.close();
+            pst.close();
             rs.close();
 
         } catch (SQLException ex) {

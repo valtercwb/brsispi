@@ -68,7 +68,6 @@ public class Campo {
                 origem(no);
             }
         } catch (Exception ex) {
-            Nota.erro("Erro erro campo");
         }
     }
 

@@ -26,6 +26,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Usuario;
 import service.Campo;
@@ -46,6 +47,8 @@ public class LoginController implements Initializable {
     private Label labErroLogin;
     @FXML
     private JFXButton btnLogin;
+    @FXML
+    private AnchorPane mainAnchor;
 
     public static Usuario usuarioLogado = null;
 
@@ -57,7 +60,7 @@ public class LoginController implements Initializable {
         if (ControleDAO.getBanco().getLoginDAO().autenticarUsername(login)) {
             if (ControleDAO.getBanco().getLoginDAO().autenticarSenha(login, senha)) {
                 try {
-                    // usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
+                     //usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
 
                     new HomeLauncher().start(new Stage());
                     SistemaBrasduto.loginStage.close();
@@ -97,6 +100,7 @@ public class LoginController implements Initializable {
         Stage criarUsuarioStage = new Stage();
         criarUsuarioStage.setScene(scene);
         criarUsuarioStage.setMaximized(true);
+        criarUsuarioStage.setResizable(true);
         criarUsuarioStage.setTitle("Sistema Brasduto - Criar Usuario");
         criarUsuarioStage.show();
         SistemaBrasduto.loginStage.close();

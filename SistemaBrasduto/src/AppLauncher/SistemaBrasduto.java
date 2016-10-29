@@ -53,7 +53,7 @@ public class SistemaBrasduto extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application.launch(SistemaBrasduto.class, (java.lang.String[]) null);
+        launch(args);
     }
 
 }

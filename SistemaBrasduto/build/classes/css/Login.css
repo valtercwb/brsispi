@@ -8,11 +8,11 @@ and open the template in the editor.
     Author     : valter.franco
 */
 .mainFxmlClass {}
-.background {
-    -fx-background-image: url("/image/background.png");
+#mainAnchor {
+    -fx-background-image: url("../image/login.png");
     -fx-background-size: 100% 100%;
-    -fx-background-color: transparent;
-    -fx-background-position: top;
+    -fx-background-color: none;
+    -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 

@@ -5,3 +5,10 @@
 .mainFxmlClass {
 
 }
+#mainAnchor {
+    -fx-background-image: url("../image/login.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}

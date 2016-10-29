@@ -21,15 +21,15 @@ public class LoginDAO extends DAO {
         try {
             String sql = "SELECT usu_login,usu_status FROM usuario WHERE usu_login=?  ";
 
-            stm = conector.prepareStatement(sql);
-            stm.setString(1, login);
-            rs = stm.executeQuery();
+            pst = conector.prepareStatement(sql);
+            pst.setString(1, login);
+            rs = pst.executeQuery();
 
             if (rs.next()) {
                 return login.equals(rs.getString(1));
             }
 
-            stm.close();
+            pst.close();
             rs.close();
 
         } catch (SQLException ex) {
@@ -49,16 +49,16 @@ public class LoginDAO extends DAO {
         try {
             String sql = "SELECT usu_login, usu_senha FROM usuario WHERE usu_login=? AND usu_senha=? ";
 
-            stm = conector.prepareStatement(sql);
-            stm.setString(1, login);
-            stm.setString(2, chave);
-            rs = stm.executeQuery();
+            pst = conector.prepareStatement(sql);
+            pst.setString(1, login);
+            pst.setString(2, chave);
+            rs = pst.executeQuery();
 
             while (rs.next()) {
                 return rs.getString(1).equals(login) && rs.getString(2).equals(chave);
             }
 
-            stm.close();
+            pst.close();
             rs.close();
 
         } catch (SQLException ex) {

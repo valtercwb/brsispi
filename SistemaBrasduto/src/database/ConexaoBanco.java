@@ -15,13 +15,19 @@ public class ConexaoBanco {
     private static ConexaoBanco instancia = new ConexaoBanco();
     private Connection connection;
 
+    private static final String URL = "jdbc:mysql://localhost/valter_banco";
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "2429";
+
     private ConexaoBanco() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/valter_banco", "root", "2429");
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             Mensagem.alerta("Erro ao conectar-se com a base de dados! \n" + ex);
         }
+        System.out.println("Connected");
     }
 
     /**

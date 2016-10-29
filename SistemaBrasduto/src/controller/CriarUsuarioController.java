@@ -6,9 +6,13 @@
 package controller;
 
 import AppLauncher.SistemaBrasduto;
+import database.ControleDAO;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,9 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Usuario;
-import modelDAO.UsuarioDAO;
 
 /**
  * FXML Controller class
@@ -32,26 +36,28 @@ public class CriarUsuarioController implements Initializable {
     @FXML
     private TextField txtUsuario;
     @FXML
-    private PasswordField txtNomeCompleto;
+    private TextField txtNome;
     @FXML
     public Hyperlink linkPossuiConta;
     @FXML
     private Button btnCriarUsuario;
-    private Stage stage;
+    @FXML
+    private AnchorPane mainAnchor;
 
     @FXML
-    void btnCriarUsuarioOnClicked(ActionEvent event) {
-        Usuario usuario = new Usuario();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        String nome = txtNomeCompleto.getText();
+    void btnCriarUsuarioOnClicked(ActionEvent event){
+
+        String nome = txtNome.getText();
         String login = txtUsuario.getText();
         String senha = txtSenha.getText();
-
+        
+        Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setLogin(login);
         usuario.setSenha(senha);
-        usuarioDAO.inserir(usuario);
-
+        try {
+            ControleDAO.getBanco().getUsuarioDAO().inserir(usuario);
+            
 ////        Action ad = Dialogs.create()
 ////                .title("Sucess ...")
 ////                .actions(Dialog.ACTION_OK)
@@ -69,8 +75,6 @@ public class CriarUsuarioController implements Initializable {
 ////            }
 //        }
 //    }
-//
-//    
 //        else {
 //            Action warning = Dialogs.create()
 //                .title("Warning")
@@ -79,17 +83,13 @@ public class CriarUsuarioController implements Initializable {
 //                .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
 //                .showWarning();
 //    }
+        } catch (SQLException ex) {
+            Logger.getLogger(CriarUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     void linkPossuiConta(ActionEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-//        Scene scene = new Scene(root);
-//        Stage loginStage = new Stage();
-//        loginStage.setScene(scene);
-//        loginStage.setMaximized(true);
-//        loginStage.setTitle("Registration -StoreKeeper");
-//        loginStage.show();
         new SistemaBrasduto().start(new Stage());
         Stage hlLoginStage = (Stage) linkPossuiConta.getScene().getWindow();
         hlLoginStage.close();
