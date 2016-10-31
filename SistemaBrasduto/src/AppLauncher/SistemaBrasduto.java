@@ -10,10 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -26,20 +24,15 @@ public class SistemaBrasduto extends Application {
     public static Stage loginStage;
     private Scene scene;
     private AnchorPane anchorPane;
-    private Screen screen = Screen.getPrimary();
-    private Rectangle2D windows = screen.getVisualBounds();
 
     @Override
     public void start(final Stage stage) {
         try {
             loginStage = stage;
             anchorPane = FXMLLoader.load(SistemaBrasduto.class.getResource("/view/Login.fxml"));
-            scene = new Scene(anchorPane);
+            scene = new Scene(anchorPane, 1280, 720);
             stage.initStyle(StageStyle.DECORATED);
-            stage.setX(windows.getMinX());
-            stage.setY(windows.getMinY());
-            stage.setWidth(windows.getWidth());
-            stage.setHeight(windows.getHeight());
+            stage.centerOnScreen();
 
 //            stage.getIcons().addAll(new Image(Login.class.getResourceAsStream("icone.png")));
             stage.setScene(scene);

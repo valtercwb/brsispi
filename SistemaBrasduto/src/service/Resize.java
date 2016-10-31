@@ -14,7 +14,7 @@ public class Resize {
 
     /**
      * Função para facilitar o redimensionamento dos nós para seu tamanho de
-     * acordo com a distancia do seu parente
+//     * acordo com a distancia do seu parente
      *
      * @param no     node parente do componente a ser redimensionado
      * @param top    distancia do topo com o nó parente

@@ -6,14 +6,14 @@
 package AppLauncher;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -23,28 +23,35 @@ import javafx.stage.Stage;
  */
 public class HomeLauncher extends Application {
 
-    private Screen screen = Screen.getPrimary();
+    // Creating a static root to pass to the controller
+    private static BorderPane root = new BorderPane();
 
-    private Rectangle2D windows = screen.getVisualBounds();
+    /**
+     * Just a root getter for the controller to use
+     */
+    public static BorderPane getRoot() {
+        return root;
+    }
 
     @Override
-    public void start(final Stage stage) {
+    public void start( Stage primaryStage) {
         try {
+            URL anchorMenu = getClass().getResource("/view/menubotoes.fxml");
+            AnchorPane menu = FXMLLoader.load(anchorMenu);
 
-            Parent root = FXMLLoader.load(HomeLauncher.class.getResource("/view/Home.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.centerOnScreen();
-            stage.setX(windows.getMinX());
-            stage.setY(windows.getMinY());
-            stage.setWidth(windows.getWidth());
-            stage.setHeight(windows.getHeight());
-            stage.show();
+            URL paneOneUrl = getClass().getResource("/view/Home.fxml");
+            AnchorPane paneOne = FXMLLoader.load(paneOneUrl);
+
+            root.setTop(menu);
+            root.setCenter(paneOne);
+            Scene scene = new Scene(root, 1280, 720);
+            scene.getStylesheets().add(getClass().getResource("/css/fx8menu.css").toExternalForm());
+            primaryStage.setScene(scene);
+            primaryStage.setResizable(true);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
 
             //stage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("icone.png")));
-            stage.setScene(scene);
-            stage.show();
         } catch (IOException ex) {
             Logger.getLogger(HomeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         }

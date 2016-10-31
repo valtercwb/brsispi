@@ -1,8 +1,8 @@
 package service;
 
-/**
- * Criação de mensagem apartir do classe de dialogo
- */
+
+ //Criação de mensagem apartir do classe de dialogo
+
 import service.Dialogo.Resposta;
 
 public class Mensagem {

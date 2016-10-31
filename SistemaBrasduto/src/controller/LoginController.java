@@ -60,10 +60,10 @@ public class LoginController implements Initializable {
         if (ControleDAO.getBanco().getLoginDAO().autenticarUsername(login)) {
             if (ControleDAO.getBanco().getLoginDAO().autenticarSenha(login, senha)) {
                 try {
-                     //usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
-
+                    //usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
                     new HomeLauncher().start(new Stage());
                     SistemaBrasduto.loginStage.close();
+
                 } catch (Exception ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
