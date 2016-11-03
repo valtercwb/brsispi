@@ -55,6 +55,7 @@ public class HomeLauncher extends Application {
         } catch (IOException ex) {
             Logger.getLogger(HomeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     /**

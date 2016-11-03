@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<MenuBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="34.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.employee.EmployeeController">
-  <menus>
-    <Menu mnemonicParsing="false" text="Listar Funcionários">
-      <items>
-        <MenuItem fx:id="listarFunDep" mnemonicParsing="false" onAction="#handleListarFunDep" text="Listar por departamento" />
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Gerir Funcionários">
-      <items>
-            <MenuItem fx:id="addFun" mnemonicParsing="false" onAction="#handelAddFun" text="Adicionar" />
-            <MenuItem fx:id="editFun" mnemonicParsing="false" onAction="#handleEditFun" text="Editar" />
-            <MenuItem fx:id="deleteFun" mnemonicParsing="false" onAction="#handleDeleteFun" text="Excluir" />
-      </items>
-    </Menu>
-  </menus>
-   <padding>
-      <Insets top="4.0" />
-   </padding>
-</MenuBar>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.employee.EmployeeMenuController">
+   <children>
+      <HBox layoutX="-20.0" layoutY="-50.0" prefHeight="31.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="listEmp" mnemonicParsing="false" onAction="#listEmpOnClicked" prefHeight="31.0" prefWidth="220.0" text="Tabela De Funcionarios" />
+            <Button fx:id="listAddEmp" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#listAddEmp" prefHeight="31.0" prefWidth="220.0" text="Adicionar junto a tabela" />
+            <Button fx:id="addEmpForm" layoutX="230.0" layoutY="10.0" mnemonicParsing="false" onAction="#addEmpForm" prefHeight="31.0" prefWidth="220.0" text="Adicionar" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,5 +1,7 @@
 package database;
 
+import modelDAO.EscDAO;
+import modelDAO.ItemDAO;
 import modelDAO.LoginDAO;
 import modelDAO.UsuarioDAO;
 
@@ -13,6 +15,12 @@ public class ControleDAO {
     private static ControleDAO banco = new ControleDAO();
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
     private LoginDAO loginDAO = new LoginDAO();
+    private EscDAO escDAO = new EscDAO();
+    private ItemDAO itemDAO = new ItemDAO();
+
+    public ItemDAO getItemDAO() {
+        return itemDAO;
+    }
 
     public static ControleDAO getBanco() {
         return banco;
@@ -24,6 +32,10 @@ public class ControleDAO {
 
     public LoginDAO getLoginDAO() {
         return loginDAO;
+    }
+
+    public EscDAO getEscDAO() {
+        return escDAO;
     }
 
 }

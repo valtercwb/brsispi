@@ -33,26 +33,6 @@ public class UsuarioDAO extends DAO {
 
     }
 
-    // Inserir usuário na base de dados
-//    public void inserir(Usuario usuario) {
-//        try {
-//            String sql = "INSERT INTO usuario ( nome, login, senha) VALUES (?, ?, ?)";
-//
-//            stm = conector.prepareStatement(sql);
-//
-//            stm.setString(1, usuario.getNome());
-//            stm.setString(2, usuario.getLogin());
-//            stm.setString(3, usuario.getSenha());
-//            stm.executeUpdate();
-//            stm.close();
-//
-//        } catch (SQLException ex) {
-//            Mensagem.erro("Erro ao inserir usuário na base de dados! \n" + ex);
-//        }
-//    }
-    /**
-     * Atualizar dados usuário na base de dados
-     */
     public void editar(Usuario usuario) {
         try {
             String sql = "UPDATE tb_usuario SET nome =?, login =?, senha =?, email =?, status =?, descricao =?, fk_tipo_usuario =? WHERE id_usuario =?";

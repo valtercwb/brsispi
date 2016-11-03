@@ -15,7 +15,7 @@ public class ConexaoBanco {
     private static ConexaoBanco instancia = new ConexaoBanco();
     private Connection connection;
 
-    private static final String URL = "jdbc:mysql://localhost/valter_banco";
+    private static final String URL = "jdbc:mysql://localhost/SistemaBrasduto";
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "2429";

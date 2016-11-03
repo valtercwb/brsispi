@@ -4,6 +4,7 @@ import database.ConexaoBanco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 
 //  Possui objetos necessários para implementar os CRUDs a partir da base de
@@ -17,6 +18,7 @@ public class DAO {
     protected Connection conector = ConexaoBanco.instancia().getConnection();
     protected ResultSet rs;
     protected PreparedStatement pst;
+    protected Statement stm;
 
     public DAO() {
     }
