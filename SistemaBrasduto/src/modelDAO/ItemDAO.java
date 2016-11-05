@@ -26,8 +26,6 @@ public class ItemDAO extends DAO {
 
     public void SaveInput(Item item) {
         try {
-
-            //Evitar inyeccion SQL.
             pst = conector.prepareStatement("INSERT INTO insumo (ins_code, ins_nome,ins_local ,ins_material, "
                     + "ins_preco, ins_quantidade, ins_qtd_usu_diario,ins_peso,ins_dimensao,ins_data) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)");
@@ -50,58 +48,62 @@ public class ItemDAO extends DAO {
 //            }
             pst.executeUpdate();
             pst.close();
-            conector.close();
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-//    public int actualizarRegistro(Connection conector) {
-//        try {
-//            pst = conector.prepareStatement(
-//                    "UPDATE tbl_alumnos "
-//                    + " SET 	nombre = ?,  "
-//                    + " apellido = ?,  "
-//                    + " edad = ?, "
-//                    + " genero = ?,  "
-//                    + " fecha_ingreso = ?, "
-//                    + " codigo_carrera = ?,  "
-//                    + " codigo_centro = ?  "
-//                    + " WHERE codigo_alumno = ?"
-//            );
-//            pst.setString(1, nombre.get());
-//            pst.setString(2, apellido.get());
-//            pst.setInt(3, edad.get());
-//            pst.setString(4, genero.get());
-//            pst.setDate(5, fechaIngreso);
-//            pst.setInt(6, carrera.getCodigoCarrera());
-//            pst.setInt(7, centroEstudio.getCodigoCentro());
-//            pst.setInt(8, codigoAlumno.get());
-//            return pst.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//    }
-//
-//    public int eliminarRegistro(Connection connection) {
-//        try {
-//            pst = conector.prepareStatement(
-//                    "DELETE FROM tbl_alumnos "
-//                    + "WHERE codigo_alumno = ?"
-//            );
-//            pst.setInt(1, codigoAlumno.get());
-//            return pst.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//    }
-//
-    public static void FillItemInfo(Connection conector, ObservableList<Item> lista) {
+   public int UpdateItem(Item item,int resultado) {
 
+        try {
+            pst = conector.prepareStatement(
+                    "UPDATE insumo "
+                            + " SET ins_code = ?,  "
+                            + " ins_nome = ?,  "
+                            + " ins_local= ?, "
+                            + " ins_material = ?,  "
+                            + " ins_preco = ?, "
+                            + " ins_quantidade = ?,  "
+                            + " ins_qtd_usu_diario = ?,  "
+                            + " ins_peso = ?,  "
+                            + " ins_dimensao = ?,  "
+                            + " ins_data = ?  "
+                            + " WHERE ins_codigo = ?"
+            );
+            pst.setInt(1, item.getItemCode());
+            pst.setString(2, item.getItemName());
+            pst.setString(3, item.getItemLocal());
+            pst.setString(4, item.getItemMatter());
+            pst.setString(5, item.getItemPrice());
+            pst.setInt(6, item.getItemQtd());
+            pst.setInt(7, item.getItemQtdDay());
+            pst.setString(8, item.getItemWeight());
+            pst.setString(9, item.getItemDim());
+            pst.setDate(10, item.getItemDate());
+            pst.setInt(11, resultado);
+            return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+   }
+
+    public int DeleteItem(int resultado) {
+        try {
+            pst= conector.prepareStatement(
+                    "DELETE FROM insumo "+
+                            "WHERE ins_codigo = ?"
+            );
+            pst.setInt(1,resultado);
+            return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    public static void FillItemInfo(Connection conector, ObservableList<Item> lista) {
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(

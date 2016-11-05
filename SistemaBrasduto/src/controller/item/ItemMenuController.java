@@ -52,7 +52,6 @@ public class ItemMenuController {
             URL addListItemTable = getClass().getResource("/view/item/AddItem.fxml");
             AnchorPane itemListAddTable = FXMLLoader.load(addListItemTable);
             pane.setLeft(null);
-            pane.setCenter(null);
             pane.setCenter(itemListAddTable);
         } catch (IOException ex) {
             Logger.getLogger(ItemMenuController.class.getName()).log(Level.SEVERE, null, ex);

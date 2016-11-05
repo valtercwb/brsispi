@@ -9,6 +9,8 @@ import database.ConexaoBanco;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -103,34 +105,33 @@ public class ItemController implements Initializable {
 
     @FXML
     void btnDeleteOnClicked(ActionEvent event) {
-//        database.ConexaoBanco.instancia();
-//        int resultado = tblViewItem.getSelectionModel().getSelectedItem().eliminarRegistro(database.ConexaoBanco.instancia().getConnection());
-//        
+      
+    int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
+        database.ControleDAO.getBanco().getItemDAO().DeleteItem(resultado);
+  
+//        Item item = tblViewItem.getSelectionModel().getSelectedItem();
 //
-//        if (resultado == 1) {
-//            listaAlumnos.remove(tblViewAlumnos.getSelectionModel().getSelectedIndex());
-//            //JDK 8u>40
-//            Alert mensaje = new Alert(AlertType.INFORMATION);
-//            mensaje.setTitle("Registro eliminado");
-//            mensaje.setContentText("El registro ha sido eliminado exitosamente");
-//            mensaje.setHeaderText("Resultado:");
-//            mensaje.show();
+//Alert dialog = new Alert(AlertType.WARNING);
+//dialog.setTitle("Aviso");
+//dialog.setContentText("Você deseja realmente excluir o item selecionado?");
+        listaItem.remove(tblViewItem.getSelectionModel().getSelectedIndex());
+
+                        Alert msg = new Alert(AlertType.INFORMATION);
+			msg.setTitle("Registro eliminado");
+			msg.setContentText("O item foi excluido com sucesso!");
+			msg.setHeaderText("Resultado:");
+			msg.show();
+
     }
 
     @FXML
     void btnNewOnClicked(ActionEvent event) {
-
+    CleanFields();
     }
 
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
         Item item = new Item();
-//        String nome = txtNome.getText();
-//        String funcao = txtFuncao.getText();
-//        String cidade = txtCidade.getText();
-//        String estado = txtEstado.getText();
-//        String pais = txtPais.getText();
-//        String descricao = txtDescricao.getText();
 
         item.setItemCode(Integer.parseInt(txtCode.getText()));
         item.setItemQtd(Integer.parseInt(txtQtt.getText()));
@@ -141,32 +142,49 @@ public class ItemController implements Initializable {
         item.setItemPrice(txtPrice.getText());
         item.setItemWeight(txtWei.getText());
         item.setItemDim(txtDim.getText());
-//        String data = datePic.getValue();
-//        item.setItemDate(Tempo.(datePic.getValue(),"dd-MM-yyyy"));
-                
+        item.setItemDate(Date.valueOf(datePic.getValue()));
+
         System.out.println(item.getItemCode());
         System.out.println(item.getItemName());
-        System.out.println(item.getItemDim());
-        System.out.println(item.getItemLocal());
-        System.out.println(item.getItemMatter());
-        System.out.println(item.getItemWeight());
-        System.out.println(item.getItemQtdDay());
-        System.out.println(item.getItemPrice());
-        System.out.println(item.getItemQtd());
+
         database.ControleDAO.getBanco().getItemDAO().SaveInput(item);
-      
-            listaItem.add(item);
-           
-            Alert msg = new Alert(AlertType.INFORMATION);
-            msg.setTitle("Tabela de Itens");
-            msg.setContentText("O Insumo foi adcionado com sucesso!");
-            msg.setHeaderText("Resultado:");
-            msg.show();
-        
+
+        listaItem.add(item);
+
+        Alert msg = new Alert(AlertType.INFORMATION);
+        msg.setTitle("Tabela de Itens");
+        msg.setContentText("O Insumo foi adicionado com sucesso!");
+        msg.setHeaderText("Resultado:");
+        msg.show();
+        CleanFields();
+
     }
 
     @FXML
     void btnUpdateOnClicked(ActionEvent event) {
+        
+        Item item = new Item();
+	item.setItemCode(Integer.parseInt(txtCode.getText()));
+        item.setItemQtd(Integer.parseInt(txtQtt.getText()));
+        item.setItemQtdDay(Integer.parseInt(txtQttDay.getText()));
+        item.setItemName(txtName.getText());
+        item.setItemLocal(txtLocal.getText());
+        item.setItemMatter(txtMat.getText());
+        item.setItemPrice(txtPrice.getText());
+        item.setItemWeight(txtWei.getText());
+        item.setItemDim(txtDim.getText());
+        item.setItemDate(Date.valueOf(datePic.getValue()));
+	int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
+        database.ControleDAO.getBanco().getItemDAO().UpdateItem(item ,resultado);
+        
+	listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(),item);
+			
+	Alert msg = new Alert(AlertType.INFORMATION);
+	msg.setTitle("Registro atualizado");
+	msg.setContentText("O item foi atualizado com sucesso");
+	msg.setHeaderText("Resultado:");
+	msg.show();
+ 		
     }
 
     @Override
@@ -186,6 +204,65 @@ public class ItemController implements Initializable {
         clmnitemWeight.setCellValueFactory(new PropertyValueFactory<>("itemWeight"));
         clmnitemDim.setCellValueFactory(new PropertyValueFactory<>("itemDim"));
         clmnitemDate.setCellValueFactory(new PropertyValueFactory<>("itemDate"));
-
+        ManEvents();
     }
+
+   
+    public void CleanFields() {
+        txtCode.setText(null);
+        txtDim.setText(null);
+        txtLocal.setText(null);
+        txtMat.setText(null);
+        txtName.setText(null);
+        txtPrice.setText(null);
+        txtQtt.setText(null);
+        txtQttDay.setText(null);
+        txtWei.setText(null);
+
+//        btnGuardar.setDisable(false);
+//        btnEliminar.setDisable(true);
+//        btnActualizar.setDisable(true);
+    }
+    public void DisableFields(){
+//        txtCode.disableProperty();
+//        txtDim.setText(null);
+//        txtLocal.setText(null);
+//        txtMat.setText(null);
+//        txtName.setText(null);
+//        txtPrice.setText(null);
+//        txtQtt.setText(null);
+//        txtQttDay.setText(null);
+//        txtWei.setText(null);
+    
+    }
+    
+    public void ManEvents(){
+
+       tblViewItem.getSelectionModel().selectedItemProperty().addListener(
+				new ChangeListener<Item>() {
+					@Override
+					public void changed(ObservableValue<? extends Item> arg0,
+							Item valorAnterior, Item valorSelecionado) {
+							if (valorSelecionado!=null){
+                                                            txtCode.setText(String.valueOf(valorSelecionado.getItemCode()));
+                                                            txtName.setText(valorSelecionado.getItemName());
+                                                            txtLocal.setText(valorSelecionado.getItemLocal());
+                                                            txtMat.setText(valorSelecionado.getItemMatter());
+                                                            txtPrice.setText(valorSelecionado.getItemPrice());
+                                                            txtWei.setText(valorSelecionado.getItemWeight());
+                                                            txtDim.setText(valorSelecionado.getItemDim());
+                                                            txtQtt.setText(String.valueOf(valorSelecionado.getItemQtd()));
+                                                            txtQttDay.setText(String.valueOf(valorSelecionado.getItemQtdDay()));	
+                                                            datePic.setValue(valorSelecionado.getItemDate().toLocalDate());
+//								cmbCarrera.setValue(valorSeleccionado.getCarrera());
+//								cmbCentroEstudio.setValue(valorSeleccionado.getCentroEstudio());
+								btnUpdate.setDisable(false);
+								btnDelete.setDisable(false);
+								btnUpdate.setDisable(false);
+							}
+					}
+
+				}
+		);
+}
 }
