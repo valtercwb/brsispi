@@ -1,0 +1,32 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 7, 2016, 2:29:38 PM
+    Author     : valterFranco<unicuritiba/ads>
+*/
+
+.pesquisar {
+    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+    -fx-max-height: 26px;
+    -fx-alignment: center-right;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right center;
+    -fx-padding: 0 30 0 5;
+    -fx-background-image: url("../icon/pesquisa.png");
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+.pesquisar:focused {
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}

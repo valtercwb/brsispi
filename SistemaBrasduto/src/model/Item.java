@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.sql.Blob;
 import java.sql.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,31 +23,39 @@ public class Item {
     private IntegerProperty itemCode;
     private StringProperty itemName;
     private StringProperty itemLocal;
-    private StringProperty itemMatter;
+    private Matter matter;
+    private Sector sector;
+    private Supplier supplier;
     private StringProperty itemPrice;
-    private IntegerProperty itemQtd;
-    private IntegerProperty itemQtdDay;
-    private StringProperty itemWeight;
+    private IntegerProperty itemQtt;
+    private IntegerProperty itemQttDay;
+    private StringProperty itemWei;
     private StringProperty itemDim;
     private Date itemDate;
-    private Image itemImage;
     public String imagePath;
+    private Blob itemImage;
+     public Image image;
+    
 
     public Item(int itemId, int itemCode, String itemName,
-            String itemLocal, String itemMatter, String itemPrice,
-            int itemQtd, int itemQtdDay, String itemWeight,
-            String itemDim, Date itemDate) {
+            String itemLocal, Matter matter, Sector sector,
+            Supplier supplier, String itemDim, int itemQtt,
+            int itemQttDay, String itemWei, String itemPrice,
+            Date itemDate, Blob itemImage) {
         this.itemId = new SimpleIntegerProperty(itemId);
         this.itemCode = new SimpleIntegerProperty(itemCode);
         this.itemName = new SimpleStringProperty(itemName);
         this.itemLocal = new SimpleStringProperty(itemLocal);
-        this.itemMatter = new SimpleStringProperty(itemMatter);
-        this.itemPrice = new SimpleStringProperty(itemPrice);
-        this.itemQtd = new SimpleIntegerProperty(itemQtd);
-        this.itemQtdDay = new SimpleIntegerProperty(itemQtdDay);
-        this.itemWeight = new SimpleStringProperty(itemWeight);
+        this.matter = matter;
+        this.sector = sector;
+        this.supplier = supplier;
         this.itemDim = new SimpleStringProperty(itemDim);
+        this.itemQtt = new SimpleIntegerProperty(itemQtt);
+        this.itemQttDay = new SimpleIntegerProperty(itemQttDay);
+        this.itemWei = new SimpleStringProperty(itemWei);
+        this.itemPrice = new SimpleStringProperty(itemPrice);
         this.itemDate = itemDate;
+        this.itemImage = itemImage;
     }
 
     public Item() {
@@ -103,18 +112,32 @@ public class Item {
     public StringProperty ItemLocalProperty() {
         return itemLocal;
     }
-    //Metodos atributo: itemMatter
+    //Metodos atributo: matter
 
-    public String getItemMatter() {
-        return itemMatter.get();
+    public Matter getMatter() {
+        return matter;
     }
 
-    public void setItemMatter(String itemMatter) {
-        this.itemMatter = new SimpleStringProperty(itemMatter);
+    public void setMatter(Matter matter) {
+        this.matter = matter;
+    }
+    //Metodos atributo: sector
+
+    public Sector getSector() {
+        return sector;
     }
 
-    public StringProperty ItemMatterProperty() {
-        return itemMatter;
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+    //Metodos atributo: supplier
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
     //Metodos atributo: itemPrice
 
@@ -129,44 +152,44 @@ public class Item {
     public StringProperty ItemPriceProperty() {
         return itemPrice;
     }
-    //Metodos atributo: itemQtd
+    //Metodos atributo: itemQtt
 
-    public int getItemQtd() {
-        return itemQtd.get();
+    public int getItemQtt() {
+        return itemQtt.get();
     }
 
-    public void setItemQtd(int itemQtd) {
-        this.itemQtd = new SimpleIntegerProperty(itemQtd);
+    public void setItemQtt(int itemQtt) {
+        this.itemQtt = new SimpleIntegerProperty(itemQtt);
     }
 
-    public IntegerProperty ItemQtdProperty() {
-        return itemQtd;
+    public IntegerProperty ItemQttProperty() {
+        return itemQtt;
     }
-    //Metodos atributo: itemQtdDay
+    //Metodos atributo: itemQttDay
 
-    public int getItemQtdDay() {
-        return itemQtdDay.get();
-    }
-
-    public void setItemQtdDay(int itemQtdDay) {
-        this.itemQtdDay = new SimpleIntegerProperty(itemQtdDay);
+    public int getItemQttDay() {
+        return itemQttDay.get();
     }
 
-    public IntegerProperty ItemQtdDayProperty() {
-        return itemQtdDay;
-    }
-    //Metodos atributo: itemWeight
-
-    public String getItemWeight() {
-        return itemWeight.get();
+    public void setItemQttDay(int itemQttDay) {
+        this.itemQttDay = new SimpleIntegerProperty(itemQttDay);
     }
 
-    public void setItemWeight(String itemWeight) {
-        this.itemWeight = new SimpleStringProperty(itemWeight);
+    public IntegerProperty ItemQttDayProperty() {
+        return itemQttDay;
+    }
+    //Metodos atributo: itemWei
+
+    public String getItemWei() {
+        return itemWei.get();
     }
 
-    public StringProperty ItemWeightProperty() {
-        return itemWeight;
+    public void setItemWei(String itemWei) {
+        this.itemWei = new SimpleStringProperty(itemWei);
+    }
+
+    public StringProperty ItemWeiProperty() {
+        return itemWei;
     }
     //Metodos atributo: itemDim
 
@@ -192,11 +215,11 @@ public class Item {
     }
     //Metodos atributo: itemImage
 
-    public Image getItemImage() {
+    public Blob getItemImage() {
         return itemImage;
     }
 
-    public void setItemImage(Image itemImage) {
+    public void setItemImage(Blob itemImage) {
         this.itemImage = itemImage;
     }
 }

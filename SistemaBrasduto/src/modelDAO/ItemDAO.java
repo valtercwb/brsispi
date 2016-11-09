@@ -5,6 +5,11 @@
  */
 package modelDAO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import model.Item;
+import model.Matter;
+import model.Sector;
+import model.Supplier;
 
 /**
  *
@@ -24,78 +32,94 @@ public class ItemDAO extends DAO {
         super();
     }
 
-    public void SaveInput(Item item) {
+    public void SaveInput(Connection connection, Item item) {
+
         try {
-            pst = conector.prepareStatement("INSERT INTO insumo (ins_code, ins_nome,ins_local ,ins_material, "
-                    + "ins_preco, ins_quantidade, ins_qtd_usu_diario,ins_peso,ins_dimensao,ins_data) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)");
+            pst = conector.prepareStatement("INSERT INTO insumo (ins_code, ins_nome,ins_local ,ins_material,ins_setor,"
+                    + "ins_fornecedor,ins_dimensao, ins_quantidade, ins_qtd_uso_diario,ins_peso,ins_preco,ins_data,ins_image) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? , ?,?)");
             pst.setInt(1, item.getItemCode());
             pst.setString(2, item.getItemName());
             pst.setString(3, item.getItemLocal());
-            pst.setString(4, item.getItemMatter());
-            pst.setString(5, item.getItemPrice());
-            pst.setInt(6, item.getItemQtd());
-            pst.setInt(7, item.getItemQtdDay());
-            pst.setString(8, item.getItemWeight());
-            pst.setString(9, item.getItemDim());
-            pst.setDate(10, item.getItemDate());
-//            if (item.imagePath != null) {
-//                InputStream is;
-//                is = new FileInputStream(new File(item.imagePath));
-//                pst.setBlob(11, is);
-//            } else {
-//                pst.setBlob(11, (Blob) null);
-//            }
+            pst.setInt(4, item.getMatter().getMatId());
+            pst.setInt(5, item.getSector().getSecId());
+            pst.setInt(6, item.getSupplier().getSupId());
+            pst.setString(7, item.getItemDim());
+            pst.setInt(8, item.getItemQtt());
+            pst.setInt(9, item.getItemQttDay());
+            pst.setString(10, item.getItemWei());
+            pst.setString(11, item.getItemPrice());
+            pst.setDate(12, item.getItemDate());
+            //pst.setString(13, "1");
+            if (item.imagePath != null) {
+                InputStream is;
+                is = new FileInputStream(new File(item.imagePath));
+                pst.setBlob(13, is);
+            } else {
+                pst.setBlob(13, (Blob) null);
+            }
             pst.executeUpdate();
             pst.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-   public int UpdateItem(Item item,int resultado) {
+    public int UpdateItem(Connection conector, Item item, int resultado) {
 
         try {
             pst = conector.prepareStatement(
                     "UPDATE insumo "
-                            + " SET ins_code = ?,  "
-                            + " ins_nome = ?,  "
-                            + " ins_local= ?, "
-                            + " ins_material = ?,  "
-                            + " ins_preco = ?, "
-                            + " ins_quantidade = ?,  "
-                            + " ins_qtd_usu_diario = ?,  "
-                            + " ins_peso = ?,  "
-                            + " ins_dimensao = ?,  "
-                            + " ins_data = ?  "
-                            + " WHERE ins_codigo = ?"
+                    + " SET ins_code = ?,  "
+                    + " ins_nome = ?,  "
+                    + " ins_local= ?, "
+                    + " ins_material = ?,  "
+                    + " ins_setor = ?,  "
+                    + " ins_fornecedor = ?,  "
+                    + " ins_dimensao = ?,  "
+                    + " ins_quantidade = ?,  "
+                    + " ins_qtd_uso_diario = ?,  "
+                    + " ins_peso = ?,  "
+                    + " ins_preco = ?, "
+                    + " ins_data = ?,  "
+                    + " ins_image = ?  "
+                    + " WHERE ins_codigo = ?"
             );
             pst.setInt(1, item.getItemCode());
             pst.setString(2, item.getItemName());
             pst.setString(3, item.getItemLocal());
-            pst.setString(4, item.getItemMatter());
-            pst.setString(5, item.getItemPrice());
-            pst.setInt(6, item.getItemQtd());
-            pst.setInt(7, item.getItemQtdDay());
-            pst.setString(8, item.getItemWeight());
-            pst.setString(9, item.getItemDim());
-            pst.setDate(10, item.getItemDate());
-            pst.setInt(11, resultado);
+            pst.setInt(4, item.getMatter().getMatId());
+            pst.setInt(5, item.getSector().getSecId());
+            pst.setInt(6, item.getSupplier().getSupId());
+            pst.setString(7, item.getItemDim());
+            pst.setInt(8, item.getItemQtt());
+            pst.setInt(9, item.getItemQttDay());
+            pst.setString(10, item.getItemWei());
+            pst.setString(11, item.getItemPrice());
+            pst.setDate(12, item.getItemDate());
+            if (item.imagePath != null) {
+                InputStream is;
+                is = new FileInputStream(new File(item.imagePath));
+                pst.setBlob(13, is);
+            } else if (item.imagePath == null) {
+                pst.setBlob(13, (Blob) null);
+            }
+            pst.setInt(14, resultado);
             return pst.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
         }
-   }
+        return 0;
+    }
 
     public int DeleteItem(int resultado) {
         try {
-            pst= conector.prepareStatement(
-                    "DELETE FROM insumo "+
-                            "WHERE ins_codigo = ?"
+            pst = conector.prepareStatement(
+                    "DELETE FROM insumo "
+                    + "WHERE ins_codigo = ?"
             );
-            pst.setInt(1,resultado);
+            pst.setInt(1, resultado);
             return pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,21 +128,34 @@ public class ItemDAO extends DAO {
     }
 
     public static void FillItemInfo(Connection conector, ObservableList<Item> lista) {
+
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
-                    "SELECT ins_codigo,"
-                    + "ins_code, "
-                    + "ins_nome, "
-                    + "ins_local, "
-                    + "ins_material, "
-                    + "ins_preco, "
-                    + "ins_quantidade, "
-                    + "ins_qtd_usu_diario, "
-                    + "ins_peso, "
-                    + "ins_dimensao, "
-                    + "ins_data "
-                    + " FROM insumo"
+                    "SELECT A.ins_codigo,"
+                    + "A.ins_code, "
+                    + "A.ins_nome, "
+                    + "A.ins_local, "
+                    + "A.ins_material, "
+                    + "A.ins_setor, "
+                    + "A.ins_fornecedor, "
+                    + "A.ins_dimensao, "
+                    + "A.ins_quantidade, "
+                    + "A.ins_qtd_uso_diario, "
+                    + "A.ins_peso, "
+                    + "A.ins_preco, "
+                    + "A.ins_data, "
+                    + "A.ins_image, "
+                    + "B.mat_nome, "
+                    + "C.set_nome, "
+                    + "D.for_nome "
+                    + "FROM insumo A "
+                    + "INNER JOIN material B "
+                    + "ON (A.ins_material = B.mat_codigo) "
+                    + "INNER JOIN setor C "
+                    + "ON (A.ins_setor = C.set_codigo) "
+                    + "INNER JOIN fornecedor D "
+                    + "ON (A.ins_fornecedor = D.for_codigo) "
             );
             while (resultado.next()) {
                 lista.add(
@@ -127,18 +164,23 @@ public class ItemDAO extends DAO {
                                 resultado.getInt("ins_code"),
                                 resultado.getString("ins_nome"),
                                 resultado.getString("ins_local"),
-                                resultado.getString("ins_material"),
-                                resultado.getString("ins_preco"),
-                                resultado.getInt("ins_quantidade"),
-                                resultado.getInt("ins_qtd_usu_diario"),
-                                resultado.getString("ins_peso"),
+                                new Matter(resultado.getInt("ins_material"),
+                                        resultado.getString("mat_nome")),
+                                new Sector(resultado.getInt("ins_setor"),
+                                        resultado.getString("set_nome")),
+                                new Supplier(resultado.getInt("ins_fornecedor"),
+                                        resultado.getString("for_nome")),
                                 resultado.getString("ins_dimensao"),
-                                resultado.getDate("ins_data"))
+                                resultado.getInt("ins_quantidade"),
+                                resultado.getInt("ins_qtd_uso_diario"),
+                                resultado.getString("ins_peso"),
+                                resultado.getString("ins_preco"),
+                                resultado.getDate("ins_data"),
+                                resultado.getBlob("ins_image"))
                 );
             }
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }

@@ -9,36 +9,42 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import model.Cat;
+import model.Matter;
 
 /**
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class CatDAO {
+public class MatterDAO extends DAO {
 
-    public CatDAO() {
+    public MatterDAO() {
         super();
     }
 
-    public static void FillCatInfo(Connection conector, ObservableList<Cat> lista) {
+    public static void FillMatInfo(Connection conector, ObservableList<Matter> lista) {
+
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
-                    "SELECT cat_codigo, "
-                    + "cat_nome "
-                    + "FROM categoria"
+                    "SELECT mat_codigo, "
+                    + "mat_nome "
+                    + "FROM material"
             );
             while (resultado.next()) {
                 lista.add(
-                        new Cat(
-                                resultado.getInt("cat_codigo"),
-                                resultado.getString("cat_nome")
+                        new Matter(
+                                resultado.getInt("mat_codigo"),
+                                resultado.getString("mat_nome")
                         )
                 );
             }
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(MatterDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
+
 }

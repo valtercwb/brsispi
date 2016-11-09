@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import model.Dep;
 
@@ -23,12 +25,13 @@ public class DepDAO extends DAO {
     }
 
     public static void FillInfo(Connection conector, ObservableList<Dep> lista) {
+    
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
                     "SELECT dep_codigo, "
-                    + "dep_nome "
-                    + "FROM departamento"
+                            + "dep_nome "
+                            + "FROM departamento"
             );
             while (resultado.next()) {
                 lista.add(
@@ -38,9 +41,10 @@ public class DepDAO extends DAO {
                         )
                 );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(DepDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
 }

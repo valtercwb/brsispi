@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.item;
+package modelDAO;
 
 /**
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class ItemMenuController {
-
-
+public class EmpDAO {
+    
 }
