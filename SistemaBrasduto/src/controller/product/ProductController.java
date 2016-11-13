@@ -8,12 +8,17 @@ package controller.product;
 import database.ConexaoBanco;
 import database.ControleDAO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -39,6 +44,7 @@ import model.Product;
 import modelDAO.CatDAO;
 import modelDAO.ProductDAO;
 
+
 /**
  *
  * @author valterFranco<unicuritiba/ads>
@@ -50,6 +56,7 @@ public class ProductController implements Initializable {
     private String imagePath;
     private Image image;
     private Blob blobImage;
+    public static  Image phImg = new Image("/image/pholder.png");
     
     private ObservableList<Cat> listaCat;
     private ObservableList<Product> listaPro;
@@ -78,7 +85,7 @@ public class ProductController implements Initializable {
     private TextField txtDim;
 
     @FXML
-    private ImageView itemImg;
+    public ImageView itemImg;
 
     @FXML
     private TextField txtQtt;
@@ -101,9 +108,6 @@ public class ProductController implements Initializable {
     
     @FXML
     private TableView<Product> tblViewPro;
-
-    @FXML
-    private TableColumn<Product, Number> clmnproId;
     @FXML
     private TableColumn<Product, Number> clmnproMat;
     @FXML
@@ -199,6 +203,7 @@ public class ProductController implements Initializable {
         database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.ConexaoBanco.instancia().getConnection(), pro, resultado);
 
         listaPro.set(tblViewPro.getSelectionModel().getSelectedIndex(), pro);
+       
 
         Alert msg = new Alert(AlertType.INFORMATION);
         msg.setTitle("Registro atualizado");
@@ -215,8 +220,7 @@ public class ProductController implements Initializable {
         listaPro = FXCollections.observableArrayList();
         ProductDAO.FillProInfo(ConexaoBanco.instancia().getConnection(), listaPro);
         tblViewPro.setItems(listaPro);
-
-        clmnproId.setCellValueFactory(new PropertyValueFactory<>("proId"));
+        
         clmnproMat.setCellValueFactory(new PropertyValueFactory<>("proMat"));
         clmnproName.setCellValueFactory(new PropertyValueFactory<>("proName"));
         clmncategory.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -231,7 +235,8 @@ public class ProductController implements Initializable {
         listaCat = FXCollections.observableArrayList();
         CatDAO.FillCatInfo(ConexaoBanco.instancia().getConnection(), listaCat);
         catCombo.setItems(listaCat);
-
+        
+        ManEvents();
     }
 
     public void CleanFields() {
@@ -245,12 +250,47 @@ public class ProductController implements Initializable {
         txtFin.setText(null);
         txtWei.setText(null);
         datePic.setValue(null);
+        itemImg.setImage(phImg);
 
 //        btnGuardar.setDisable(false);
 //        btnEliminar.setDisable(true);
 //        btnActualizar.setDisable(true);
     }
-    
+    public void ManEvents() {
+
+        tblViewPro.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Product> arg0, Product valorAnterior, Product valorSelecionado) -> {
+            if (valorSelecionado != null) {
+
+                try {
+                    txtCode.setText(String.valueOf(valorSelecionado.getProMat()));
+                    txtName.setText(valorSelecionado.getProName());
+                    catCombo.setValue(valorSelecionado.getCategory());
+                    txtFin.setText(valorSelecionado.getProFin());
+                    txtDim.setText(valorSelecionado.getProDim());
+                    txtQtt.setText(String.valueOf(valorSelecionado.getProQtt()));
+                    txtWei.setText(valorSelecionado.getProWei());
+                    txtCostPrice.setText(valorSelecionado.getProCostPrice());
+                    txtSellPrice.setText(valorSelecionado.getProSellPrice());
+                    datePic.setValue(valorSelecionado.getProData().toLocalDate());
+                    if (valorSelecionado.getProImage()!= null) {
+                        Blob blob = valorSelecionado.getProImage();
+                        byte[] data = blob.getBytes(1, (int) blob.length());
+                        bufferedImage = ImageIO.read(new ByteArrayInputStream(data));
+                        image = SwingFXUtils.toFXImage(bufferedImage, null);
+                    itemImg.setImage(image);
+                    }else{itemImg.setImage(phImg);
+                    }
+                 
+                    btnUpdate.setDisable(false);
+                    btnDelete.setDisable(false);
+                    btnUpdate.setDisable(false);
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
 
 @FXML
     void attachImageOnAction(MouseEvent event) throws IOException {
@@ -259,7 +299,6 @@ public class ProductController implements Initializable {
                 new FileChooser.ExtensionFilter("PNG (Portable Network Graphics)", "*.png"),
                 new FileChooser.ExtensionFilter("JPG (Joint Photographic Group)", "*.jpg"),
                 new FileChooser.ExtensionFilter("JPEG (Joint Photographic Experts Group)", "*.jpeg")
-          
         );
         fileChooser.setTitle("Escolha uma imagem");
 

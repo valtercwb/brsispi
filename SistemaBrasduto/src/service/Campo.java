@@ -1,6 +1,8 @@
 package service;
 
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -17,18 +19,13 @@ public class Campo {
     /**
      * Não permitir que campos de textos com valores nulos
      */
-    public static boolean noEmpty(TextField... field) {
+    public static void isEmpty() {
 
-        boolean vazio = false;
-
-        for (TextField campo : field) {
-            if (campo.getText().trim().isEmpty()) {
-                erro(campo, "Verificar valor vazio!");
-                vazio = true;
-            }
-        }
-
-        return vazio;
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText("Look, a Warning Dialog");
+        alert.setContentText("Careful with the next step!");
+        alert.showAndWait();
     }
 
     /**

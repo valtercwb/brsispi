@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 public class MyMenusControl {
 
     public static BorderPane pane = new BorderPane();
+    public static BorderPane border = HomeLauncher.getRoot();
 
     @FXML
     private AnchorPane menuBotoes;
@@ -54,8 +55,7 @@ public class MyMenusControl {
         try {
             URL homeUrl = getClass().getResource("/view/Home.fxml");
             AnchorPane home = FXMLLoader.load(homeUrl);
-
-            BorderPane border = HomeLauncher.getRoot();
+            pane.setTop(null);
             border.setCenter(home);
 
         } catch (IOException e) {
@@ -65,39 +65,29 @@ public class MyMenusControl {
 
     @FXML
     void btnProOnclicked(ActionEvent event) {
-     
-        try {
-            URL proMenuUrl = getClass().getResource("/view/product/MenuPro.fxml");
-            AnchorPane proMenu = FXMLLoader.load(proMenuUrl);
-            
-//            URL manProUrl = getClass().getResource("/view/product/Product.fxml");
-//            AnchorPane manPro = FXMLLoader.load(manProUrl);
 
-            pane.setLeft(null);
-//            pane.setCenter(manPro);
-            pane.setTop(proMenu);
-            BorderPane border = HomeLauncher.getRoot();
+        try {
+            URL manProUrl = getClass().getResource("/view/product/Product.fxml");
+            AnchorPane manPro = FXMLLoader.load(manProUrl);
+            pane.setTop(null);
+            pane.setCenter(manPro);
             border.setCenter(pane);
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
-        }     
+        }
     }
 
     @FXML
     void btnInsOnClicked(ActionEvent event) {
 
         try {
-            URL itemMenuUrl = getClass().getResource("/view/item/MenuItem.fxml");
-            AnchorPane itemMenu = FXMLLoader.load(itemMenuUrl);
-
             URL addListItemTable = getClass().getResource("/view/item/Item.fxml");
             AnchorPane itemListAddTable = FXMLLoader.load(addListItemTable);
-
+            pane.setTop(null);
             pane.setLeft(null);
             pane.setCenter(itemListAddTable);
-            pane.setTop(itemMenu);
-            BorderPane border = HomeLauncher.getRoot();
             border.setCenter(pane);
+
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,16 +96,11 @@ public class MyMenusControl {
     @FXML
     void btnCliOnClicked(ActionEvent event) {
         try {
-            URL cusMenuUrl = getClass().getResource("/view/customer/MenuCus.fxml");
-            AnchorPane cusMenu = FXMLLoader.load(cusMenuUrl);
-
             URL manCusTable = getClass().getResource("/view/customer/Customer.fxml");
             AnchorPane manCus = FXMLLoader.load(manCusTable);
-
+            pane.setTop(null);
             pane.setLeft(null);
             pane.setCenter(manCus);
-            pane.setTop(cusMenu);
-            BorderPane border = HomeLauncher.getRoot();
             border.setCenter(pane);
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,17 +110,13 @@ public class MyMenusControl {
     @FXML
     void btnForOnClicked(ActionEvent event) {
         try {
-            URL supMenuUrl = getClass().getResource("/view/supplier/MenuSup.fxml");
-            AnchorPane supMenu = FXMLLoader.load(supMenuUrl);
-
             URL manSupTable = getClass().getResource("/view/supplier/Supplier.fxml");
             AnchorPane manSup = FXMLLoader.load(manSupTable);
-
+            pane.setTop(null);
             pane.setLeft(null);
             pane.setCenter(manSup);
-            pane.setTop(supMenu);
-            BorderPane border = HomeLauncher.getRoot();
             border.setCenter(pane);
+
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -157,8 +138,6 @@ public class MyMenusControl {
             pane.setLeft(employeeFilter);
             pane.setTop(empMenu);
             pane.setCenter(employeeTable);
-
-            BorderPane border = HomeLauncher.getRoot();
             border.setCenter(pane);
 
         } catch (IOException e) {

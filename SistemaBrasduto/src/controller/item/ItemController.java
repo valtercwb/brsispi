@@ -5,6 +5,7 @@
  */
 package controller.item;
 
+import static controller.product.ProductController.phImg;
 import database.ConexaoBanco;
 import database.ControleDAO;
 import java.awt.image.BufferedImage;
@@ -21,6 +22,8 @@ import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +47,9 @@ import model.Matter;
 import model.Sector;
 import model.Supplier;
 import modelDAO.ItemDAO;
+import modelDAO.MatterDAO;
+import modelDAO.SectorDAO;
+import modelDAO.SupplierDAO;
 
 /**
  *
@@ -56,7 +62,9 @@ public class ItemController implements Initializable {
     private String imagePath;
     private Image image;
     private Blob blobImage;
-
+    
+    @FXML
+    private TextField filterField;
     @FXML
     private TextField txtCode;
 
@@ -145,9 +153,10 @@ public class ItemController implements Initializable {
 
 //        Item item = tblViewItem.getSelectionModel().getSelectedItem();
 //
-//Alert dialog = new Alert(AlertType.WARNING);
-//dialog.setTitle("Aviso");
-//dialog.setContentText("Você deseja realmente excluir o item selecionado?");
+        Alert dialog = new Alert(AlertType.WARNING);
+        dialog.setTitle("Aviso");
+        dialog.setContentText("Você deseja realmente excluir o item selecionado?");
+        dialog.showAndWait();
         listaItem.remove(tblViewItem.getSelectionModel().getSelectedIndex());
 
         Alert msg = new Alert(AlertType.INFORMATION);
@@ -165,6 +174,7 @@ public class ItemController implements Initializable {
 
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
+
         Item item = new Item();
         item.setItemCode(Integer.parseInt(txtCode.getText()));
         item.setItemName(txtName.getText());
@@ -179,16 +189,44 @@ public class ItemController implements Initializable {
         item.setItemPrice(txtPrice.getText());
         item.setItemDate(Date.valueOf(datePic.getValue()));
         item.imagePath = imagePath;
-        ControleDAO.getBanco().getItemDAO().SaveInput(ConexaoBanco.instancia().getConnection(), item);
+//        if (txtCode.getText() == null) {
+//            Campo.isEmpty();
+//
+//        } else if (txtName.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (txtLocal.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (matCombo.getValue() == null) {
+//            Campo.isEmpty();
+//        } else if (secCombo.getValue() == null) {
+//            Campo.isEmpty();
+//        } else if (secCombo.getValue() == null) {
+//            Campo.isEmpty();
+//        } else if (txtDim.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (txtQtt.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (txtQttDay.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (txtWei.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (txtPrice.getText() == null) {
+//            Campo.isEmpty();
+//        } else if (datePic.getValue() == null) {
+//            Campo.isEmpty();
+//        } else {
 
-        listaItem.add(item);
+            ControleDAO.getBanco().getItemDAO().SaveInput(ConexaoBanco.instancia().getConnection(), item);
 
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Tabela de Itens");
-        msg.setContentText("O Insumo foi adicionado com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
-        CleanFields();
+            listaItem.add(item);
+
+            Alert msg = new Alert(AlertType.INFORMATION);
+            msg.setTitle("Tabela de Itens");
+            msg.setContentText("O Insumo foi adicionado com sucesso!");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+            CleanFields();
+        //}
 
     }
 
@@ -242,18 +280,53 @@ public class ItemController implements Initializable {
         clmnitemWeight.setCellValueFactory(new PropertyValueFactory<>("itemWei"));
         clmnitemDim.setCellValueFactory(new PropertyValueFactory<>("itemDim"));
         clmnitemDate.setCellValueFactory(new PropertyValueFactory<>("itemDate"));
-       
-//        listaMat = FXCollections.observableArrayList();
-//        MatterDAO.FillMatInfo(ConexaoBanco.instancia().getConnection(), listaMat);
-//        matCombo.setItems(listaMat);
-//        listaSec = FXCollections.observableArrayList();
-//        SectorDAO.FillSecInfo(ConexaoBanco.instancia().getConnection(), listaSec);
-//        secCombo.setItems(listaSec);
-//        listaSup = FXCollections.observableArrayList();
-//        SupplierDAO.FillBoxSupInfo(ConexaoBanco.instancia().getConnection(), listaSup);
-//        supCombo.setItems(listaSup);
+
+        listaMat = FXCollections.observableArrayList();
+        MatterDAO.FillMatInfo(ConexaoBanco.instancia().getConnection(), listaMat);
+        matCombo.setItems(listaMat);
+        listaSec = FXCollections.observableArrayList();
+        SectorDAO.FillSecInfo(ConexaoBanco.instancia().getConnection(), listaSec);
+        secCombo.setItems(listaSec);
+        listaSup = FXCollections.observableArrayList();
+        SupplierDAO.FillBoxSupInfo(ConexaoBanco.instancia().getConnection(), listaSup);
+        supCombo.setItems(listaSup);
 
         ManEvents();
+        
+        FilteredList<Item> filteredData = new FilteredList<>(listaItem, i -> true);
+		
+		// 2. Set the filter Predicate whenever the filter changes.
+		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(item -> {
+				// If filter text is empty, display all persons.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+				
+				if (item.getItemName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+					return true; // Filter matches first name.
+				} else if (item.getSector().getSecName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+					return true; // Filter matches last name.
+				}else if (item.getSupplier().getSupName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+					return true; // Filter matches last name.
+				}
+				return false; // Does not match.
+			});
+		});
+		
+		// 3. Wrap the FilteredList in a SortedList. 
+		SortedList<Item> sortedData = new SortedList<>(filteredData);
+		
+		// 4. Bind the SortedList comparator to the TableView comparator.
+		// 	  Otherwise, sorting the TableView would have no effect.
+		sortedData.comparatorProperty().bind(tblViewItem.comparatorProperty());
+		
+		// 5. Add sorted (and filtered) data to the table.
+		tblViewItem.setItems(sortedData);
+        
     }
 
     public void CleanFields() {
@@ -269,7 +342,6 @@ public class ItemController implements Initializable {
         txtQttDay.setText(null);
         txtWei.setText(null);
         datePic.setValue(null);
-      
 
 //        btnGuardar.setDisable(false);
 //        btnEliminar.setDisable(true);
@@ -314,13 +386,11 @@ public class ItemController implements Initializable {
                         byte[] data = blob.getBytes(1, (int) blob.length());
                         bufferedImage = ImageIO.read(new ByteArrayInputStream(data));
                         image = SwingFXUtils.toFXImage(bufferedImage, null);
-                    itemImg.setImage(image);
-                    }else{valorSelecionado.image = new Image("/image/pholder.png");
+                        itemImg.setImage(image);
+                    } else {
+                        itemImg.setImage(phImg);
                     }
-                 
-//                    
-//                    itemImg.
-//                itemImg.setImage(valorSelecionado.getItemImage());								
+
                     btnUpdate.setDisable(false);
                     btnDelete.setDisable(false);
                     btnUpdate.setDisable(false);
