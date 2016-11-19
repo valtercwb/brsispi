@@ -1,6 +1,7 @@
 package database;
 
 import modelDAO.CatDAO;
+import modelDAO.CusStaDAO;
 import modelDAO.CustomerDAO;
 import modelDAO.EmpDAO;
 import modelDAO.EscDAO;
@@ -27,9 +28,14 @@ public class ControleDAO {
     private SupplierDAO SupplierDAO = new SupplierDAO();
     private EmpDAO empDAO = new EmpDAO();
     private CustomerDAO customerDAO = new CustomerDAO();
+    private CusStaDAO cusStaDAO = new CusStaDAO();
 
     public ProductDAO getProductDAO() {
         return productDAO;
+    }
+
+    public CusStaDAO getCusStaDAO() {
+        return cusStaDAO;
     }
 
     public CatDAO getCatDAO() {

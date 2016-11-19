@@ -22,9 +22,9 @@ public class Campo {
     public static void isEmpty() {
 
         Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Warning Dialog");
-        alert.setHeaderText("Look, a Warning Dialog");
-        alert.setContentText("Careful with the next step!");
+        alert.setTitle("Aviso");
+        alert.setHeaderText("Campos Obrigatórios");
+        alert.setContentText("Por favor preencha todos os campos para continuar!");
         alert.showAndWait();
     }
 
@@ -80,7 +80,7 @@ public class Campo {
     /**
      * Exibir erro campo no login caso deixe espaço vazio ou incorreto
      */
-    public static void erroLogin(Node no) {
+    public static void fieldError(Node no) {
         no.setStyle("-fx-border-color: #ff8b8b;");
         no.setOnMouseClicked((MouseEvent me) -> {
             no.setStyle("-fx-border-color: transparent transparent #e8e8e8 transparent;");

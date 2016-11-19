@@ -6,3 +6,105 @@
 
 }
     
+.pesquisar {
+    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+    -fx-max-height: 26px;
+    -fx-alignment: center-right;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right center;
+    -fx-padding: 0 30 0 5;
+    -fx-background-image: url("../icon/pesquisa.png");
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+.pesquisar:focused {
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+#btnHome {
+    -fx-background-image: url("../icon/home.png");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnIns {
+    -fx-background-image: url("../icon/item.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnPro {
+    -fx-background-image: url("../icon/product.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnFor {
+    -fx-background-image: url("../icon/supplier.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnCli{
+    -fx-background-image: url("../icon/customer.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnFun {
+    -fx-background-image: url("../icon/employee.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnCos {
+    -fx-background-image: url("../icon/cost.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnInc {
+    -fx-background-image: url("../icon/income.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnSup {
+    -fx-background-image: url("../icon/support.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnSet {
+    -fx-background-image: url("../icon/setup.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+#btnMsg {
+    -fx-background-image: url("../icon/msg.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}

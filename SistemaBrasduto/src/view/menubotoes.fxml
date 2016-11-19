@@ -3,44 +3,99 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="menuBotoes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="83.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AppLauncher.MyMenusControl">
+<AnchorPane fx:id="menuBotoes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="1280.0" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AppLauncher.MyMenusControl">
    <children>
-      <HBox layoutX="49.0" layoutY="-25.0" prefHeight="83.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="49.0" layoutY="-25.0" prefHeight="83.0" prefWidth="1280.0" style="-fx-background-color: lightGrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane prefHeight="83.0" prefWidth="6.0" />
             <Button fx:id="btnHome" accessibleHelp="Ir para a tela Principal" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnHomeOnClicked" prefHeight="80.0" prefWidth="80.0">
-               <graphic>
-                  <ImageView fitHeight="62.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icon/home.png" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
-            <Button fx:id="btnPro" mnemonicParsing="false" onAction="#btnProOnclicked" prefHeight="87.0" prefWidth="79.0" text="Produtos" />
-            <Button fx:id="btnIns" mnemonicParsing="false" onAction="#btnInsOnClicked" prefHeight="87.0" prefWidth="79.0" text="Insumos" />
-            <Button fx:id="btnCli" mnemonicParsing="false" onAction="#btnCliOnClicked" prefHeight="87.0" prefWidth="79.0" text="Clientes" />
-            <Button fx:id="btnFor" mnemonicParsing="false" onAction="#btnForOnClicked" prefHeight="89.0" prefWidth="80.0" text="Fornecedores">
+               <tooltip>
+                  <Tooltip text="Tela Principal" />
+               </tooltip></Button>
+            <Button fx:id="btnPro" mnemonicParsing="false" onAction="#btnProOnclicked" prefHeight="87.0" prefWidth="79.0" textAlignment="CENTER">
                <font>
                   <Font size="10.0" />
-               </font></Button>
-            <Button fx:id="btnFun" mnemonicParsing="false" onAction="#btnFunOnClicked" prefHeight="89.0" prefWidth="80.0" text="Funcionarios">
+               </font>
+               <tooltip>
+                  <Tooltip text="Cadastro de produtos" />
+               </tooltip></Button>
+            <Button fx:id="btnIns" mnemonicParsing="false" onAction="#btnInsOnClicked" prefHeight="87.0" prefWidth="79.0">
+               <tooltip>
+                  <Tooltip text="Cadastro de Insumos" />
+               </tooltip></Button>
+            <Button fx:id="btnCli" mnemonicParsing="false" onAction="#btnCliOnClicked" prefHeight="87.0" prefWidth="79.0">
+               <tooltip>
+                  <Tooltip text="Cadastro de Clientes" />
+               </tooltip></Button>
+            <Button fx:id="btnFor" mnemonicParsing="false" onAction="#btnForOnClicked" prefHeight="89.0" prefWidth="80.0">
                <font>
                   <Font size="10.0" />
-               </font></Button>
-            <AnchorPane prefHeight="83.0" prefWidth="529.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="272.0">
+               </font>
+               <tooltip>
+                  <Tooltip text="Cadastro de Fornecedores" />
+               </tooltip></Button>
+            <Button fx:id="btnFun" mnemonicParsing="false" onAction="#btnFunOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Cadastro de Funcionarios" />
+               </tooltip></Button>
+            <Button fx:id="btnCos" mnemonicParsing="false" onAction="#btnCosOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Custos" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnInc" mnemonicParsing="false" onAction="#btnIncOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Faturamento" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnSet" layoutX="653.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnFunOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Configurações" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnSup" mnemonicParsing="false" onAction="#btnSupOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Suporte" />
+               </tooltip>
+            </Button>
+            <Button fx:id="btnMsg" layoutX="733.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnMsgOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Tele atendimento" />
+               </tooltip>
+            </Button>
+            <HBox alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="403.0">
                <children>
-                  <MenuButton mnemonicParsing="false" prefHeight="83.0" prefWidth="143.0">
+                  <MenuButton contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="14.0" textAlignment="JUSTIFY">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />
                     </items>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </MenuButton>
                </children>
             </HBox>

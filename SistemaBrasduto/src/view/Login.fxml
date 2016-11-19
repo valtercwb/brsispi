@@ -2,10 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,24 +26,39 @@
                <children>
                   <AnchorPane prefHeight="720.0" prefWidth="308.0" stylesheets="@../css/login.css">
                      <children>
-                        <Hyperlink fx:id="linkCriar" layoutX="92.0" layoutY="550.0" onAction="#linkCriarConta" text="Criar conta de Usuario" />
+                        <Hyperlink fx:id="linkCriar" layoutX="76.0" layoutY="550.0" onAction="#linkCriarConta" text="Criar conta de Usuario">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Hyperlink>
                         <AnchorPane layoutX="54.0" layoutY="327.0" prefHeight="211.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="txtUsuario" layoutX="26.0" layoutY="88.0" promptText="Usuario" />
-                              <PasswordField fx:id="txtSenha" layoutX="26.0" layoutY="126.0" promptText="Senha" />
-                              <Label fx:id="labErroLogin" layoutX="26.0" layoutY="163.0" prefHeight="17.0" prefWidth="169.0" />
-                              <JFXButton fx:id="btnLogin" layoutX="74.0" layoutY="186.0" onAction="#btnLoginOnClicked" text="Entrar" />
-                              <Label layoutX="74.0" layoutY="44.0" text="Login">
+                              <TextField fx:id="txtUsuario" layoutX="12.0" layoutY="84.0" promptText="Usuario">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextField>
+                              <PasswordField fx:id="txtSenha" layoutX="12.0" layoutY="124.0" promptText="Senha">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></PasswordField>
+                              <Label fx:id="labErroLogin" layoutX="14.0" layoutY="154.0" prefHeight="17.0" prefWidth="169.0" />
+                              <JFXButton fx:id="btnLogin" layoutX="57.0" layoutY="174.0" onAction="#btnLoginOnClicked" prefHeight="37.0" prefWidth="83.0" style="-fx-background-color: lightBlue; -fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 6;" text="Entrar">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></JFXButton>
+                              <Label layoutX="69.0" layoutY="39.0" text="Login">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Label>
                            </children>
                         </AnchorPane>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="108.0" layoutY="219.0" opacity="0.76" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="logo" fitHeight="150.0" fitWidth="200.0" layoutX="57.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/loglogo.png.jpg" />
+                              <Image url="@../image/loglog.png" />
                            </image>
+                           <effect>
+                              <Reflection fraction="0.51" topOpacity="0.25" />
+                           </effect>
                         </ImageView>
                      </children>
                   </AnchorPane>

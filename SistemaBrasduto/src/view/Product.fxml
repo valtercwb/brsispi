@@ -119,7 +119,7 @@
                            <children>
                               <ImageView fx:id="itemImg" fitHeight="155.0" fitWidth="166.0" onMouseClicked="#attachImageOnAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../image/pholder.png" />
+                                    <Image url="@../image/pholder.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -174,7 +174,7 @@
       </SplitPane>
       <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="1330.0">
          <children>
-            <TextField styleClass="pesquisar" stylesheets="@../../css/product.css" />
+            <TextField fx:id="filterField" styleClass="pesquisar" stylesheets="@../../css/product.css" />
             <AnchorPane prefHeight="30.0" prefWidth="30.0" />
          </children>
       </HBox>

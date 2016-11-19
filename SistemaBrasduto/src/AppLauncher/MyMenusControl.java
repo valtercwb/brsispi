@@ -17,6 +17,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  *
@@ -24,9 +26,21 @@ import javafx.scene.layout.BorderPane;
  */
 public class MyMenusControl {
 
-    public static BorderPane pane = new BorderPane();
     public static BorderPane border = HomeLauncher.getRoot();
+    @FXML
+    private Button btnCos;
 
+    @FXML
+    private Button btnInc;
+
+    @FXML
+    private Button btnSet;
+
+    @FXML
+    private Button btnSup;
+
+    @FXML
+    private Button btnMsg;
     @FXML
     private AnchorPane menuBotoes;
     @FXML
@@ -52,14 +66,13 @@ public class MyMenusControl {
 
     @FXML
     void btnHomeOnClicked(ActionEvent event) {
+      
         try {
             URL homeUrl = getClass().getResource("/view/Home.fxml");
             AnchorPane home = FXMLLoader.load(homeUrl);
-            pane.setTop(null);
             border.setCenter(home);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -67,11 +80,9 @@ public class MyMenusControl {
     void btnProOnclicked(ActionEvent event) {
 
         try {
-            URL manProUrl = getClass().getResource("/view/product/Product.fxml");
+            URL manProUrl = getClass().getResource("/view/Product.fxml");
             AnchorPane manPro = FXMLLoader.load(manProUrl);
-            pane.setTop(null);
-            pane.setCenter(manPro);
-            border.setCenter(pane);
+            border.setCenter(manPro);
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,12 +92,9 @@ public class MyMenusControl {
     void btnInsOnClicked(ActionEvent event) {
 
         try {
-            URL addListItemTable = getClass().getResource("/view/item/Item.fxml");
+            URL addListItemTable = getClass().getResource("/view/Item.fxml");
             AnchorPane itemListAddTable = FXMLLoader.load(addListItemTable);
-            pane.setTop(null);
-            pane.setLeft(null);
-            pane.setCenter(itemListAddTable);
-            border.setCenter(pane);
+            border.setCenter(itemListAddTable);
 
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,12 +104,9 @@ public class MyMenusControl {
     @FXML
     void btnCliOnClicked(ActionEvent event) {
         try {
-            URL manCusTable = getClass().getResource("/view/customer/Customer.fxml");
+            URL manCusTable = getClass().getResource("/view/Customer.fxml");
             AnchorPane manCus = FXMLLoader.load(manCusTable);
-            pane.setTop(null);
-            pane.setLeft(null);
-            pane.setCenter(manCus);
-            border.setCenter(pane);
+            border.setCenter(manCus);
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,12 +115,9 @@ public class MyMenusControl {
     @FXML
     void btnForOnClicked(ActionEvent event) {
         try {
-            URL manSupTable = getClass().getResource("/view/supplier/Supplier.fxml");
+            URL manSupTable = getClass().getResource("/view/Supplier.fxml");
             AnchorPane manSup = FXMLLoader.load(manSupTable);
-            pane.setTop(null);
-            pane.setLeft(null);
-            pane.setCenter(manSup);
-            border.setCenter(pane);
+            border.setCenter(manSup);
 
         } catch (IOException ex) {
             Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,23 +127,49 @@ public class MyMenusControl {
     @FXML
     void btnFunOnClicked(ActionEvent event) {
         try {
-
-            URL empMenuUrl = getClass().getResource("/view/employee/MenuEmployee.fxml");
-            AnchorPane empMenu = FXMLLoader.load(empMenuUrl);
-
-            URL employeeUrl = getClass().getResource("/view/employee/EmployeeFilter.fxml");
-            AnchorPane employeeFilter = FXMLLoader.load(employeeUrl);
-
-            URL employeeListUrl = getClass().getResource("/view/employee/EmployeeList.fxml");
+            URL employeeListUrl = getClass().getResource("/view/EmployeeList.fxml");
             ScrollPane employeeTable = FXMLLoader.load(employeeListUrl);
-
-            pane.setLeft(employeeFilter);
-            pane.setTop(empMenu);
-            pane.setCenter(employeeTable);
-            border.setCenter(pane);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void btnIncOnClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnMsgOnClicked(ActionEvent event) {
+        try {
+            //        WebView whats = new WebView();
+            URL msgUrl = getClass().getResource("/view/Message.fxml");
+            WebView whats = FXMLLoader.load(msgUrl);
+            WebEngine engine = whats.getEngine();
+            engine.load("https://web.whatsapp.com/");
+//        Scene scene = new Scene(root,1280,680);
+           border.setCenter(whats);
+        } catch (IOException ex) {
+            Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    void btnSupOnClicked(ActionEvent event) {
+try {
+            //        WebView whats = new WebView();
+            URL suporteUrl = getClass().getResource("/view/Support.fxml");
+            WebView suporte = FXMLLoader.load(suporteUrl);
+            WebEngine engine = suporte.getEngine();
+            engine.load("https://valtercwb.github.io/");
+//        Scene scene = new Scene(root,1280,680);
+           border.setCenter(suporte);
+        } catch (IOException ex) {
+            Logger.getLogger(MyMenusControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+@FXML
+    void btnCosOnClicked(ActionEvent event) {
+
     }
 }

@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import model.Item;
 import model.Matter;
 import model.Sector;
@@ -27,43 +28,44 @@ import model.Supplier;
  * @author valterFranco<unicuritiba/ads>
  */
 public class ItemDAO extends DAO {
+    public static Boolean isUniqStatus = false;
 
     public ItemDAO() {
         super();
     }
 
-    public void SaveInput(Connection connection, Item item) {
-
-        try {
-            pst = conector.prepareStatement("INSERT INTO insumo (ins_code, ins_nome,ins_local ,ins_material,ins_setor,"
-                    + "ins_fornecedor,ins_dimensao, ins_quantidade, ins_qtd_uso_diario,ins_peso,ins_preco,ins_data,ins_image) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? , ?,?)");
-            pst.setInt(1, item.getItemCode());
-            pst.setString(2, item.getItemName());
-            pst.setString(3, item.getItemLocal());
-            pst.setInt(4, item.getMatter().getMatId());
-            pst.setInt(5, item.getSector().getSecId());
-            pst.setInt(6, item.getSupplier().getSupId());
-            pst.setString(7, item.getItemDim());
-            pst.setInt(8, item.getItemQtt());
-            pst.setInt(9, item.getItemQttDay());
-            pst.setString(10, item.getItemWei());
-            pst.setString(11, item.getItemPrice());
-            pst.setDate(12, item.getItemDate());
-            //pst.setString(13, "1");
-            if (item.imagePath != null) {
-                InputStream is;
-                is = new FileInputStream(new File(item.imagePath));
-                pst.setBlob(13, is);
-            } else {
-                pst.setBlob(13, (Blob) null);
+    public void SaveInput(Connection conector, Item item) {
+        if (isUniqCode(item)) {
+            try {
+                pst = conector.prepareStatement("INSERT INTO insumo (ins_code, ins_nome,ins_local ,ins_material,ins_setor,"
+                        + "ins_fornecedor,ins_dimensao, ins_quantidade, ins_qtd_uso_diario,ins_peso,ins_preco,ins_data,ins_image) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? , ?,?)");
+                pst.setInt(1, item.getItemCode());
+                pst.setString(2, item.getItemName());
+                pst.setString(3, item.getItemLocal());
+                pst.setInt(4, item.getMatter().getMatId());
+                pst.setInt(5, item.getSector().getSecId());
+                pst.setInt(6, item.getSupplier().getSupId());
+                pst.setString(7, item.getItemDim());
+                pst.setInt(8, item.getItemQtt());
+                pst.setInt(9, item.getItemQttDay());
+                pst.setString(10, item.getItemWei());
+                pst.setString(11, item.getItemPrice());
+                pst.setDate(12, item.getItemDate());
+                //pst.setString(13, "1");
+                if (item.imagePath != null) {
+                    InputStream is;
+                    is = new FileInputStream(new File(item.imagePath));
+                    pst.setBlob(13, is);
+                } else {
+                    pst.setBlob(13, (Blob) null);
+                }
+                pst.executeUpdate();
+                pst.close();
+            } catch (SQLException | FileNotFoundException ex) {
+                Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            pst.executeUpdate();
-            pst.close();
-        } catch (SQLException | FileNotFoundException ex) {
-            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public int UpdateItem(Connection conector, Item item, int resultado) {
@@ -182,5 +184,29 @@ public class ItemDAO extends DAO {
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean isUniqCode(Item item) {
+
+        boolean isUniqCode = false;
+        isUniqStatus = isUniqCode;
+        try {
+            pst = conector.prepareStatement("select * from insumo where ins_code = ?");
+            pst.setInt(1, item.getItemCode());
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Alert msg = new Alert(Alert.AlertType.WARNING);
+                msg.setHeaderText("Aviso");
+                msg.setContentText("Já existe um item cadastrado com esse codigo");
+                msg.show();
+                return isUniqCode;
+            }
+            rs.close();
+            pst.close();
+            isUniqCode = true;
+            isUniqStatus =isUniqCode;
+        } catch (SQLException e) {
+        }
+        return isUniqCode;
     }
 }

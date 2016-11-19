@@ -53,6 +53,9 @@ public class Supplier {
         this.supDate = supDate;
     }
 
+    public Supplier() {
+    }
+
     public Supplier(int supId, String supName) {
         this.supId = new SimpleIntegerProperty(supId);
         this.supName = new SimpleStringProperty(supName);

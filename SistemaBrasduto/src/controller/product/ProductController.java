@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,6 +62,10 @@ public class ProductController implements Initializable {
     
     private ObservableList<Cat> listaCat;
     private ObservableList<Product> listaPro;
+    
+    @FXML
+    private TextField filterField;
+    
     @FXML
     private ComboBox<Cat> catCombo;
     
@@ -134,12 +140,7 @@ public class ProductController implements Initializable {
 
         int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
         database.ControleDAO.getBanco().getItemDAO().DeleteItem(resultado);
-
-//        Item item = tblViewItem.getSelectionModel().getSelectedItem();
-//
-//Alert dialog = new Alert(AlertType.WARNING);
-//dialog.setTitle("Aviso");
-//dialog.setContentText("Você deseja realmente excluir o item selecionado?");
+        
         listaPro.remove(tblViewPro.getSelectionModel().getSelectedIndex());
 
         Alert msg = new Alert(AlertType.INFORMATION);
@@ -176,7 +177,7 @@ public class ProductController implements Initializable {
 
         Alert msg = new Alert(AlertType.INFORMATION);
         msg.setTitle("Tabela de Itens");
-        msg.setContentText("O Insumo foi adicionado com sucesso!");
+        msg.setContentText("O produto foi adicionado com sucesso!");
         msg.setHeaderText("Resultado:");
         msg.show();
         CleanFields();
@@ -237,6 +238,31 @@ public class ProductController implements Initializable {
         catCombo.setItems(listaCat);
         
         ManEvents();
+        
+        FilteredList<Product> filteredData = new FilteredList<>(listaPro, i -> true);
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(product -> {
+          
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+              
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (product.getProName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; 
+                } else if (product.getCategory().getCatName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; 
+                } else if (product.getProFin().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; 
+                }
+                return false; 
+            });
+        });
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblViewPro.comparatorProperty());
+        tblViewPro.setItems(sortedData); 
     }
 
     public void CleanFields() {

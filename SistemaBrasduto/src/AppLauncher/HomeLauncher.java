@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -50,12 +51,10 @@ public class HomeLauncher extends Application {
             primaryStage.setResizable(true);
             primaryStage.centerOnScreen();
             primaryStage.show();
-
-            //stage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("icone.png")));
+             primaryStage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("/icon/loglogo.png")));
         } catch (IOException ex) {
             Logger.getLogger(HomeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**

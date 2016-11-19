@@ -47,9 +47,11 @@ import model.Matter;
 import model.Sector;
 import model.Supplier;
 import modelDAO.ItemDAO;
+import static modelDAO.ItemDAO.isUniqStatus;
 import modelDAO.MatterDAO;
 import modelDAO.SectorDAO;
 import modelDAO.SupplierDAO;
+import service.Campo;
 
 /**
  *
@@ -62,7 +64,7 @@ public class ItemController implements Initializable {
     private String imagePath;
     private Image image;
     private Blob blobImage;
-    
+
     @FXML
     private TextField filterField;
     @FXML
@@ -151,8 +153,6 @@ public class ItemController implements Initializable {
         int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
         database.ControleDAO.getBanco().getItemDAO().DeleteItem(resultado);
 
-//        Item item = tblViewItem.getSelectionModel().getSelectedItem();
-//
         Alert dialog = new Alert(AlertType.WARNING);
         dialog.setTitle("Aviso");
         dialog.setContentText("Você deseja realmente excluir o item selecionado?");
@@ -164,7 +164,6 @@ public class ItemController implements Initializable {
         msg.setContentText("O item foi excluido com sucesso!");
         msg.setHeaderText("Resultado:");
         msg.show();
-
     }
 
     @FXML
@@ -174,60 +173,60 @@ public class ItemController implements Initializable {
 
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
-
-        Item item = new Item();
-        item.setItemCode(Integer.parseInt(txtCode.getText()));
-        item.setItemName(txtName.getText());
-        item.setItemLocal(txtLocal.getText());
-        item.setMatter(matCombo.getSelectionModel().getSelectedItem());
-        item.setSector(secCombo.getSelectionModel().getSelectedItem());
-        item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
-        item.setItemDim(txtDim.getText());
-        item.setItemQtt(Integer.parseInt(txtQtt.getText()));
-        item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
-        item.setItemWei(txtWei.getText());
-        item.setItemPrice(txtPrice.getText());
-        item.setItemDate(Date.valueOf(datePic.getValue()));
-        item.imagePath = imagePath;
-//        if (txtCode.getText() == null) {
-//            Campo.isEmpty();
-//
-//        } else if (txtName.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (txtLocal.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (matCombo.getValue() == null) {
-//            Campo.isEmpty();
-//        } else if (secCombo.getValue() == null) {
-//            Campo.isEmpty();
-//        } else if (secCombo.getValue() == null) {
-//            Campo.isEmpty();
-//        } else if (txtDim.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (txtQtt.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (txtQttDay.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (txtWei.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (txtPrice.getText() == null) {
-//            Campo.isEmpty();
-//        } else if (datePic.getValue() == null) {
-//            Campo.isEmpty();
-//        } else {
+        if (txtCode.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtName.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtLocal.getText() == null) {
+            Campo.isEmpty();
+        } else if (matCombo.getValue() == null) {
+            Campo.isEmpty();
+        } else if (secCombo.getValue() == null) {
+            Campo.isEmpty();
+        } else if (secCombo.getValue() == null) {
+            Campo.isEmpty();
+        } else if (txtDim.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtQtt.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtQttDay.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtWei.getText() == null) {
+            Campo.isEmpty();
+        } else if (txtPrice.getText() == null) {
+            Campo.isEmpty();
+        } else if (datePic.getValue() == null) {
+            Campo.isEmpty();
+        } else {
+            Item item = new Item();
+            item.setItemCode(Integer.parseInt(txtCode.getText()));
+            item.setItemName(txtName.getText());
+            item.setItemLocal(txtLocal.getText());
+            item.setMatter(matCombo.getSelectionModel().getSelectedItem());
+            item.setSector(secCombo.getSelectionModel().getSelectedItem());
+            item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
+            item.setItemDim(txtDim.getText());
+            item.setItemQtt(Integer.parseInt(txtQtt.getText()));
+            item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
+            item.setItemWei(txtWei.getText());
+            item.setItemPrice(txtPrice.getText());
+            item.setItemDate(Date.valueOf(datePic.getValue()));
+            item.imagePath = imagePath;
 
             ControleDAO.getBanco().getItemDAO().SaveInput(ConexaoBanco.instancia().getConnection(), item);
+            if (isUniqStatus == true) {
+                listaItem.add(item);
 
-            listaItem.add(item);
-
-            Alert msg = new Alert(AlertType.INFORMATION);
-            msg.setTitle("Tabela de Itens");
-            msg.setContentText("O Insumo foi adicionado com sucesso!");
-            msg.setHeaderText("Resultado:");
-            msg.show();
-            CleanFields();
-        //}
-
+                Alert msg = new Alert(AlertType.INFORMATION);
+                msg.setTitle("Tabela de Itens");
+                msg.setContentText("O Insumo foi adicionado com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+                CleanFields();
+            } else {
+                Campo.fieldError(txtCode);
+            }
+        }
     }
 
     @FXML
@@ -249,16 +248,21 @@ public class ItemController implements Initializable {
         item.imagePath = imagePath;
 
         int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
-        database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado);
+        if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado) != 0) {
+            listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
 
-        listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
-
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Registro atualizado");
-        msg.setContentText("O item foi atualizado com sucesso");
-        msg.setHeaderText("Resultado:");
-        msg.show();
-
+            Alert msg = new Alert(AlertType.INFORMATION);
+            msg.setTitle("Registro atualizado");
+            msg.setContentText("O item foi atualizado com sucesso");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+        } else {
+            Alert msg = new Alert(AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :)");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+        }
     }
 
     @Override
@@ -292,41 +296,40 @@ public class ItemController implements Initializable {
         supCombo.setItems(listaSup);
 
         ManEvents();
-        
+
         FilteredList<Item> filteredData = new FilteredList<>(listaItem, i -> true);
-		
-		// 2. Set the filter Predicate whenever the filter changes.
-		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(item -> {
-				// If filter text is empty, display all persons.
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-				
-				// Compare first name and last name of every person with filter text.
-				String lowerCaseFilter = newValue.toLowerCase();
-				
-				if (item.getItemName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches first name.
-				} else if (item.getSector().getSecName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches last name.
-				}else if (item.getSupplier().getSupName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-					return true; // Filter matches last name.
-				}
-				return false; // Does not match.
-			});
-		});
-		
-		// 3. Wrap the FilteredList in a SortedList. 
-		SortedList<Item> sortedData = new SortedList<>(filteredData);
-		
-		// 4. Bind the SortedList comparator to the TableView comparator.
-		// 	  Otherwise, sorting the TableView would have no effect.
-		sortedData.comparatorProperty().bind(tblViewItem.comparatorProperty());
-		
-		// 5. Add sorted (and filtered) data to the table.
-		tblViewItem.setItems(sortedData);
-        
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(item -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (item.getItemName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else if (item.getSector().getSecName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                } else if (item.getSupplier().getSupName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Item> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tblViewItem.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tblViewItem.setItems(sortedData);
+
     }
 
     public void CleanFields() {
@@ -405,9 +408,9 @@ public class ItemController implements Initializable {
     void attachImageOnAction(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG (Portable Network Graphics)", "*.png"),
                 new FileChooser.ExtensionFilter("JPG (Joint Photographic Group)", "*.jpg"),
-                new FileChooser.ExtensionFilter("JPEG (Joint Photographic Experts Group)", "*.jpeg"),
-                new FileChooser.ExtensionFilter("PNG (Portable Network Graphics)", "*.png")
+                new FileChooser.ExtensionFilter("JPEG (Joint Photographic Experts Group)", "*.jpeg")
         );
         fileChooser.setTitle("Escolha uma imagem");
 

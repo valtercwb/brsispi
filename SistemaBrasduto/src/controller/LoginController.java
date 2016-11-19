@@ -24,6 +24,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -49,6 +50,8 @@ public class LoginController implements Initializable {
     private JFXButton btnLogin;
     @FXML
     private AnchorPane mainAnchor;
+    @FXML
+    ImageView logo;
 
     public static Usuario usuarioLogado = null;
 
@@ -70,11 +73,11 @@ public class LoginController implements Initializable {
 
             } else {
                 labErroLogin.setText("Senha incorreta, verifique os valores!");
-                Campo.erroLogin(txtSenha);
+                Campo.fieldError(txtSenha);
             }
         } else {
             labErroLogin.setText("Usuário não existe ou inativo!");
-            Campo.erroLogin(txtUsuario);
+            Campo.fieldError(txtUsuario);
         }
     }
 
