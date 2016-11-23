@@ -46,12 +46,12 @@ public class HomeLauncher extends Application {
             root.setTop(menu);
             root.setCenter(paneOne);
             Scene scene = new Scene(root, 1280, 720);
-            scene.getStylesheets().add(getClass().getResource("/css/fx8menu.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setResizable(true);
             primaryStage.centerOnScreen();
             primaryStage.show();
-             primaryStage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("/icon/loglogo.png")));
+            primaryStage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("/icon/loglogo.png")));
         } catch (IOException ex) {
             Logger.getLogger(HomeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         }

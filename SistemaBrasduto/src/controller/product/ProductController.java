@@ -46,7 +46,6 @@ import model.Product;
 import modelDAO.CatDAO;
 import modelDAO.ProductDAO;
 
-
 /**
  *
  * @author valterFranco<unicuritiba/ads>
@@ -58,17 +57,17 @@ public class ProductController implements Initializable {
     private String imagePath;
     private Image image;
     private Blob blobImage;
-    public static  Image phImg = new Image("/image/pholder.png");
-    
+    public static Image phImg = new Image("/image/pholder.png");
+
     private ObservableList<Cat> listaCat;
     private ObservableList<Product> listaPro;
-    
+
     @FXML
     private TextField filterField;
-    
+
     @FXML
     private ComboBox<Cat> catCombo;
-    
+
     @FXML
     private TextField txtCode;
 
@@ -111,7 +110,6 @@ public class ProductController implements Initializable {
     @FXML
     private Button btnNew;
 
-    
     @FXML
     private TableView<Product> tblViewPro;
     @FXML
@@ -135,12 +133,12 @@ public class ProductController implements Initializable {
     @FXML
     private TableColumn<Product, Date> clmnproData;
 
-     @FXML
+    @FXML
     void btnDeleteOnClicked(ActionEvent event) {
 
         int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
         database.ControleDAO.getBanco().getItemDAO().DeleteItem(resultado);
-        
+
         listaPro.remove(tblViewPro.getSelectionModel().getSelectedIndex());
 
         Alert msg = new Alert(AlertType.INFORMATION);
@@ -159,18 +157,18 @@ public class ProductController implements Initializable {
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
         Product pro = new Product();
-        pro.setProMat(Integer.parseInt(txtCode.getText()));
+        pro.setProMat(txtCode.getText());
         pro.setProName(txtName.getText());
         pro.setCategory(catCombo.getSelectionModel().getSelectedItem());
         pro.setProFin(txtFin.getText());
-        pro.setProQtt(Integer.parseInt(txtQtt.getText()));
+        pro.setProQtt(txtQtt.getText());
         pro.setProDim(txtDim.getText());
         pro.setProWei(txtWei.getText());
         pro.setProCostPrice(txtCostPrice.getText());
         pro.setProSellPrice(txtSellPrice.getText());
         pro.setProData(Date.valueOf(datePic.getValue()));
         pro.imagePath = imagePath;
-        
+
         ControleDAO.getBanco().getProductDAO().SaveProduct(ConexaoBanco.instancia().getConnection(), pro);
 
         listaPro.add(pro);
@@ -188,23 +186,22 @@ public class ProductController implements Initializable {
     void btnUpdateOnClicked(ActionEvent event) {
 
         Product pro = new Product();
-        pro.setProMat(Integer.parseInt(txtCode.getText()));
+        pro.setProMat(txtCode.getText());
         pro.setProName(txtName.getText());
         pro.setCategory(catCombo.getSelectionModel().getSelectedItem());
         pro.setProFin(txtFin.getText());
-        pro.setProQtt(Integer.parseInt(txtQtt.getText()));
+        pro.setProQtt(txtQtt.getText());
         pro.setProDim(txtDim.getText());
         pro.setProWei(txtWei.getText());
         pro.setProCostPrice(txtCostPrice.getText());
         pro.setProSellPrice(txtSellPrice.getText());
         pro.setProData(Date.valueOf(datePic.getValue()));
         pro.imagePath = imagePath;
-       
+
         int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
         database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.ConexaoBanco.instancia().getConnection(), pro, resultado);
 
         listaPro.set(tblViewPro.getSelectionModel().getSelectedIndex(), pro);
-       
 
         Alert msg = new Alert(AlertType.INFORMATION);
         msg.setTitle("Registro atualizado");
@@ -214,14 +211,13 @@ public class ProductController implements Initializable {
 
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ConexaoBanco.instancia();
         listaPro = FXCollections.observableArrayList();
         ProductDAO.FillProInfo(ConexaoBanco.instancia().getConnection(), listaPro);
         tblViewPro.setItems(listaPro);
-        
+
         clmnproMat.setCellValueFactory(new PropertyValueFactory<>("proMat"));
         clmnproName.setCellValueFactory(new PropertyValueFactory<>("proName"));
         clmncategory.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -236,33 +232,33 @@ public class ProductController implements Initializable {
         listaCat = FXCollections.observableArrayList();
         CatDAO.FillCatInfo(ConexaoBanco.instancia().getConnection(), listaCat);
         catCombo.setItems(listaCat);
-        
+
         ManEvents();
-        
+
         FilteredList<Product> filteredData = new FilteredList<>(listaPro, i -> true);
 
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(product -> {
-          
+
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-              
+
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (product.getProName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 } else if (product.getCategory().getCatName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 } else if (product.getProFin().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 }
-                return false; 
+                return false;
             });
         });
         SortedList<Product> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tblViewPro.comparatorProperty());
-        tblViewPro.setItems(sortedData); 
+        tblViewPro.setItems(sortedData);
     }
 
     public void CleanFields() {
@@ -282,6 +278,7 @@ public class ProductController implements Initializable {
 //        btnEliminar.setDisable(true);
 //        btnActualizar.setDisable(true);
     }
+
     public void ManEvents() {
 
         tblViewPro.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Product> arg0, Product valorAnterior, Product valorSelecionado) -> {
@@ -293,20 +290,21 @@ public class ProductController implements Initializable {
                     catCombo.setValue(valorSelecionado.getCategory());
                     txtFin.setText(valorSelecionado.getProFin());
                     txtDim.setText(valorSelecionado.getProDim());
-                    txtQtt.setText(String.valueOf(valorSelecionado.getProQtt()));
+                    txtQtt.setText(valorSelecionado.getProQtt());
                     txtWei.setText(valorSelecionado.getProWei());
                     txtCostPrice.setText(valorSelecionado.getProCostPrice());
                     txtSellPrice.setText(valorSelecionado.getProSellPrice());
                     datePic.setValue(valorSelecionado.getProData().toLocalDate());
-                    if (valorSelecionado.getProImage()!= null) {
+                    if (valorSelecionado.getProImage() != null) {
                         Blob blob = valorSelecionado.getProImage();
                         byte[] data = blob.getBytes(1, (int) blob.length());
                         bufferedImage = ImageIO.read(new ByteArrayInputStream(data));
                         image = SwingFXUtils.toFXImage(bufferedImage, null);
-                    itemImg.setImage(image);
-                    }else{itemImg.setImage(phImg);
+                        itemImg.setImage(image);
+                    } else {
+                        itemImg.setImage(phImg);
                     }
-                 
+
                     btnUpdate.setDisable(false);
                     btnDelete.setDisable(false);
                     btnUpdate.setDisable(false);
@@ -317,11 +315,10 @@ public class ProductController implements Initializable {
         });
     }
 
-
-@FXML
+    @FXML
     void attachImageOnAction(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(      
+        fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("PNG (Portable Network Graphics)", "*.png"),
                 new FileChooser.ExtensionFilter("JPG (Joint Photographic Group)", "*.jpg"),
                 new FileChooser.ExtensionFilter("JPEG (Joint Photographic Experts Group)", "*.jpeg")

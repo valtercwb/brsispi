@@ -9,42 +9,37 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import model.Dep;
+import model.Country;
 
 /**
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class DepDAO extends DAO {
+public class CountryDAO extends DAO {
 
-    public DepDAO() {
+    public CountryDAO() {
         super();
     }
 
-    public static void FillDepInfo(Connection conector, ObservableList<Dep> lista) {
-    
+    public static void FillCouInfo(Connection conector, ObservableList<Country> listaCountry) {
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
-                    "SELECT dep_codigo, "
-                            + "dep_nome "
-                            + "FROM departamento"
+                    "SELECT pais_codigo, "
+                    + "pais_nome "
+                    + "FROM pais"
             );
             while (resultado.next()) {
-                lista.add(
-                        new Dep(
-                                resultado.getInt("dep_codigo"),
-                                resultado.getString("dep_nome")
+                listaCountry.add(
+                        new Country(
+                                resultado.getInt("pais_codigo"),
+                                resultado.getString("pais_nome")
                         )
                 );
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DepDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        
     }
-
 }

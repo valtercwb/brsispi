@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -14,21 +14,14 @@ import javafx.beans.property.StringProperty;
  *
  * @author valterFranco<unicuritiba/ads>
  */
-
-
 public class City {
 
     private IntegerProperty cityId;
     private StringProperty cityName;
-    private CityState cityState;
-    private CityCountry cityCountry;
 
-    public City(int cityId, String cityName, CityState cityState,
-            CityCountry cityCountry) {
+    public City(int cityId, String cityName) {
         this.cityId = new SimpleIntegerProperty(cityId);
         this.cityName = new SimpleStringProperty(cityName);
-        this.cityState = cityState;
-        this.cityCountry = cityCountry;
     }
 
     //Metodos atributo: cityId
@@ -56,23 +49,8 @@ public class City {
     public StringProperty CityNameProperty() {
         return cityName;
     }
-    //Metodos atributo: cityState
 
-    public CityState getCityState() {
-        return cityState;
+    public String toString() {
+        return cityName.get();
     }
-
-    public void setCityState(CityState cityState) {
-        this.cityState = cityState;
-    }
-    //Metodos atributo: cityCountry
-
-    public CityCountry getCityCountry() {
-        return cityCountry;
-    }
-
-    public void setCityCountry(CityCountry cityCountry) {
-        this.cityCountry = cityCountry;
-    }
-
 }

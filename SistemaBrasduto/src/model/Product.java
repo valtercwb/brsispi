@@ -19,11 +19,11 @@ import javafx.beans.property.StringProperty;
 public class Product {
 
     private IntegerProperty proId;
-    private IntegerProperty proMat;
+    private StringProperty proMat;
     private StringProperty proName;
     private Cat category;
     private StringProperty proFin;
-    private IntegerProperty proQtt;
+    private StringProperty proQtt;
     private StringProperty proDim;
     private StringProperty proWei;
     private StringProperty proCostPrice;
@@ -32,16 +32,16 @@ public class Product {
     public String imagePath;
     private Blob proImage;
 
-    public Product(int proId, int proMat, String proName,
-            Cat category, String proFin, int proQtt,
+    public Product(int proId, String proMat, String proName,
+            Cat category, String proFin, String proQtt,
             String proDim, String proWei,String proCostPrice, String proSellPrice,
             Date proData, Blob proImage) {
         this.proId = new SimpleIntegerProperty(proId);
-        this.proMat = new SimpleIntegerProperty(proMat);
+        this.proMat = new SimpleStringProperty(proMat);
         this.proName = new SimpleStringProperty(proName);
         this.category = category;
         this.proFin = new SimpleStringProperty(proFin);
-        this.proQtt = new SimpleIntegerProperty(proQtt);
+        this.proQtt = new SimpleStringProperty(proQtt);
         this.proDim = new SimpleStringProperty(proDim);
         this.proWei = new SimpleStringProperty(proWei);
         this.proCostPrice = new SimpleStringProperty(proCostPrice);
@@ -67,15 +67,15 @@ public class Product {
     }
     //Metodos atributo: proMat
 
-    public int getProMat() {
+    public String getProMat() {
         return proMat.get();
     }
 
-    public void setProMat(int proMat) {
-        this.proMat = new SimpleIntegerProperty(proMat);
+    public void setProMat(String proMat) {
+        this.proMat = new SimpleStringProperty(proMat);
     }
 
-    public IntegerProperty ProMatProperty() {
+    public StringProperty ProMatProperty() {
         return proMat;
     }
     //Metodos atributo: proName
@@ -115,15 +115,15 @@ public class Product {
     }
     //Metodos atributo: proQtt
 
-    public int getProQtt() {
+    public String getProQtt() {
         return proQtt.get();
     }
 
-    public void setProQtt(int proQtt) {
-        this.proQtt = new SimpleIntegerProperty(proQtt);
+    public void setProQtt(String proQtt) {
+        this.proQtt = new SimpleStringProperty(proQtt);
     }
 
-    public IntegerProperty ProQttProperty() {
+    public StringProperty ProQttProperty() {
         return proQtt;
     }
     //Metodos atributo: proDim

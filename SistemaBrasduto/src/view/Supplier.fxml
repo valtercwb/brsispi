@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="660.0" prefWidth="1280.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierController">
+<AnchorPane id="AnchorPane" prefHeight="660.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierController">
    <children>
-      <SplitPane dividerPositions="0.2300469483568075" layoutX="14.0" layoutY="35.0" prefHeight="625.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+      <SplitPane dividerPositions="0.22613458528951486" layoutX="14.0" layoutY="35.0" prefHeight="626.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="374.0">
                <children>
@@ -101,9 +101,9 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <DatePicker fx:id="datePic" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <DatePicker fx:id="datePic" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
                         <Label text="Estado " GridPane.rowIndex="11" />
-                        <Label text="Data " GridPane.rowIndex="13" />
+                        <Label text="Data   " GridPane.rowIndex="13" />
                         <Label text="Fornecedor" GridPane.columnIndex="1">
                            <font>
                               <Font size="24.0" />
@@ -142,13 +142,16 @@
                            </font>
                         </TextField>
                         <Label text="Produto  " GridPane.rowIndex="6" />
-                        <Label text="Bairro" GridPane.rowIndex="9" />
-                        <TextField fx:id="txtSub" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label text="Bairro  " GridPane.rowIndex="9" />
+                        <TextField fx:id="txtSub" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
                      </children>
                   </GridPane>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="550.0" prefHeight="33.0" prefWidth="269.0" spacing="5.0">
                      <children>
-                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="33.0" prefWidth="65.0" text="Salvar" />
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="33.0" prefWidth="65.0" style="-fx-background-color: DeepSkyBlue;" text="Salvar" />
                         <Button fx:id="btnUpdate" disable="true" mnemonicParsing="false" onAction="#btnUpdateOnClicked" prefHeight="33.0" prefWidth="65.0" text="Atualizar" />
                         <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#btnDeleteOnClicked" prefHeight="33.0" prefWidth="65.0" text="Eliminar" />
                         <Button fx:id="btnNew" mnemonicParsing="false" onAction="#btnNewOnClicked" prefHeight="33.0" prefWidth="65.0" text="Novo" />
@@ -156,15 +159,15 @@
                   </HBox>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="701.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="623.0">
                <children>
-                  <TableView fx:id="tblViewSup" layoutX="-1.0" prefHeight="623.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-32.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblViewSup" layoutX="-1.0" prefHeight="640.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-32.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="clmnsupName" prefWidth="128.0" text="Nome" />
                         <TableColumn fx:id="clmnsupCtr" prefWidth="97.0" text="CNPJ" />
                         <TableColumn fx:id="clmnsupPhone" prefWidth="82.0" text="Telefone" />
                         <TableColumn fx:id="clmnsupEmail" prefWidth="87.0" text="E-mail" />
-                        <TableColumn fx:id="clmncusStatus" prefWidth="73.0" text="Contato" />
+                        <TableColumn fx:id="clmnsupContact" prefWidth="73.0" text="Contato" />
                         <TableColumn fx:id="clmnsupMatTyp" prefWidth="73.0" text="Produto" />
                         <TableColumn fx:id="clmnsupAdress" prefWidth="96.0" text="Endereco" />
                         <TableColumn fx:id="clmnsupZipCode" prefWidth="70.0" text="ZipCode" />
@@ -179,10 +182,10 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <HBox alignment="TOP_RIGHT" layoutY="1.0" prefHeight="30.0" prefWidth="1280.0" styleClass="pesquisar">
+      <HBox alignment="CENTER_RIGHT" layoutY="1.0" prefHeight="30.0" prefWidth="1280.0">
          <children>
             <TextField fx:id="filterField" styleClass="pesquisar" stylesheets="@../css/home.css" />
-            <AnchorPane prefHeight="30.0" prefWidth="44.0" />
+            <AnchorPane prefHeight="30.0" prefWidth="25.0" />
          </children>
       </HBox>
    </children>

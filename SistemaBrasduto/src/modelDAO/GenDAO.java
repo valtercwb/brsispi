@@ -9,42 +9,38 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import model.Dep;
+import model.Gen;
 
 /**
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class DepDAO extends DAO {
+public class GenDAO extends DAO {
 
-    public DepDAO() {
+    public GenDAO() {
         super();
     }
 
-    public static void FillDepInfo(Connection conector, ObservableList<Dep> lista) {
-    
+    public static void FillGenInfo(Connection conector, ObservableList<Gen> lista) {
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
-                    "SELECT dep_codigo, "
-                            + "dep_nome "
-                            + "FROM departamento"
+                    "SELECT gen_codigo, "
+                    + "gen_nome "
+                    + "FROM genero"
             );
             while (resultado.next()) {
                 lista.add(
-                        new Dep(
-                                resultado.getInt("dep_codigo"),
-                                resultado.getString("dep_nome")
+                        new Gen(
+                                resultado.getInt("gen_codigo"),
+                                resultado.getString("gen_nome")
                         )
                 );
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DepDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        
     }
 
 }

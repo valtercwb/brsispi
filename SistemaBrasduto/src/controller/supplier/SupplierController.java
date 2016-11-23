@@ -9,6 +9,7 @@ import database.ConexaoBanco;
 import database.ControleDAO;
 import java.net.URL;
 import java.sql.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -126,20 +128,31 @@ public class SupplierController implements Initializable {
 
     @FXML
     private void btnDeleteOnClicked(ActionEvent event) {
-        int resultado = tblViewSup.getSelectionModel().getSelectedItem().getSupId();
-        database.ControleDAO.getBanco().getSupplierDAO().DeleteSup(resultado);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Sistema Brasduto");
+        alert.setHeaderText("Você deseja realmente excluir o fornecedor selecionado?");
+        Optional<ButtonType> result = alert.showAndWait();
 
-        Alert dialog = new Alert(Alert.AlertType.WARNING);
-        dialog.setTitle("Aviso");
-        dialog.setContentText("Você deseja realmente excluir o fornecedor selecionado?");
-        dialog.showAndWait();
-        listaSup.remove(tblViewSup.getSelectionModel().getSelectedIndex());
+        if (result.get() == ButtonType.OK) {
 
-        Alert msg = new Alert(Alert.AlertType.INFORMATION);
-        msg.setTitle("Registro eliminado");
-        msg.setContentText("O fornecedor foi excluido com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
+            int resultado = tblViewSup.getSelectionModel().getSelectedItem().getSupId();
+            listaSup.remove(tblViewSup.getSelectionModel().getSelectedIndex());
+            if (database.ControleDAO.getBanco().getSupplierDAO().DeleteSup(resultado) != 0) {
+                Alert msg = new Alert(Alert.AlertType.INFORMATION);
+                msg.setTitle("Registro eliminado");
+                msg.setContentText("O fornecedor foi excluido com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+                Alert msg = new Alert(Alert.AlertType.ERROR);
+                msg.setTitle("Deu ruim");
+                msg.setContentText("Não consegui estabelecer a conexao com o banco,contacte o técnico. :{");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            }
+
+        } else {
+        }
     }
 
     @FXML

@@ -35,11 +35,11 @@ public class ProductDAO extends DAO {
             pst = conector.prepareStatement("INSERT INTO produto (pro_mat, pro_nome,pro_categoria ,pro_acabamento,pro_quantidade,"
                     + "pro_dimensao,pro_peso, pro_preco_custo,pro_preco_venda,pro_data,pro_foto) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? )");
-            pst.setInt(1, pro.getProMat());
+            pst.setString(1, pro.getProMat());
             pst.setString(2, pro.getProName());
             pst.setInt(3, pro.getCategory().getCatCode());
             pst.setString(4, pro.getProFin());
-            pst.setInt(5, pro.getProQtt());
+            pst.setString(5, pro.getProQtt());
             pst.setString(6, pro.getProDim());
             pst.setString(7, pro.getProWei());
             pst.setString(8, pro.getProCostPrice());
@@ -77,11 +77,11 @@ public class ProductDAO extends DAO {
                     + " pro_foto = ?  "
                     + " WHERE pro_codigo = ?"
             );
-            pst.setInt(1, pro.getProMat());
+            pst.setString(1, pro.getProMat());
             pst.setString(2, pro.getProName());
             pst.setInt(3, pro.getCategory().getCatCode());
             pst.setString(4, pro.getProFin());
-            pst.setInt(5, pro.getProQtt());
+            pst.setString(5, pro.getProQtt());
             pst.setString(6, pro.getProDim());
             pst.setString(7, pro.getProWei());
             pst.setString(8, pro.getProCostPrice());
@@ -98,7 +98,7 @@ public class ProductDAO extends DAO {
             return pst.executeUpdate();
         } catch (SQLException | FileNotFoundException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-           return 0;
+            return 0;
         }
     }
 
@@ -118,37 +118,37 @@ public class ProductDAO extends DAO {
     }
 
     public static void FillProInfo(Connection conector, ObservableList<Product> lista) {
-        
+
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
                     "SELECT A.pro_codigo,"
-                            + "A.pro_mat, "
-                            + "A.pro_nome, "
-                            + "A.pro_categoria, "
-                            + "B.cat_nome, "
-                            + "A.pro_acabamento, "
-                            + "A.pro_quantidade, "
-                            + "A.pro_dimensao, "
-                            + "A.pro_peso, "
-                            + "A.pro_preco_custo, "
-                            + "A.pro_preco_venda, "
-                            + "A.pro_data, "
-                            + "A.pro_foto "
-                            + "FROM produto A "
-                            + "INNER JOIN categoria B "
-                            + "ON (A.pro_categoria = B.cat_codigo) "
+                    + "A.pro_mat, "
+                    + "A.pro_nome, "
+                    + "A.pro_categoria, "
+                    + "B.cat_nome, "
+                    + "A.pro_acabamento, "
+                    + "A.pro_quantidade, "
+                    + "A.pro_dimensao, "
+                    + "A.pro_peso, "
+                    + "A.pro_preco_custo, "
+                    + "A.pro_preco_venda, "
+                    + "A.pro_data, "
+                    + "A.pro_foto "
+                    + "FROM produto A "
+                    + "INNER JOIN categoria B "
+                    + "ON (A.pro_categoria = B.cat_codigo) "
             );
             while (resultado.next()) {
                 lista.add(
                         new Product(
                                 resultado.getInt("pro_codigo"),
-                                resultado.getInt("pro_mat"),
+                                resultado.getString("pro_mat"),
                                 resultado.getString("pro_nome"),
                                 new Cat(resultado.getInt("pro_categoria"),
                                         resultado.getString("cat_nome")),
                                 resultado.getString("pro_acabamento"),
-                                resultado.getInt("pro_quantidade"),
+                                resultado.getString("pro_quantidade"),
                                 resultado.getString("pro_dimensao"),
                                 resultado.getString("pro_peso"),
                                 resultado.getString("pro_preco_custo"),

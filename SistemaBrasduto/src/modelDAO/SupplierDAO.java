@@ -43,7 +43,8 @@ public class SupplierDAO extends DAO {
                     + "A.for_bairro, "
                     + "A.for_cidade, "
                     + "A.for_estado, "
-                    + "A.for_pais "
+                    + "A.for_pais, "
+                    + "A.for_data "
                     + " FROM fornecedor A"
             );
             while (resultado.next()) {
@@ -153,7 +154,7 @@ public class SupplierDAO extends DAO {
             try {
                 pst = conector.prepareStatement("INSERT INTO fornecedor (for_nome,for_cnpj ,for_telefone,for_email,"
                         + "for_contato,for_tipo_material,for_endereco,for_cep,for_bairro, for_cidade,for_estado,for_pais,for_data) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,?)");
+                        + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? , ? , ?)");
                 pst.setString(1, supplier.getSupName());
                 pst.setString(2, supplier.getSupCtr());
                 pst.setString(3, supplier.getSupPhone());

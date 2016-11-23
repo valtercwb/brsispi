@@ -10,31 +10,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.ObservableList;
-import model.Esc;
+import model.City;
 
 /**
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class EscDAO extends DAO {
+public class CityDAO extends DAO{
 
-    public EscDAO() {
-        super();
+    public CityDAO() {
+    super();
     }
-
-    public static void FillInfo(Connection conector, ObservableList<Esc> lista) {
+    
+    public static void FillCityInfo(Connection conector, ObservableList<City> listaCity) {
         try {
             Statement stm = conector.createStatement();
             ResultSet resultado = stm.executeQuery(
-                    "SELECT esc_codigo, "
-                    + "esc_nome "
-                    + "FROM escolaridade"
+                    "SELECT cid_codigo, "
+                    + "cid_nome "
+                    + "FROM cidade"
             );
             while (resultado.next()) {
-                lista.add(
-                        new Esc(
-                                resultado.getInt("esc_codigo"),
-                                resultado.getString("esc_nome")
+                listaCity.add(
+                        new City(
+                                resultado.getInt("cid_codigo"),
+                                resultado.getString("cid_nome")
                         )
                 );
             }
@@ -42,7 +42,4 @@ public class EscDAO extends DAO {
             e.printStackTrace();
         }
     }
-  
-    
-
 }

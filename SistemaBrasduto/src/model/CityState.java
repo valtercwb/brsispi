@@ -49,5 +49,8 @@ public class CityState {
     public StringProperty CityStateNameProperty() {
         return cityStateName;
     }
-}
 
+    public String toString() {
+        return cityStateName.get();
+    }
+}

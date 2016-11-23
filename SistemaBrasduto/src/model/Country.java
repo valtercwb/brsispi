@@ -14,12 +14,12 @@ import javafx.beans.property.StringProperty;
  *
  * @author valterFranco<unicuritiba/ads>
  */
-public class CityCountry {
+public class Country {
 
     private IntegerProperty cityCountryId;
     private StringProperty cityCountryName;
 
-    public CityCountry(int cityCountryId, String cityCountryName) {
+    public Country(int cityCountryId, String cityCountryName) {
         this.cityCountryId = new SimpleIntegerProperty(cityCountryId);
         this.cityCountryName = new SimpleStringProperty(cityCountryName);
     }
@@ -49,5 +49,8 @@ public class CityCountry {
     public StringProperty CityCountryNameProperty() {
         return cityCountryName;
     }
-}
 
+    public String toString() {
+        return cityCountryName.get();
+    }
+}
