@@ -5,7 +5,6 @@
  */
 package controller.employee;
 
-import static controller.product.ProductController.phImg;
 import database.ConexaoBanco;
 import database.ControleDAO;
 import java.awt.image.BufferedImage;
@@ -16,9 +15,13 @@ import java.net.URL;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +33,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Tab;
@@ -70,12 +75,36 @@ import service.Campo;
  */
 public class EmployeeController implements Initializable {
 
+    private final BooleanProperty okToAdd = new SimpleBooleanProperty(true);
     private File file;
     private BufferedImage bufferedImage;
     private String imagePath;
     private Image image;
     private Blob blobImage;
+    public static Image proPhImg = new Image("/image/profilePh.png");
 
+    @FXML
+    private Button delete1;
+
+    @FXML
+    private Button new1;
+
+    @FXML
+    private Button edit1;
+
+    @FXML
+    private Button save1;
+    @FXML
+    private Button delete2;
+
+    @FXML
+    private Button new2;
+
+    @FXML
+    private Button edit2;
+
+    @FXML
+    private Button save2;
     @FXML
     private TabPane tabPane;
     @FXML
@@ -190,20 +219,30 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void DeleteEmpOnClicked(ActionEvent event) {
-        int resultado = tblViewEmp.getSelectionModel().getSelectedItem().getEmpId();
-        database.ControleDAO.getBanco().getEmpDAO().DeleteItem(resultado);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Sistema Brasduto");
+        alert.setHeaderText("Você deseja realmente excluir o funcionario selecionado?");
+        Optional<ButtonType> result = alert.showAndWait();
 
-        Alert dialog = new Alert(AlertType.WARNING);
-        dialog.setTitle("Aviso");
-        dialog.setContentText("Você deseja realmente excluir o item selecionado?");
-        dialog.showAndWait();
-        listaEmp.remove(tblViewEmp.getSelectionModel().getSelectedIndex());
+        if (result.get() == ButtonType.OK) {
+            int resultado = tblViewEmp.getSelectionModel().getSelectedItem().getEmpId();
+            listaEmp.remove(tblViewEmp.getSelectionModel().getSelectedIndex());
+            if (database.ControleDAO.getBanco().getEmpDAO().DeleteItem(resultado) != 0) {
+                Alert msg = new Alert(Alert.AlertType.INFORMATION);
+                msg.setTitle("Registro eliminado");
+                msg.setContentText("O funcionario foi excluido com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+                Alert msg = new Alert(Alert.AlertType.ERROR);
+                msg.setTitle("Deu ruim");
+                msg.setContentText("Não consegui estabelecer a conexao com o banco,contacte o técnico. :{");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            }
 
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Registro eliminado");
-        msg.setContentText("O item foi excluido com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
+        } else {
+        }
     }
 
     @FXML
@@ -213,54 +252,55 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void EditEmpOnClicked(ActionEvent event) {
-        if(tblViewEmp.getSelectionModel().getSelectedItem()!=null){
-        Employee emp = new Employee();
-        emp.setEmpCode(txtMat.getText());
-        emp.setEmpName(txtName.getText());
-        emp.setGen(genCombo.getSelectionModel().getSelectedItem());
-        emp.setEmpBirthDate(Date.valueOf(birthDate.getValue()));
-        emp.setMaritalStatus(marStaCombo.getSelectionModel().getSelectedItem());
-        emp.setEmpPhoneFix(txtFix.getText());
-        emp.setEmpPhoneCel(txtCel.getText());
-        emp.setEmpEmail(txtEmail.getText());
-        emp.setEmpAdress(txtAdress.getText());
-        emp.setEmpZipCode(txtCep.getText());
-        emp.setEmpSub(txtSub.getText());
-        emp.setCity(cityCombo.getSelectionModel().getSelectedItem());
-        emp.setCityState(stateCombo.getSelectionModel().getSelectedItem());
-        emp.setCountry(countryCombo.getSelectionModel().getSelectedItem());
-        emp.setSchLevel(schLevCombo.getSelectionModel().getSelectedItem());
-        emp.setEmpSchDesc(txtDescCurso.getText());
-        emp.setEmpRg(txtRg.getText());
-        emp.setEmpCpf(txtCpf.getText());
-        emp.setEmpCp(txtCp.getText());
-        emp.setEmpPis(txtPis.getText());
-        emp.setEmpCnh(txtCnh.getText());
-        emp.setEmpTrans(txtCt.getText());
-        emp.setEmpStatus(empStaCombo.getSelectionModel().getSelectedItem());
-        emp.setEmpDep(empDepCombo.getSelectionModel().getSelectedItem());
-        emp.setEmpPosition(txtPosition.getText());
-        emp.setEmpSalary(txtSalary.getText());
-        emp.setAdmDate(Date.valueOf(admDate.getValue()));
-        emp.setFireDate(Date.valueOf(fireDate.getValue()));
-        emp.imagePath = imagePath;
+        if (tblViewEmp.getSelectionModel().getSelectedItem() != null) {
+            Employee emp = new Employee();
+            emp.setEmpCode(txtMat.getText());
+            emp.setEmpName(txtName.getText());
+            emp.setGen(genCombo.getSelectionModel().getSelectedItem());
+            emp.setEmpBirthDate(Date.valueOf(birthDate.getValue()));
+            emp.setMaritalStatus(marStaCombo.getSelectionModel().getSelectedItem());
+            emp.setEmpPhoneFix(txtFix.getText());
+            emp.setEmpPhoneCel(txtCel.getText());
+            emp.setEmpEmail(txtEmail.getText());
+            emp.setEmpAdress(txtAdress.getText());
+            emp.setEmpZipCode(txtCep.getText());
+            emp.setEmpSub(txtSub.getText());
+            emp.setCity(cityCombo.getSelectionModel().getSelectedItem());
+            emp.setCityState(stateCombo.getSelectionModel().getSelectedItem());
+            emp.setCountry(countryCombo.getSelectionModel().getSelectedItem());
+            emp.setSchLevel(schLevCombo.getSelectionModel().getSelectedItem());
+            emp.setEmpSchDesc(txtDescCurso.getText());
+            emp.setEmpRg(txtRg.getText());
+            emp.setEmpCpf(txtCpf.getText());
+            emp.setEmpCp(txtCp.getText());
+            emp.setEmpPis(txtPis.getText());
+            emp.setEmpCnh(txtCnh.getText());
+            emp.setEmpTrans(txtCt.getText());
+            emp.setEmpStatus(empStaCombo.getSelectionModel().getSelectedItem());
+            emp.setEmpDep(empDepCombo.getSelectionModel().getSelectedItem());
+            emp.setEmpPosition(txtPosition.getText());
+            emp.setEmpSalary(txtSalary.getText());
+            emp.setAdmDate(Date.valueOf(admDate.getValue()));
+            emp.setFireDate(Date.valueOf(fireDate.getValue()));
+            emp.imagePath = imagePath;
 
-        int resultado = tblViewEmp.getSelectionModel().getSelectedItem().getEmpId();
-        if (database.ControleDAO.getBanco().getEmpDAO().UpdateEmp(database.ConexaoBanco.instancia().getConnection(), emp, resultado) != 0) {
-            listaEmp.set(tblViewEmp.getSelectionModel().getSelectedIndex(), emp);
+            int resultado = tblViewEmp.getSelectionModel().getSelectedItem().getEmpId();
+            if (database.ControleDAO.getBanco().getEmpDAO().UpdateEmp(database.ConexaoBanco.instancia().getConnection(), emp, resultado) != 0) {
+                listaEmp.set(tblViewEmp.getSelectionModel().getSelectedIndex(), emp);
 
-            Alert msg = new Alert(AlertType.INFORMATION);
-            msg.setTitle("Funcionario atualizado");
-            msg.setContentText("O Funcionario foi atualizado com sucesso");
-            msg.setHeaderText("Resultado:");
-            msg.show();
+                Alert msg = new Alert(AlertType.INFORMATION);
+                msg.setTitle("Funcionario atualizado");
+                msg.setContentText("O Funcionario foi atualizado com sucesso");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+                Alert msg = new Alert(AlertType.ERROR);
+                msg.setTitle("Deu ruim!");
+                msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :(");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            }
         } else {
-            Alert msg = new Alert(AlertType.ERROR);
-            msg.setTitle("Deu ruim!");
-            msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :(");
-            msg.setHeaderText("Resultado:");
-            msg.show();
-        }}else{
             Alert msg = new Alert(AlertType.INFORMATION);
             msg.setTitle("Ajuda");
             msg.setHeaderText("Primeiro voce precisa selecionar um Funcionario na tabela :)");
@@ -323,6 +363,9 @@ public class EmployeeController implements Initializable {
         emp.setEmpPosition(txtPosition.getText());
         emp.setEmpSalary(txtSalary.getText());
         emp.setAdmDate(Date.valueOf(admDate.getValue()));
+        if (fireDate.getValue() == null) {
+            fireDate.setValue(LocalDate.MAX);
+        }
         emp.setFireDate(Date.valueOf(fireDate.getValue()));
         emp.imagePath = imagePath;
 
@@ -427,6 +470,10 @@ public class EmployeeController implements Initializable {
             // 5. Add sorted (and filtered) data to the table.
             tblViewEmp.setItems(sortedData);
         }
+
+        save1.disableProperty().bind(
+                txtName.textProperty().isEmpty().or(txtAdress.textProperty().isEmpty()).or(txtCel.textProperty().isEmpty()).or(txtCep.textProperty().isEmpty()).or(txtCnh.textProperty().isEmpty()).or(txtCp.textProperty().isEmpty()).or(txtCpf.textProperty().isEmpty()).or(txtDescCurso.textProperty().isEmpty()).or(txtPis.textProperty().isEmpty()).or(txtPosition.textProperty().isEmpty()).or(txtSub.textProperty().isEmpty()).or(txtFix.textProperty().isEmpty()).or(txtMat.textProperty().isEmpty()).or(txtSalary.textProperty().isEmpty()).or(txtCt.textProperty().isEmpty()).or(txtRg.textProperty().isEmpty()).or(empStaCombo.valueProperty().isNull()).or(stateCombo.valueProperty().isNull()).or(empDepCombo.valueProperty().isNull()).or(countryCombo.valueProperty().isNull()).or(genCombo.valueProperty().isNull()).or(cityCombo.valueProperty().isNull()).or(marStaCombo.valueProperty().isNull()).or(schLevCombo.valueProperty().isNull()).or(birthDate.valueProperty().isNull()).or(admDate.valueProperty().isNull()).or(okToAdd.not()));
+
     }
 
     public void CleanFields() {
@@ -441,7 +488,6 @@ public class EmployeeController implements Initializable {
         stateCombo.setValue(null);
         marStaCombo.setValue(null);
         schLevCombo.setValue(null);
-        txtName.setText(null);
         txtFix.setText(null);
         txtCnh.setText(null);
         txtCep.setText(null);
@@ -455,6 +501,21 @@ public class EmployeeController implements Initializable {
         txtRg.setText(null);
         txtCpf.setText(null);
         txtCp.setText(null);
+        txtAdress.setText(null);
+        admDate.setValue(null);
+        fireDate.setValue(null);
+        txtCt.setText(null);
+
+        tblViewEmp.getSelectionModel().clearSelection();
+
+        okToAdd.set(true);
+        edit1.setDisable(true);
+        edit2.setDisable(true);
+        save1.setDisable(true);
+        save2.setDisable(true);
+        delete1.setDisable(true);
+        delete2.setDisable(true);
+
     }
 
     private void ManEvents() {
@@ -498,7 +559,7 @@ public class EmployeeController implements Initializable {
                             image = SwingFXUtils.toFXImage(bufferedImage, null);
                             empImage.setImage(image);
                         } else {
-                            empImage.setImage(phImg);
+                            empImage.setImage(proPhImg);
                         }
 
                     } catch (SQLException | IOException ex) {
@@ -510,7 +571,7 @@ public class EmployeeController implements Initializable {
     }
 
     @FXML
-    void attachImageOnAction(MouseEvent event) throws IOException {
+    private void attachImageOnAction(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("PNG (Portable Network Graphics)", "*.png"),

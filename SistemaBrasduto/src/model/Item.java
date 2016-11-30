@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 public class Item {
 
     private IntegerProperty itemId;
-    private IntegerProperty itemCode;
+    private StringProperty itemCode;
     private StringProperty itemName;
     private StringProperty itemLocal;
     private Matter matter;
@@ -34,16 +34,15 @@ public class Item {
     private Date itemDate;
     public String imagePath;
     private Blob itemImage;
-     public Image image;
-    
+    public Image image;
 
-    public Item(int itemId, int itemCode, String itemName,
+    public Item(int itemId, String itemCode, String itemName,
             String itemLocal, Matter matter, Sector sector,
             Supplier supplier, String itemDim, int itemQtt,
             int itemQttDay, String itemWei, String itemPrice,
             Date itemDate, Blob itemImage) {
         this.itemId = new SimpleIntegerProperty(itemId);
-        this.itemCode = new SimpleIntegerProperty(itemCode);
+        this.itemCode = new SimpleStringProperty(itemCode);
         this.itemName = new SimpleStringProperty(itemName);
         this.itemLocal = new SimpleStringProperty(itemLocal);
         this.matter = matter;
@@ -75,15 +74,15 @@ public class Item {
     }
     //Metodos atributo: itemCode
 
-    public int getItemCode() {
+    public String getItemCode() {
         return itemCode.get();
     }
 
-    public void setItemCode(int itemCode) {
-        this.itemCode = new SimpleIntegerProperty(itemCode);
+    public void setItemCode(String itemCode) {
+        this.itemCode = new SimpleStringProperty(itemCode);
     }
 
-    public IntegerProperty ItemCodeProperty() {
+    public StringProperty ItemCodeProperty() {
         return itemCode;
     }
     //Metodos atributo: itemName

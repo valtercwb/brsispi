@@ -15,9 +15,13 @@ import java.net.URL;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +34,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -45,6 +50,8 @@ import model.Cat;
 import model.Product;
 import modelDAO.CatDAO;
 import modelDAO.ProductDAO;
+import static modelDAO.ProductDAO.isUniqCodProStatus;
+import service.Campo;
 
 /**
  *
@@ -52,6 +59,8 @@ import modelDAO.ProductDAO;
  */
 public class ProductController implements Initializable {
 
+    private final BooleanProperty okToAdd = new SimpleBooleanProperty(true);
+    String regex = "[0-9]+";
     private File file;
     private BufferedImage bufferedImage;
     private String imagePath;
@@ -135,17 +144,31 @@ public class ProductController implements Initializable {
 
     @FXML
     void btnDeleteOnClicked(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Sistema Brasduto");
+        alert.setHeaderText("Você deseja realmente excluir o produto selecionado?");
+        Optional<ButtonType> result = alert.showAndWait();
 
-        int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
-        database.ControleDAO.getBanco().getItemDAO().DeleteItem(resultado);
+        if (result.get() == ButtonType.OK) {
+            int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
+            listaPro.remove(tblViewPro.getSelectionModel().getSelectedIndex());
 
-        listaPro.remove(tblViewPro.getSelectionModel().getSelectedIndex());
+            if (database.ControleDAO.getBanco().getProductDAO().DeleteItem(resultado) != 0) {
+                Alert msg = new Alert(AlertType.INFORMATION);
+                msg.setTitle("Registro eliminado");
+                msg.setContentText("O Produto foi excluido com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+                Alert msg = new Alert(Alert.AlertType.ERROR);
+                msg.setTitle("Deu ruim");
+                msg.setContentText("Não consegui estabelecer a conexao com o banco,contacte o técnico. :{");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            }
 
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Registro eliminado");
-        msg.setContentText("O Produto foi excluido com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
+        } else {
+        }
 
     }
 
@@ -161,54 +184,71 @@ public class ProductController implements Initializable {
         pro.setProName(txtName.getText());
         pro.setCategory(catCombo.getSelectionModel().getSelectedItem());
         pro.setProFin(txtFin.getText());
-        pro.setProQtt(txtQtt.getText());
-        pro.setProDim(txtDim.getText());
-        pro.setProWei(txtWei.getText());
-        pro.setProCostPrice(txtCostPrice.getText());
-        pro.setProSellPrice(txtSellPrice.getText());
-        pro.setProData(Date.valueOf(datePic.getValue()));
-        pro.imagePath = imagePath;
+        if (txtQtt.getText().matches(regex)) {
+            pro.setProQtt(txtQtt.getText());
+            pro.setProDim(txtDim.getText());
+            pro.setProWei(txtWei.getText());
+            pro.setProCostPrice(txtCostPrice.getText());
+            pro.setProSellPrice(txtSellPrice.getText());
+            pro.setProData(Date.valueOf(datePic.getValue()));
+            pro.imagePath = imagePath;
 
-        ControleDAO.getBanco().getProductDAO().SaveProduct(ConexaoBanco.instancia().getConnection(), pro);
-
-        listaPro.add(pro);
-
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Tabela de Itens");
-        msg.setContentText("O produto foi adicionado com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
-        CleanFields();
-
+            ControleDAO.getBanco().getProductDAO().SaveProduct(ConexaoBanco.instancia().getConnection(), pro);
+            if (isUniqCodProStatus == true) {
+                listaPro.add(pro);
+                Alert msg = new Alert(AlertType.INFORMATION);
+                msg.setTitle("Tabela de Produtos");
+                msg.setContentText("O produto foi adicionado com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+                CleanFields();
+            } else {
+                Campo.fieldError(txtCode);
+            }
+        } else {
+            Campo.fieldError(txtQtt);
+            Alert msg = new Alert(AlertType.INFORMATION);
+            msg.setTitle("Oh oh");
+            msg.setContentText("O atributo quantidade deve conter apenas numeros :)");
+            msg.setHeaderText("Quantidade:");
+            msg.show();
+        }
     }
 
     @FXML
     void btnUpdateOnClicked(ActionEvent event) {
-
         Product pro = new Product();
         pro.setProMat(txtCode.getText());
         pro.setProName(txtName.getText());
         pro.setCategory(catCombo.getSelectionModel().getSelectedItem());
         pro.setProFin(txtFin.getText());
-        pro.setProQtt(txtQtt.getText());
-        pro.setProDim(txtDim.getText());
-        pro.setProWei(txtWei.getText());
-        pro.setProCostPrice(txtCostPrice.getText());
-        pro.setProSellPrice(txtSellPrice.getText());
-        pro.setProData(Date.valueOf(datePic.getValue()));
-        pro.imagePath = imagePath;
+        if (txtQtt.getText().matches(regex)) {
+            pro.setProQtt(txtQtt.getText());
+            pro.setProDim(txtDim.getText());
+            pro.setProWei(txtWei.getText());
+            pro.setProCostPrice(txtCostPrice.getText());
+            pro.setProSellPrice(txtSellPrice.getText());
+            pro.setProData(Date.valueOf(datePic.getValue()));
+            pro.imagePath = imagePath;
 
-        int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
-        database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.ConexaoBanco.instancia().getConnection(), pro, resultado);
+            int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
+            database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.ConexaoBanco.instancia().getConnection(), pro, resultado);
 
-        listaPro.set(tblViewPro.getSelectionModel().getSelectedIndex(), pro);
+            listaPro.set(tblViewPro.getSelectionModel().getSelectedIndex(), pro);
 
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Registro atualizado");
-        msg.setContentText("O Produto foi atualizado com sucesso");
-        msg.setHeaderText("Resultado:");
-        msg.show();
-
+            Alert msg = new Alert(AlertType.INFORMATION);
+            msg.setTitle("Registro atualizado");
+            msg.setContentText("O Produto foi atualizado com sucesso");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+        } else {
+            Campo.fieldError(txtQtt);
+            Alert msg = new Alert(AlertType.INFORMATION);
+            msg.setTitle("Oh oh");
+            msg.setContentText("O atributo quantidade deve conter apenas numeros :)");
+            msg.setHeaderText("Quantidade:");
+            msg.show();
+        }
     }
 
     @Override
@@ -235,6 +275,9 @@ public class ProductController implements Initializable {
 
         ManEvents();
 
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+
         FilteredList<Product> filteredData = new FilteredList<>(listaPro, i -> true);
 
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -259,6 +302,21 @@ public class ProductController implements Initializable {
         SortedList<Product> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tblViewPro.comparatorProperty());
         tblViewPro.setItems(sortedData);
+
+        btnSave.disableProperty().bind(
+                txtCode.textProperty().isEmpty().or(txtName.textProperty().isEmpty()).or(txtFin.textProperty().isEmpty()).or(txtDim.textProperty().isEmpty()).or(txtCostPrice.textProperty().isEmpty()).or(txtSellPrice.textProperty().isEmpty()).or(txtQtt.textProperty().isEmpty()).or(catCombo.valueProperty().isNull()).or(datePic.valueProperty().isNull()).or(okToAdd.not()));
+
+//        btnDelete.disableProperty().bind(
+//                tblViewPro.getFocusModel().or(okToAdd.not()));
+//        btnUpdate.disableProperty().bind(
+//                tblViewPro.focusedProperty().not().or(okToAdd.not()));
+        InvalidationListener listener = observable -> {
+            if (!btnDelete.isDisabled()) {
+                btnUpdate.setDisable(false);
+            }
+        };
+
+        catCombo.valueProperty().addListener(listener);
     }
 
     public void CleanFields() {
@@ -273,10 +331,10 @@ public class ProductController implements Initializable {
         txtWei.setText(null);
         datePic.setValue(null);
         itemImg.setImage(phImg);
-
-//        btnGuardar.setDisable(false);
-//        btnEliminar.setDisable(true);
-//        btnActualizar.setDisable(true);
+        tblViewPro.getSelectionModel().clearSelection();
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+        okToAdd.set(true);
     }
 
     public void ManEvents() {

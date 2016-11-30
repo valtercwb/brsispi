@@ -3,7 +3,7 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import service.Mensagem;
+import javafx.scene.control.Alert;
 
 /**
  * Informações dos dados para conexão com a base de dados
@@ -25,7 +25,11 @@ public class ConexaoBanco {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            Mensagem.alerta("Erro ao conectar-se com a base de dados! \n" + ex);
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao conectar-se com a base de dados!");
+            msg.setHeaderText("Resultado:");
+            msg.show();
         }
         System.out.println("Connected");
     }

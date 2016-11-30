@@ -3,6 +3,7 @@ package service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javafx.scene.control.Alert;
 
 /**
  * Criptografar texto atraves de MD5
@@ -26,7 +27,11 @@ public class Criptografia {
             return Str.toLowerCase();
 
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-            Mensagem.erro("Erro ao converter senha do usuário \n" + ex);
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao converter senha do usuário!");
+            msg.setHeaderText("Resultado:");
+            msg.show();
         }
 
         return "";

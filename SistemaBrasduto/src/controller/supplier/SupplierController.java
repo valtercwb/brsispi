@@ -11,6 +11,8 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,6 +40,8 @@ import service.Campo;
  * @author valterFranco<unicuritiba/ads>
  */
 public class SupplierController implements Initializable {
+
+    private final BooleanProperty okToAdd = new SimpleBooleanProperty(true);
 
     private ObservableList<Supplier> listaSup;
     @FXML
@@ -182,7 +186,7 @@ public class SupplierController implements Initializable {
             listaSup.add(supplier);
 
             Alert msg = new Alert(AlertType.INFORMATION);
-            msg.setTitle("Tabela de Itens");
+            msg.setTitle("Tabela de Fornecedores");
             msg.setContentText("O Fornecedor foi adicionado com sucesso!");
             msg.setHeaderText("Resultado:");
             msg.show();
@@ -275,6 +279,22 @@ public class SupplierController implements Initializable {
         sortedData.comparatorProperty().bind(tblViewSup.comparatorProperty());
         tblViewSup.setItems(sortedData);
 
+           btnSave.disableProperty().bind(
+         txtName.textProperty().isEmpty().or
+        (txtCnpj.textProperty().isEmpty()).or
+        (txtContact.textProperty().isEmpty()).or
+        (txtEmail.textProperty().isEmpty()).or
+        (txtPhone.textProperty().isEmpty()).or
+        (txtSub.textProperty().isEmpty()).or
+        (txtAdress.textProperty().isEmpty()).or
+        (txtZipCode.textProperty().isEmpty()).or
+        (txtCity.textProperty().isEmpty()).or
+        (txtState.textProperty().isEmpty()).or
+        (txtCountry.textProperty().isEmpty()).or
+        (txtSupply.textProperty().isEmpty()).or
+//        (supCombo.valueProperty().isNull()).or
+//        (secCombo.valueProperty().isNull()).or
+        (datePic.valueProperty().isNull()).or(okToAdd.not()));
     }
 
     private void CleanFields() {
@@ -291,6 +311,11 @@ public class SupplierController implements Initializable {
         txtAdress.setText("");
         txtEmail.setText("");
         txtSub.setText("");
+        
+        tblViewSup.getSelectionModel().clearSelection();
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+        okToAdd.set(true);
     }
 
     private void ManEvents() {

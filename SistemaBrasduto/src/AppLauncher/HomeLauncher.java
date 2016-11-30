@@ -37,26 +37,36 @@ public class HomeLauncher extends Application {
     @Override
     public void start( Stage primaryStage) {
         try {
-            URL anchorMenu = getClass().getResource("/view/menubotoes.fxml");
+            URL anchorMenu = getClass().getResource("/view/MenuAdm.fxml");
             AnchorPane menu = FXMLLoader.load(anchorMenu);
 
             URL paneOneUrl = getClass().getResource("/view/Home.fxml");
             AnchorPane paneOne = FXMLLoader.load(paneOneUrl);
-
+            
             root.setTop(menu);
             root.setCenter(paneOne);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setResizable(true);
+            primaryStage.setResizable(false);
             primaryStage.centerOnScreen();
+            primaryStage.setTitle("BRASP - Brasduto Project");
             primaryStage.show();
             primaryStage.getIcons().addAll(new Image(HomeLauncher.class.getResourceAsStream("/icon/loglogo.png")));
+        
+        
         } catch (IOException ex) {
             Logger.getLogger(HomeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+//    public void exitApp(){
+//    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent t) {
+//                Platform.exit();
+//                System.exit(0);
+//            }
+//});}
     /**
      * Initializes the controller class.
      */

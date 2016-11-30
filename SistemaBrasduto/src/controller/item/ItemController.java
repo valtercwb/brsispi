@@ -19,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,7 +49,7 @@ import model.Matter;
 import model.Sector;
 import model.Supplier;
 import modelDAO.ItemDAO;
-import static modelDAO.ItemDAO.isUniqStatus;
+import static modelDAO.ItemDAO.isUniqItemCodStatus;
 import modelDAO.MatterDAO;
 import modelDAO.SectorDAO;
 import modelDAO.SupplierDAO;
@@ -59,6 +61,8 @@ import service.Campo;
  */
 public class ItemController implements Initializable {
 
+    private final BooleanProperty okToAdd = new SimpleBooleanProperty(true);
+    String regex = "[0-9]+";
     private File file;
     private BufferedImage bufferedImage;
     private String imagePath;
@@ -173,39 +177,16 @@ public class ItemController implements Initializable {
 
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
-        if (txtCode.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtName.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtLocal.getText() == null) {
-            Campo.isEmpty();
-        } else if (matCombo.getValue() == null) {
-            Campo.isEmpty();
-        } else if (secCombo.getValue() == null) {
-            Campo.isEmpty();
-        } else if (secCombo.getValue() == null) {
-            Campo.isEmpty();
-        } else if (txtDim.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtQtt.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtQttDay.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtWei.getText() == null) {
-            Campo.isEmpty();
-        } else if (txtPrice.getText() == null) {
-            Campo.isEmpty();
-        } else if (datePic.getValue() == null) {
-            Campo.isEmpty();
-        } else {
+  
             Item item = new Item();
-            item.setItemCode(Integer.parseInt(txtCode.getText()));
+            item.setItemCode(txtCode.getText());
             item.setItemName(txtName.getText());
             item.setItemLocal(txtLocal.getText());
             item.setMatter(matCombo.getSelectionModel().getSelectedItem());
             item.setSector(secCombo.getSelectionModel().getSelectedItem());
             item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
             item.setItemDim(txtDim.getText());
+             if (txtQtt.getText().matches(regex) && txtQttDay.getText().matches(regex)) {
             item.setItemQtt(Integer.parseInt(txtQtt.getText()));
             item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
             item.setItemWei(txtWei.getText());
@@ -214,7 +195,7 @@ public class ItemController implements Initializable {
             item.imagePath = imagePath;
 
             ControleDAO.getBanco().getItemDAO().SaveInput(ConexaoBanco.instancia().getConnection(), item);
-            if (isUniqStatus == true) {
+            if (isUniqItemCodStatus == true) {
                 listaItem.add(item);
 
                 Alert msg = new Alert(AlertType.INFORMATION);
@@ -226,20 +207,27 @@ public class ItemController implements Initializable {
             } else {
                 Campo.fieldError(txtCode);
             }
-        }
+        }else{Campo.fieldError(txtQtt);
+            Campo.fieldError(txtQttDay);
+            Alert msg = new Alert(AlertType.WARNING);
+            msg.setTitle("Oh oh");
+            msg.setContentText("Os campos de quantidade e uso diário devem conter apenas numeros)");
+            msg.setHeaderText("Quantidade:");
+            msg.show();}
     }
 
     @FXML
     void btnUpdateOnClicked(ActionEvent event) {
 
         Item item = new Item();
-        item.setItemCode(Integer.parseInt(txtCode.getText()));
+        item.setItemCode(txtCode.getText());
         item.setItemName(txtName.getText());
         item.setItemLocal(txtLocal.getText());
         item.setMatter(matCombo.getSelectionModel().getSelectedItem());
         item.setSector(secCombo.getSelectionModel().getSelectedItem());
         item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
         item.setItemDim(txtDim.getText());
+        if (txtQtt.getText().matches(regex) && txtQttDay.getText().matches(regex)) {
         item.setItemQtt(Integer.parseInt(txtQtt.getText()));
         item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
         item.setItemWei(txtWei.getText());
@@ -248,6 +236,7 @@ public class ItemController implements Initializable {
         item.imagePath = imagePath;
 
         int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
+
         if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado) != 0) {
             listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
 
@@ -257,12 +246,15 @@ public class ItemController implements Initializable {
             msg.setHeaderText("Resultado:");
             msg.show();
         } else {
-            Alert msg = new Alert(AlertType.ERROR);
-            msg.setTitle("Deu ruim!");
-            msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :)");
-            msg.setHeaderText("Resultado:");
-            msg.show();
-        }
+         
+
+        }}else{Campo.fieldError(txtQtt);
+            Campo.fieldError(txtQttDay);
+            Alert msg = new Alert(AlertType.WARNING);
+            msg.setTitle("Oh oh");
+            msg.setContentText("Os campos de quantidade e uso diário devem conter apenas numeros");
+            msg.setHeaderText("Quantidade:");
+            msg.show();}
     }
 
     @Override
@@ -330,6 +322,19 @@ public class ItemController implements Initializable {
         // 5. Add sorted (and filtered) data to the table.
         tblViewItem.setItems(sortedData);
 
+        btnSave.disableProperty().bind(
+         txtCode.textProperty().isEmpty().or
+        (txtName.textProperty().isEmpty()).or
+        (txtDim.textProperty().isEmpty()).or
+        (txtLocal.textProperty().isEmpty()).or
+        (txtQtt.textProperty().isEmpty()).or
+        (txtQttDay.textProperty().isEmpty()).or
+        (txtWei.textProperty().isEmpty()).or
+        (matCombo.valueProperty().isNull()).or
+        (supCombo.valueProperty().isNull()).or
+        (secCombo.valueProperty().isNull()).or
+        (datePic.valueProperty().isNull()).or(okToAdd.not()));
+
     }
 
     public void CleanFields() {
@@ -346,26 +351,12 @@ public class ItemController implements Initializable {
         txtWei.setText(null);
         datePic.setValue(null);
 
-//        btnGuardar.setDisable(false);
-//        btnEliminar.setDisable(true);
-//        btnActualizar.setDisable(true);
+        tblViewItem.getSelectionModel().clearSelection();
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+        okToAdd.set(true);
     }
 
-//        private void setAllDisable(){
-//        studentTFFname.setDisable(true);
-//        studentTFLname.setDisable(true);
-//        //studentTFID.setDisable(true);
-//        studentTFEmail.setDisable(true);
-//        studentTFPhone.setDisable(true);
-//        studentTFGFname.setDisable(true);
-//        studentTFGLname.setDisable(true);
-//        studentTFAddress.setDisable(true);
-//        studentTFPassword.setDisable(true);
-//        studentTFPicChooser.setDisable(true);
-//
-//        studentSaveClick.setDisable(true);
-//        studentCancelClick.setDisable(true);
-//    }
     public void ManEvents() {
 
         tblViewItem.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Item> arg0, Item valorAnterior, Item valorSelecionado) -> {

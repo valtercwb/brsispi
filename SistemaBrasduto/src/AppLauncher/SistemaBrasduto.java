@@ -29,7 +29,7 @@ public class SistemaBrasduto extends Application {
     public void start(final Stage stage) {
         try {
             loginStage = stage;
-            anchorPane = FXMLLoader.load(SistemaBrasduto.class.getResource("/view/Login.fxml"));
+            anchorPane = FXMLLoader.load(SistemaBrasduto.class.getResource("/view/LoginAdm.fxml"));
             scene = new Scene(anchorPane, 1280, 720);
             stage.initStyle(StageStyle.DECORATED);
             stage.centerOnScreen();

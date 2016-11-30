@@ -87,7 +87,7 @@ public class CustomerDAO extends DAO {
     }
 
     public int UpdateCustomer(Connection conector, Customer customer, int resultado) {
-
+        if (isUniqCnpj(customer)) {
         try {
             pst = conector.prepareStatement(
                     "UPDATE cliente "
@@ -122,6 +122,7 @@ public class CustomerDAO extends DAO {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
+    }else{return 0;}
     }
 
     public void SaveCustomer(Connection conector, Customer customer) {

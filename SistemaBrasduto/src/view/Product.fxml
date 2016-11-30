@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,11 +21,11 @@
 
 <AnchorPane prefHeight="640.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.product.ProductController">
    <children>
-      <SplitPane dividerPositions="0.23644578313253012" layoutX="11.0" layoutY="29.0" prefHeight="626.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+      <SplitPane dividerPositions="0.24413145539906103" layoutX="11.0" layoutY="31.0" prefHeight="609.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="374.0">
                <children>
-                  <GridPane alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="536.0" prefWidth="330.0">
+                  <GridPane alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="536.0" prefWidth="328.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="74.0" />
                       <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="256.0" />
@@ -77,7 +78,10 @@
                         <TextField fx:id="txtCode" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
-                           </font></TextField>
+                           </font>
+                           <tooltip>
+                              <Tooltip text="O codigo do produto deve conter um valor único" />
+                           </tooltip></TextField>
                         <TextField fx:id="txtName" prefHeight="25.0" prefWidth="214.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
@@ -92,7 +96,7 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <DatePicker fx:id="datePic" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <DatePicker fx:id="datePic" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                         <Label text="Peso  " GridPane.rowIndex="7" />
                         <Label text="Data  " GridPane.rowIndex="10" />
                         <Label text="Produto" GridPane.columnIndex="1">
@@ -144,7 +148,10 @@
                   </GridPane>
                   <HBox alignment="CENTER_LEFT" layoutX="31.0" layoutY="562.0" prefHeight="33.0" prefWidth="250.0" spacing="5.0">
                      <children>
-                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="35.0" prefWidth="48.0" text="Salvar" />
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="35.0" prefWidth="48.0" text="Salvar">
+                           <tooltip>
+                              <Tooltip text="Para salvar primeiro preencha todos os campos " />
+                           </tooltip></Button>
                         <Button fx:id="btnUpdate" disable="true" mnemonicParsing="false" onAction="#btnUpdateOnClicked" prefHeight="33.0" prefWidth="63.0" text="Atualizar" />
                         <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#btnDeleteOnClicked" prefHeight="33.0" prefWidth="59.0" text="Eliminar" />
                         <Button fx:id="btnNew" mnemonicParsing="false" onAction="#btnNewOnClicked" prefHeight="33.0" prefWidth="52.0" text="Novo" />
@@ -154,7 +161,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="701.0">
                <children>
-                  <TableView fx:id="tblViewPro" layoutX="-1.0" layoutY="10.0" prefHeight="599.0" prefWidth="1031.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-19.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblViewPro" layoutX="1.0" layoutY="10.0" prefHeight="607.0" prefWidth="991.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-19.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="clmnproMat" prefWidth="81.0" text="Codigo" />
                       <TableColumn fx:id="clmnproName" prefWidth="138.0" text="Nome" />

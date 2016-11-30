@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -61,6 +62,13 @@
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <Label text="E-mail" GridPane.rowIndex="14">
                                        <font>
@@ -177,22 +185,22 @@
                                     </TextField>
                                  </children>
                               </GridPane>
-                              <ImageView fx:id="empImage" fitHeight="213.0" fitWidth="189.0" layoutX="800.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="empImage" fitHeight="213.0" fitWidth="189.0" layoutX="800.0" layoutY="42.0" onMouseClicked="#attachImageOnAction" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../image/pholder.png" />
+                                    <Image url="@../image/profilePh.png" />
                                  </image>
                               </ImageView>
                               <AnchorPane layoutX="632.0" layoutY="543.0" prefHeight="47.0" prefWidth="393.0">
                                  <children>
                                     <HBox layoutX="2.0" layoutY="-2.0" prefHeight="47.0" prefWidth="395.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#DeleteEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Eliminar" />
+                                          <Button fx:id="delete1" mnemonicParsing="false" onAction="#DeleteEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Eliminar" />
                                           <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#NewEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Novo" />
+                                          <Button fx:id="new1" mnemonicParsing="false" onAction="#NewEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Novo" />
                                           <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#EditEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Atualizar" />
+                                          <Button fx:id="edit1" mnemonicParsing="false" onAction="#EditEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Atualizar" />
                                           <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#SaveEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Salvar" />
+                                          <Button fx:id="save1" mnemonicParsing="false" onAction="#SaveEmpOnClicked" prefHeight="47.0" prefWidth="67.0" text="Salvar" />
                                           <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="15.0" />
                                           <Button mnemonicParsing="false" onAction="#NextPage" prefHeight="47.0" prefWidth="67.0" text="Próximo" />
                                        </children>
@@ -256,31 +264,73 @@
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <TextField fx:id="txtCpf" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <TextField fx:id="txtCp" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <TextField fx:id="txtPis" GridPane.rowIndex="7">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <TextField fx:id="txtCnh" GridPane.rowIndex="9">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <TextField fx:id="txtCt" GridPane.rowIndex="11">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Este campo deve ser único para cada colaborador">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip>
                                     </TextField>
                                     <Label text="Status do Funcionario" GridPane.columnIndex="1">
                                        <font>
@@ -334,13 +384,13 @@
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#GoBackPage1" prefHeight="47.0" prefWidth="67.0" text="Anterior" />
                                           <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#DeleteEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Eliminar" />
+                                          <Button fx:id="delete2" mnemonicParsing="false" onAction="#DeleteEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Eliminar" />
                                           <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#NewEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Novo" />
+                                          <Button fx:id="new2" mnemonicParsing="false" onAction="#NewEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Novo" />
                                           <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#EditEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Atualizar" />
+                                          <Button fx:id="edit2" mnemonicParsing="false" onAction="#EditEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Atualizar" />
                                           <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="15.0" />
-                                          <Button mnemonicParsing="false" onAction="#SaveEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Salvar" />
+                                          <Button fx:id="save2" mnemonicParsing="false" onAction="#SaveEmpOnClicked2" prefHeight="47.0" prefWidth="67.0" text="Salvar" />
                                        </children>
                                     </HBox>
                                  </children>

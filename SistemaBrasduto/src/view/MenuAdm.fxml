@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="menuBotoes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AppLauncher.MyMenusControl">
+<AnchorPane fx:id="menuBotoes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="1280.0" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AppLauncher.AdmMenuController">
    <children>
       <HBox layoutX="49.0" layoutY="-25.0" prefHeight="83.0" prefWidth="1280.0" style="-fx-background-color: lightGrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -78,6 +78,14 @@
                   <Tooltip text="Tele atendimento" />
                </tooltip>
             </Button>
+            <Button fx:id="btnUserAdm" mnemonicParsing="false" onAction="#btnUserOnClicked" prefHeight="89.0" prefWidth="80.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Configurações" />
+               </tooltip>
+            </Button>
             <Button fx:id="btnSet" layoutX="653.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnFunOnClicked" prefHeight="89.0" prefWidth="80.0">
                <font>
                   <Font size="10.0" />
@@ -88,10 +96,10 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="76.0" prefWidth="480.0">
                <children>
-                  <MenuButton contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="14.0" textAlignment="JUSTIFY">
+                  <MenuButton fx:id="btnOption" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="32.0" textAlignment="JUSTIFY">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                      <MenuItem fx:id="UserProfile" mnemonicParsing="false" onAction="#UserProfileOnClicked" text="Editar Perfil" />
+                      <MenuItem fx:id="logOffUser" mnemonicParsing="false" onAction="#logOffUserOnClicked" text="Log Off" />
                     </items>
                      <font>
                         <Font size="18.0" />

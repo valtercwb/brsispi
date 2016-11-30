@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import model.Cat;
 import model.Product;
 
@@ -26,37 +27,41 @@ import model.Product;
  */
 public class ProductDAO extends DAO {
 
+    public static Boolean isUniqCodProStatus = false;
+
     public ProductDAO() {
         super();
     }
 
     public void SaveProduct(Connection conector, Product pro) {
-        try {
-            pst = conector.prepareStatement("INSERT INTO produto (pro_mat, pro_nome,pro_categoria ,pro_acabamento,pro_quantidade,"
-                    + "pro_dimensao,pro_peso, pro_preco_custo,pro_preco_venda,pro_data,pro_foto) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? )");
-            pst.setString(1, pro.getProMat());
-            pst.setString(2, pro.getProName());
-            pst.setInt(3, pro.getCategory().getCatCode());
-            pst.setString(4, pro.getProFin());
-            pst.setString(5, pro.getProQtt());
-            pst.setString(6, pro.getProDim());
-            pst.setString(7, pro.getProWei());
-            pst.setString(8, pro.getProCostPrice());
-            pst.setString(9, pro.getProSellPrice());
-            pst.setDate(10, pro.getProData());
-            //pst.setString(13, "1");
-            if (pro.imagePath != null) {
-                InputStream is;
-                is = new FileInputStream(new File(pro.imagePath));
-                pst.setBlob(11, is);
-            } else {
-                pst.setBlob(11, (Blob) null);
+        if (isUniqCode(pro)) {
+            try {
+                pst = conector.prepareStatement("INSERT INTO produto (pro_mat, pro_nome,pro_categoria ,pro_acabamento,pro_quantidade,"
+                        + "pro_dimensao,pro_peso, pro_preco_custo,pro_preco_venda,pro_data,pro_foto) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ? , ? , ? , ? ,? )");
+                pst.setString(1, pro.getProMat());
+                pst.setString(2, pro.getProName());
+                pst.setInt(3, pro.getCategory().getCatCode());
+                pst.setString(4, pro.getProFin());
+                pst.setString(5, pro.getProQtt());
+                pst.setString(6, pro.getProDim());
+                pst.setString(7, pro.getProWei());
+                pst.setString(8, pro.getProCostPrice());
+                pst.setString(9, pro.getProSellPrice());
+                pst.setDate(10, pro.getProData());
+                //pst.setString(13, "1");
+                if (pro.imagePath != null) {
+                    InputStream is;
+                    is = new FileInputStream(new File(pro.imagePath));
+                    pst.setBlob(11, is);
+                } else {
+                    pst.setBlob(11, (Blob) null);
+                }
+                pst.executeUpdate();
+                pst.close();
+            } catch (SQLException | FileNotFoundException ex) {
+                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            pst.executeUpdate();
-            pst.close();
-        } catch (SQLException | FileNotFoundException ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,5 +165,29 @@ public class ProductDAO extends DAO {
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean isUniqCode(Product pro) {
+
+        boolean isUniqCode = false;
+        isUniqCodProStatus = isUniqCode;
+        try {
+            pst = conector.prepareStatement("select * from produto where pro_mat = ?");
+            pst.setString(1, pro.getProMat());
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                Alert msg = new Alert(Alert.AlertType.WARNING);
+                msg.setHeaderText("Aviso");
+                msg.setContentText("Já existe um produto cadastrado com esse codigo");
+                msg.show();
+                return isUniqCode;
+            }
+            rs.close();
+            pst.close();
+            isUniqCode = true;
+            isUniqCodProStatus = isUniqCode;
+        } catch (SQLException e) {
+        }
+        return isUniqCode;
     }
 }

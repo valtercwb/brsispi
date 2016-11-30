@@ -127,8 +127,8 @@ public class EmpDAO extends DAO {
     public int DeleteItem(int resultado) {
         try {
             pst = conector.prepareStatement(
-                    "DELETE FROM employee "
-                    + "WHERE emp_codigo = ?"
+                    "DELETE FROM funcionario "
+                    + "WHERE fun_codigo = ?"
             );
             pst.setInt(1, resultado);
             return pst.executeUpdate();
@@ -308,7 +308,7 @@ public class EmpDAO extends DAO {
             pst.setString(26, emp.getEmpSalary());
             pst.setDate(27, emp.getAdmDate());
             pst.setDate(28, emp.getFireDate());
-            //pst.setString(13, "1");
+          
             if (emp.imagePath != null) {
                 InputStream is;
                 is = new FileInputStream(new File(emp.imagePath));

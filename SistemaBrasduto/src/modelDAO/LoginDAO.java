@@ -1,8 +1,8 @@
 package modelDAO;
 
 import java.sql.SQLException;
+import javafx.scene.control.Alert;
 import service.Criptografia;
-import service.Mensagem;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as login do usuário
@@ -19,7 +19,7 @@ public class LoginDAO extends DAO {
     public boolean autenticarUsername(String login) {
 //AND usu_status = 1
         try {
-            String sql = "SELECT usu_login,usu_status FROM usuario WHERE usu_login=?  ";
+            String sql = "SELECT usu_login,usu_status FROM usuario WHERE usu_login=? and usu_tipo = 1  ";
 
             pst = conector.prepareStatement(sql);
             pst.setString(1, login);
@@ -33,7 +33,12 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-            Mensagem.erro("Erro ao autenticar nome usuário na base de dados! \n" + ex);
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao autenticar nome usuário na base de dados!");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+
         }
 
         return false;
@@ -62,7 +67,11 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-            Mensagem.erro("Erro ao autenticar senha usuário na base de dados! \n" + ex);
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao autenticar senha usuário na base de dados!");
+            msg.setHeaderText("Resultado:");
+            msg.show();
         }
 
         return false;

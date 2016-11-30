@@ -9,7 +9,10 @@ import database.ConexaoBanco;
 import database.ControleDAO;
 import java.net.URL;
 import java.sql.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -39,6 +43,8 @@ import service.Campo;
  * @author valterFranco<unicuritiba/ads>
  */
 public class CustomerController implements Initializable {
+
+    private final BooleanProperty okToAdd = new SimpleBooleanProperty(true);
 
     @FXML
     private TableView<Customer> tblViewCustomer;
@@ -117,22 +123,31 @@ public class CustomerController implements Initializable {
 
     @FXML
     private void btnDeleteOnClicked(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Sistema Brasduto");
+        alert.setHeaderText("Você deseja realmente excluir o cliente selecionado?");
+        Optional<ButtonType> result = alert.showAndWait();
 
-        int resultado = tblViewCustomer.getSelectionModel().getSelectedItem().getCusId();
-        database.ControleDAO.getBanco().getCustomerDAO().DeleteItem(resultado);
+        if (result.get() == ButtonType.OK) {
 
-        Alert dialog = new Alert(AlertType.WARNING);
-        dialog.setTitle("Aviso");
-        dialog.setContentText("Você deseja realmente excluir o item selecionado?");
-        dialog.showAndWait();
-        listaCus.remove(tblViewCustomer.getSelectionModel().getSelectedIndex());
+            int resultado = tblViewCustomer.getSelectionModel().getSelectedItem().getCusId();
+            listaCus.remove(tblViewCustomer.getSelectionModel().getSelectedIndex());
+            if (database.ControleDAO.getBanco().getCustomerDAO().DeleteItem(resultado) != 0) {
+                Alert msg = new Alert(Alert.AlertType.INFORMATION);
+                msg.setTitle("Registro eliminado");
+                msg.setContentText("O cliente foi excluido com sucesso!");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+                Alert msg = new Alert(Alert.AlertType.ERROR);
+                msg.setTitle("Deu ruim");
+                msg.setContentText("Não consegui estabelecer a conexao com o banco,contacte o técnico. :{");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            }
 
-        Alert msg = new Alert(AlertType.INFORMATION);
-        msg.setTitle("Registro eliminado");
-        msg.setContentText("O item foi excluido com sucesso!");
-        msg.setHeaderText("Resultado:");
-        msg.show();
-
+        } else {
+        }
     }
 
     @FXML
@@ -231,19 +246,19 @@ public class CustomerController implements Initializable {
         FilteredList<Customer> filteredData = new FilteredList<>(listaCus, i -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(customer -> {
-              
+
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-              
+
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (customer.getCusName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 } else if (customer.getCusStatus().getCusStaName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 } else if (customer.getCusCity().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; 
+                    return true;
                 }
                 return false;
             });
@@ -252,6 +267,9 @@ public class CustomerController implements Initializable {
         SortedList<Customer> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tblViewCustomer.comparatorProperty());
         tblViewCustomer.setItems(sortedData);
+
+        btnSave.disableProperty().bind(
+                txtCnpj.textProperty().isEmpty().or(txtName.textProperty().isEmpty()).or(txtPhone.textProperty().isEmpty()).or(txtState.textProperty().isEmpty()).or(txtCity.textProperty().isEmpty()).or(txtCountry.textProperty().isEmpty()).or(txtZipCode.textProperty().isEmpty()).or(txtEmail.textProperty().isEmpty()).or(txtAdress.textProperty().isEmpty()).or(datePic.valueProperty().isNull()).or(okToAdd.not()));
 
     }
 
@@ -267,6 +285,11 @@ public class CustomerController implements Initializable {
         cusStaCombo.setValue(null);
         txtAdress.setText("");
         txtEmail.setText("");
+
+        tblViewCustomer.getSelectionModel().clearSelection();
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+        okToAdd.set(true);
     }
 
     private void ManEvents() {

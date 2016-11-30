@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -85,7 +86,10 @@
                         <TextField fx:id="txtCnpj" prefHeight="25.0" prefWidth="212.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
-                           </font></TextField>
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Este campo deve conter um valor único  para cada cliente" />
+                           </tooltip></TextField>
                         <TextField fx:id="txtPhone" prefHeight="30.0" prefWidth="212.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="14.0" />
@@ -135,7 +139,10 @@
                   </GridPane>
                   <HBox alignment="CENTER_LEFT" layoutX="11.0" layoutY="550.0" prefHeight="33.0" prefWidth="269.0" spacing="5.0">
                      <children>
-                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="33.0" prefWidth="65.0" text="Salvar" />
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="33.0" prefWidth="65.0" text="Salvar">
+                           <tooltip>
+                              <Tooltip text="Para salvar primeiro preencha todos os campos" />
+                           </tooltip></Button>
                         <Button fx:id="btnUpdate" disable="true" mnemonicParsing="false" onAction="#btnUpdateOnClicked" prefHeight="33.0" prefWidth="65.0" text="Atualizar" />
                         <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#btnDeleteOnClicked" prefHeight="33.0" prefWidth="65.0" text="Eliminar" />
                         <Button fx:id="btnNew" mnemonicParsing="false" onAction="#btnNewOnClicked" prefHeight="33.0" prefWidth="65.0" text="Novo" />

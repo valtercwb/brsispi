@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package modelDAO;
 
 /**
- * FXML Controller class
  *
- * @author valter.franco
+ * @author valterFranco<unicuritiba/ads>
  */
-public class HomeController {
+public class AcLoginDAO extends DAO {
+
+    public AcLoginDAO() {
+        super();
+    }
 
 }

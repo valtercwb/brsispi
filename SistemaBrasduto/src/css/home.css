@@ -29,11 +29,15 @@
     -fx-background-radius: 0;
 }
 #btnHome {
-    -fx-background-image: url("../icon/home.png");
+    -fx-background-image: url("../icon/homeBlue.jpg");
     -fx-background-size: 95% 90%;
     -fx-background-color: none;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
+}
+.btnHome:focused{
+    -fx-cursor: hand;
+-fx-border-color: white;
 }
 
 #btnIns {
@@ -108,3 +112,12 @@
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
+
+#btnUserAdm {
+    -fx-background-image: url("../icon/userAdm.jpg");
+    -fx-background-size: 95% 90%;
+    -fx-background-color: none;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+

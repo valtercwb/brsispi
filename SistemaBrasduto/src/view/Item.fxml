@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -83,7 +84,10 @@
                         <TextField fx:id="txtCode" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
-                           </font></TextField>
+                           </font>
+                           <tooltip>
+                              <Tooltip text="Codigo do insumo deve conter um valor único " />
+                           </tooltip></TextField>
                         <TextField fx:id="txtName" prefHeight="25.0" prefWidth="214.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
@@ -102,10 +106,10 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <DatePicker fx:id="datePic" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <DatePicker fx:id="datePic" prefHeight="31.0" prefWidth="174.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                         <Label text="Dimensao " GridPane.rowIndex="9" />
                         <Label text="Data " GridPane.rowIndex="10" />
-                        <Label text="Dados do Insumo" GridPane.columnIndex="1">
+                        <Label text="Insumo" GridPane.columnIndex="1">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -156,7 +160,10 @@
                   </GridPane>
                   <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="582.0" prefHeight="33.0" prefWidth="250.0" spacing="5.0">
                      <children>
-                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="35.0" prefWidth="48.0" text="Salvar" />
+                        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnClicked" prefHeight="35.0" prefWidth="48.0" text="Salvar">
+                           <tooltip>
+                              <Tooltip text="Para salvar primeiro preencha todos os campos" />
+                           </tooltip></Button>
                         <Button fx:id="btnUpdate" disable="true" mnemonicParsing="false" onAction="#btnUpdateOnClicked" prefHeight="33.0" prefWidth="63.0" text="Atualizar" />
                         <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#btnDeleteOnClicked" prefHeight="33.0" prefWidth="59.0" text="Eliminar" />
                         <Button fx:id="btnNew" mnemonicParsing="false" onAction="#btnNewOnClicked" prefHeight="33.0" prefWidth="52.0" text="Novo" />

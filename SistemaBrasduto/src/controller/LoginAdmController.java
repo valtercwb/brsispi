@@ -16,11 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,21 +25,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Usuario;
+import model.User;
 import service.Campo;
 
 /**
  *
  * @author valter.franco
  */
-public class LoginController implements Initializable {
+public class LoginAdmController implements Initializable {
 
     @FXML
-    private Hyperlink linkCriar;
+    private TextField txtAdm;
     @FXML
-    private TextField txtUsuario;
-    @FXML
-    private PasswordField txtSenha;
+    private PasswordField txtSenhaAdm;
     @FXML
     private Label labErroLogin;
     @FXML
@@ -53,31 +47,34 @@ public class LoginController implements Initializable {
     @FXML
     ImageView logo;
 
-    public static Usuario usuarioLogado = null;
+    public static User usuarioLogado = null;
 
     @FXML
     void btnLoginOnClicked(ActionEvent event) {
-        String login = txtUsuario.getText();
-        String senha = txtSenha.getText();
+        String login = txtAdm.getText();
+        String senha = txtSenhaAdm.getText();
 
-        if (ControleDAO.getBanco().getLoginDAO().autenticarUsername(login)) {
-            if (ControleDAO.getBanco().getLoginDAO().autenticarSenha(login, senha)) {
+        if (ControleDAO.getBanco().getAdmLoginDAO().autenticarUsername(login)) {
+            if (ControleDAO.getBanco().getAdmLoginDAO().autenticarSenha(login, senha)) {
                 try {
                     //usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
                     new HomeLauncher().start(new Stage());
-                    SistemaBrasduto.loginStage.close();
+                    Stage stage = (Stage) btnLogin.getScene().getWindow();
+                    stage.close();
 
                 } catch (Exception ex) {
-                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LoginAdmController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Throwable ex) {
+                    Logger.getLogger(LoginAdmController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else {
                 labErroLogin.setText("Senha incorreta, verifique os valores!");
-                Campo.fieldError(txtSenha);
+                Campo.fieldError(txtSenhaAdm);
             }
         } else {
             labErroLogin.setText("Usuário não existe ou inativo!");
-            Campo.fieldError(txtUsuario);
+            Campo.fieldError(txtAdm);
         }
     }
 
@@ -87,8 +84,8 @@ public class LoginController implements Initializable {
     }
     // Função para chamar procedimento de login ao clicar ENTER no campo de senha
 
-    private void acessar(PasswordField txtSenha) {
-        txtSenha.setOnKeyReleased((KeyEvent key) -> {
+    private void acessar(PasswordField txtSenhaAdm) {
+        txtSenhaAdm.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
                 btnLoginOnClicked(null);
             }
@@ -98,20 +95,19 @@ public class LoginController implements Initializable {
     @FXML
     public void linkCriarConta(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/CriarUsuario.fxml"));
-        Scene scene = new Scene(root);
-        Stage criarUsuarioStage = new Stage();
-        criarUsuarioStage.setScene(scene);
-        criarUsuarioStage.setMaximized(true);
-        criarUsuarioStage.setResizable(true);
-        criarUsuarioStage.setTitle("Sistema Brasduto - Criar Usuario");
-        criarUsuarioStage.show();
-        SistemaBrasduto.loginStage.close();
-
+//        Parent root = FXMLLoader.load(getClass().getResource("/view/CriarUsuario.fxml"));
+//        Scene scene = new Scene(root);
+//        Stage criarUsuarioStage = new Stage();
+//        criarUsuarioStage.setScene(scene);
+//        criarUsuarioStage.setMaximized(true);
+//        criarUsuarioStage.setResizable(true);
+//        criarUsuarioStage.setTitle("Sistema Brasduto - Criar Usuario");
+//        criarUsuarioStage.show();
+//        SistemaBrasduto.loginStage.close();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        acessar(txtSenha);
+        acessar(txtSenhaAdm);
     }
 }
