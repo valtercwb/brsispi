@@ -177,16 +177,16 @@ public class ItemController implements Initializable {
 
     @FXML
     void btnSaveOnClicked(ActionEvent event) {
-  
-            Item item = new Item();
-            item.setItemCode(txtCode.getText());
-            item.setItemName(txtName.getText());
-            item.setItemLocal(txtLocal.getText());
-            item.setMatter(matCombo.getSelectionModel().getSelectedItem());
-            item.setSector(secCombo.getSelectionModel().getSelectedItem());
-            item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
-            item.setItemDim(txtDim.getText());
-             if (txtQtt.getText().matches(regex) && txtQttDay.getText().matches(regex)) {
+
+        Item item = new Item();
+        item.setItemCode(txtCode.getText());
+        item.setItemName(txtName.getText());
+        item.setItemLocal(txtLocal.getText());
+        item.setMatter(matCombo.getSelectionModel().getSelectedItem());
+        item.setSector(secCombo.getSelectionModel().getSelectedItem());
+        item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
+        item.setItemDim(txtDim.getText());
+        if (txtQtt.getText().matches(regex) && txtQttDay.getText().matches(regex)) {
             item.setItemQtt(Integer.parseInt(txtQtt.getText()));
             item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
             item.setItemWei(txtWei.getText());
@@ -207,13 +207,15 @@ public class ItemController implements Initializable {
             } else {
                 Campo.fieldError(txtCode);
             }
-        }else{Campo.fieldError(txtQtt);
+        } else {
+            Campo.fieldError(txtQtt);
             Campo.fieldError(txtQttDay);
             Alert msg = new Alert(AlertType.WARNING);
             msg.setTitle("Oh oh");
             msg.setContentText("Os campos de quantidade e uso diário devem conter apenas numeros)");
             msg.setHeaderText("Quantidade:");
-            msg.show();}
+            msg.show();
+        }
     }
 
     @FXML
@@ -228,33 +230,35 @@ public class ItemController implements Initializable {
         item.setSupplier(supCombo.getSelectionModel().getSelectedItem());
         item.setItemDim(txtDim.getText());
         if (txtQtt.getText().matches(regex) && txtQttDay.getText().matches(regex)) {
-        item.setItemQtt(Integer.parseInt(txtQtt.getText()));
-        item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
-        item.setItemWei(txtWei.getText());
-        item.setItemPrice(txtPrice.getText());
-        item.setItemDate(Date.valueOf(datePic.getValue()));
-        item.imagePath = imagePath;
+            item.setItemQtt(Integer.parseInt(txtQtt.getText()));
+            item.setItemQttDay(Integer.parseInt(txtQttDay.getText()));
+            item.setItemWei(txtWei.getText());
+            item.setItemPrice(txtPrice.getText());
+            item.setItemDate(Date.valueOf(datePic.getValue()));
+            item.imagePath = imagePath;
 
-        int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
+            int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
 
-        if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado) != 0) {
-            listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
+            if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado) != 0) {
+                listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
 
-            Alert msg = new Alert(AlertType.INFORMATION);
-            msg.setTitle("Registro atualizado");
-            msg.setContentText("O item foi atualizado com sucesso");
-            msg.setHeaderText("Resultado:");
-            msg.show();
+                Alert msg = new Alert(AlertType.INFORMATION);
+                msg.setTitle("Registro atualizado");
+                msg.setContentText("O item foi atualizado com sucesso");
+                msg.setHeaderText("Resultado:");
+                msg.show();
+            } else {
+
+            }
         } else {
-         
-
-        }}else{Campo.fieldError(txtQtt);
+            Campo.fieldError(txtQtt);
             Campo.fieldError(txtQttDay);
             Alert msg = new Alert(AlertType.WARNING);
             msg.setTitle("Oh oh");
             msg.setContentText("Os campos de quantidade e uso diário devem conter apenas numeros");
             msg.setHeaderText("Quantidade:");
-            msg.show();}
+            msg.show();
+        }
     }
 
     @Override
@@ -323,17 +327,7 @@ public class ItemController implements Initializable {
         tblViewItem.setItems(sortedData);
 
         btnSave.disableProperty().bind(
-         txtCode.textProperty().isEmpty().or
-        (txtName.textProperty().isEmpty()).or
-        (txtDim.textProperty().isEmpty()).or
-        (txtLocal.textProperty().isEmpty()).or
-        (txtQtt.textProperty().isEmpty()).or
-        (txtQttDay.textProperty().isEmpty()).or
-        (txtWei.textProperty().isEmpty()).or
-        (matCombo.valueProperty().isNull()).or
-        (supCombo.valueProperty().isNull()).or
-        (secCombo.valueProperty().isNull()).or
-        (datePic.valueProperty().isNull()).or(okToAdd.not()));
+                txtCode.textProperty().isEmpty().or(txtName.textProperty().isEmpty()).or(txtDim.textProperty().isEmpty()).or(txtLocal.textProperty().isEmpty()).or(txtQtt.textProperty().isEmpty()).or(txtQttDay.textProperty().isEmpty()).or(txtWei.textProperty().isEmpty()).or(matCombo.valueProperty().isNull()).or(supCombo.valueProperty().isNull()).or(secCombo.valueProperty().isNull()).or(datePic.valueProperty().isNull()).or(okToAdd.not()));
 
     }
 

@@ -182,7 +182,8 @@ public class UserController implements Initializable {
     @FXML
     void checkOnClicked(ActionEvent event) {
     }
-
+   
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ConexaoBanco.instancia();

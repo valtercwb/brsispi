@@ -70,55 +70,54 @@ public class ItemDAO extends DAO {
     }
 
     public int UpdateItem(Connection conector, Item item, int resultado) {
-        if (isUniqCodeUp(item, resultado)) {
-            try {
-                pst = conector.prepareStatement(
-                        "UPDATE insumo "
-                        + " SET ins_code = ?,  "
-                        + " ins_nome = ?,  "
-                        + " ins_local= ?, "
-                        + " ins_material = ?,  "
-                        + " ins_setor = ?,  "
-                        + " ins_fornecedor = ?,  "
-                        + " ins_dimensao = ?,  "
-                        + " ins_quantidade = ?,  "
-                        + " ins_qtd_uso_diario = ?,  "
-                        + " ins_peso = ?,  "
-                        + " ins_preco = ?, "
-                        + " ins_data = ?,  "
-                        + " ins_image = ?  "
-                        + " WHERE ins_codigo = ?"
-                );
-                pst.setString(1, item.getItemCode());
-                pst.setString(2, item.getItemName());
-                pst.setString(3, item.getItemLocal());
-                pst.setInt(4, item.getMatter().getMatId());
-                pst.setInt(5, item.getSector().getSecId());
-                pst.setInt(6, item.getSupplier().getSupId());
-                pst.setString(7, item.getItemDim());
-                pst.setInt(8, item.getItemQtt());
-                pst.setInt(9, item.getItemQttDay());
-                pst.setString(10, item.getItemWei());
-                pst.setString(11, item.getItemPrice());
-                pst.setDate(12, item.getItemDate());
-                if (item.imagePath != null) {
-                    InputStream is;
-                    is = new FileInputStream(new File(item.imagePath));
-                    pst.setBlob(13, is);
-                } else if (item.imagePath == null) {
-                    pst.setBlob(13, (Blob) null);
-                }
-                pst.setInt(14, resultado);
-                return pst.executeUpdate();
-            } catch (SQLException | FileNotFoundException ex) {
-                Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-                Alert msg = new Alert(Alert.AlertType.ERROR);
-                msg.setTitle("Deu ruim!");
-                msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :)");
-                msg.setHeaderText("Resultado:");
-                msg.show();
+        try {
+            pst = conector.prepareStatement(
+                    "UPDATE insumo "
+                    + " SET ins_code = ?,  "
+                    + " ins_nome = ?,  "
+                    + " ins_local= ?, "
+                    + " ins_material = ?,  "
+                    + " ins_setor = ?,  "
+                    + " ins_fornecedor = ?,  "
+                    + " ins_dimensao = ?,  "
+                    + " ins_quantidade = ?,  "
+                    + " ins_qtd_uso_diario = ?,  "
+                    + " ins_peso = ?,  "
+                    + " ins_preco = ?, "
+                    + " ins_data = ?,  "
+                    + " ins_image = ?  "
+                    + " WHERE ins_codigo = ?"
+            );
+            pst.setString(1, item.getItemCode());
+            pst.setString(2, item.getItemName());
+            pst.setString(3, item.getItemLocal());
+            pst.setInt(4, item.getMatter().getMatId());
+            pst.setInt(5, item.getSector().getSecId());
+            pst.setInt(6, item.getSupplier().getSupId());
+            pst.setString(7, item.getItemDim());
+            pst.setInt(8, item.getItemQtt());
+            pst.setInt(9, item.getItemQttDay());
+            pst.setString(10, item.getItemWei());
+            pst.setString(11, item.getItemPrice());
+            pst.setDate(12, item.getItemDate());
+            if (item.imagePath != null) {
+                InputStream is;
+                is = new FileInputStream(new File(item.imagePath));
+                pst.setBlob(13, is);
+            } else if (item.imagePath == null) {
+                pst.setBlob(13, (Blob) null);
             }
-           }
+            pst.setInt(14, resultado);
+            return pst.executeUpdate();
+        } catch (SQLException | FileNotFoundException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Alert msg = new Alert(Alert.AlertType.ERROR);
+            msg.setTitle("Deu ruim!");
+            msg.setContentText("Aconteceu um erro ao atualizar os dados no banco, contacte o suporte Técnico :)");
+            msg.setHeaderText("Resultado:");
+            msg.show();
+        }
+
         return 0;
     }
 
@@ -217,28 +216,4 @@ public class ItemDAO extends DAO {
         return isUniqCode;
     }
 
-    public boolean isUniqCodeUp(Item item, int resultado) {
-
-        boolean isUniqCode = false;
-        isUniqItemCodStatus = isUniqCode;
-        try {
-            pst = conector.prepareStatement("SELECT ins_codigo, ins_code FROM sistemabrasduto.insumo where ins_code ='?' and not ins_codigo =? ");
-            pst.setString(1, item.getItemCode());
-            pst.setInt(2, resultado);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                Alert msg = new Alert(Alert.AlertType.WARNING);
-                msg.setHeaderText("Aviso");
-                msg.setContentText("Já existe um item cadastrado com esse codigo");
-                msg.show();
-                return isUniqCode;
-            }
-            rs.close();
-            pst.close();
-            isUniqCode = true;
-            isUniqItemCodStatus = isUniqCode;
-        } catch (SQLException e) {
-        }
-        return isUniqCode;
-    }
 }

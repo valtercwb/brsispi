@@ -58,10 +58,10 @@ public class LoginAdmController implements Initializable {
             if (ControleDAO.getBanco().getAdmLoginDAO().autenticarSenha(login, senha)) {
                 try {
                     //usuarioLogado = ControleDAO.getBanco().getLoginDAO().usuarioLogado(login);
-                    new HomeLauncher().start(new Stage());
+                   
                     Stage stage = (Stage) btnLogin.getScene().getWindow();
                     stage.close();
-
+                       new HomeLauncher().start(new Stage());
                 } catch (Exception ex) {
                     Logger.getLogger(LoginAdmController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Throwable ex) {

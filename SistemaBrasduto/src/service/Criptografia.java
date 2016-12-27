@@ -33,7 +33,6 @@ public class Criptografia {
             msg.setHeaderText("Resultado:");
             msg.show();
         }
-
         return "";
     }
 }
