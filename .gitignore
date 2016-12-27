@@ -1,2 +1,16 @@
+
 /SistemaBrasduto/build/
 /SistemaBrasduto/dist/
+
+*.class
+
+# Package Files #
+
+*.bak
+
+*.jar
+
+*.war
+
+*.ear
+
