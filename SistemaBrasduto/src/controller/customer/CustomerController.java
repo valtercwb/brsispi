@@ -5,8 +5,8 @@
  */
 package controller.customer;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.net.URL;
 import java.sql.Date;
 import java.util.Optional;
@@ -170,7 +170,7 @@ public class CustomerController implements Initializable {
         customer.setCusCountry(txtCountry.getText());
         customer.setCusDate(Date.valueOf(datePic.getValue()));
 
-        ControleDAO.getBanco().getCustomerDAO().SaveCustomer(ConexaoBanco.instancia().getConnection(), customer);
+        ControleDAO.getBanco().getCustomerDAO().SaveCustomer(DbConnection.instancia().getConnection(), customer);
         if (isUniqStatus == true) {
             listaCus.add(customer);
 
@@ -201,7 +201,7 @@ public class CustomerController implements Initializable {
         customer.setCusDate(Date.valueOf(datePic.getValue()));
 
         int resultado = tblViewCustomer.getSelectionModel().getSelectedItem().getCusId();
-        if (database.ControleDAO.getBanco().getCustomerDAO().UpdateCustomer(database.ConexaoBanco.instancia().getConnection(), customer, resultado) != 0) {
+        if (database.ControleDAO.getBanco().getCustomerDAO().UpdateCustomer(database.DbConnection.instancia().getConnection(), customer, resultado) != 0) {
             listaCus.set(tblViewCustomer.getSelectionModel().getSelectedIndex(), customer);
 
             Alert msg = new Alert(AlertType.INFORMATION);
@@ -220,9 +220,9 @@ public class CustomerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaCus = FXCollections.observableArrayList();
-        CustomerDAO.FillCustomerInfo(ConexaoBanco.instancia().getConnection(), listaCus);
+        CustomerDAO.FillCustomerInfo(DbConnection.instancia().getConnection(), listaCus);
         tblViewCustomer.setItems(listaCus);
 
         clmncusName.setCellValueFactory(new PropertyValueFactory<>("cusName"));
@@ -238,7 +238,7 @@ public class CustomerController implements Initializable {
         clmncusDate.setCellValueFactory(new PropertyValueFactory<>("cusDate"));
 
         listaCusStatus = FXCollections.observableArrayList();
-        CusStaDAO.FillCusStaInfo(ConexaoBanco.instancia().getConnection(), listaCusStatus);
+        CusStaDAO.FillCusStaInfo(DbConnection.instancia().getConnection(), listaCusStatus);
         cusStaCombo.setItems(listaCusStatus);
 
         ManEvents();

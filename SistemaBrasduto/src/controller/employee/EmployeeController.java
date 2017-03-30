@@ -5,8 +5,8 @@
  */
 package controller.employee;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -285,7 +285,7 @@ public class EmployeeController implements Initializable {
             emp.imagePath = imagePath;
 
             int resultado = tblViewEmp.getSelectionModel().getSelectedItem().getEmpId();
-            if (database.ControleDAO.getBanco().getEmpDAO().UpdateEmp(database.ConexaoBanco.instancia().getConnection(), emp, resultado) != 0) {
+            if (database.ControleDAO.getBanco().getEmpDAO().UpdateEmp(database.DbConnection.instancia().getConnection(), emp, resultado) != 0) {
                 listaEmp.set(tblViewEmp.getSelectionModel().getSelectedIndex(), emp);
 
                 Alert msg = new Alert(AlertType.INFORMATION);
@@ -369,7 +369,7 @@ public class EmployeeController implements Initializable {
         emp.setFireDate(Date.valueOf(fireDate.getValue()));
         emp.imagePath = imagePath;
 
-        ControleDAO.getBanco().getEmpDAO().SaveEmpInput(ConexaoBanco.instancia().getConnection(), emp);
+        ControleDAO.getBanco().getEmpDAO().SaveEmpInput(DbConnection.instancia().getConnection(), emp);
         if (isUniqCodeStatus == true) {
             listaEmp.add(emp);
 
@@ -392,9 +392,9 @@ public class EmployeeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaEmp = FXCollections.observableArrayList();
-        EmpDAO.FillEmpInfo(ConexaoBanco.instancia().getConnection(), listaEmp);
+        EmpDAO.FillEmpInfo(DbConnection.instancia().getConnection(), listaEmp);
 
         if (listaEmp != null) {
             tblViewEmp.setItems(listaEmp);
@@ -403,35 +403,35 @@ public class EmployeeController implements Initializable {
         }
 
         listaGen = FXCollections.observableArrayList();
-        GenDAO.FillGenInfo(ConexaoBanco.instancia().getConnection(), listaGen);
+        GenDAO.FillGenInfo(DbConnection.instancia().getConnection(), listaGen);
         genCombo.setItems(listaGen);
 
         listaMarSta = FXCollections.observableArrayList();
-        MaritalStatusDAO.FillMarStatusInfo(ConexaoBanco.instancia().getConnection(), listaMarSta);
+        MaritalStatusDAO.FillMarStatusInfo(DbConnection.instancia().getConnection(), listaMarSta);
         marStaCombo.setItems(listaMarSta);
 
         listaEmpDep = FXCollections.observableArrayList();
-        DepDAO.FillDepInfo(ConexaoBanco.instancia().getConnection(), listaEmpDep);
+        DepDAO.FillDepInfo(DbConnection.instancia().getConnection(), listaEmpDep);
         empDepCombo.setItems(listaEmpDep);
 
         listaEmpSta = FXCollections.observableArrayList();
-        EmpStatusDAO.FillEmpStatusInfo(ConexaoBanco.instancia().getConnection(), listaEmpSta);
+        EmpStatusDAO.FillEmpStatusInfo(DbConnection.instancia().getConnection(), listaEmpSta);
         empStaCombo.setItems(listaEmpSta);
 
         listaSchLev = FXCollections.observableArrayList();
-        SchLevelDAO.FillSchLevelInfo(ConexaoBanco.instancia().getConnection(), listaSchLev);
+        SchLevelDAO.FillSchLevelInfo(DbConnection.instancia().getConnection(), listaSchLev);
         schLevCombo.setItems(listaSchLev);
 
         listaCtState = FXCollections.observableArrayList();
-        CityStateDAO.FillCtStateInfo(ConexaoBanco.instancia().getConnection(), listaCtState);
+        CityStateDAO.FillCtStateInfo(DbConnection.instancia().getConnection(), listaCtState);
         stateCombo.setItems(listaCtState);
 
         listaCountry = FXCollections.observableArrayList();
-        CountryDAO.FillCouInfo(ConexaoBanco.instancia().getConnection(), listaCountry);
+        CountryDAO.FillCouInfo(DbConnection.instancia().getConnection(), listaCountry);
         countryCombo.setItems(listaCountry);
 
         listaCity = FXCollections.observableArrayList();
-        CityDAO.FillCityInfo(ConexaoBanco.instancia().getConnection(), listaCity);
+        CityDAO.FillCityInfo(DbConnection.instancia().getConnection(), listaCity);
         cityCombo.setItems(listaCity);
 
         ManEvents();

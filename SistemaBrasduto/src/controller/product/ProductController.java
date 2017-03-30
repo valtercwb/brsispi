@@ -5,8 +5,8 @@
  */
 package controller.product;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -193,7 +193,7 @@ public class ProductController implements Initializable {
             pro.setProData(Date.valueOf(datePic.getValue()));
             pro.imagePath = imagePath;
 
-            ControleDAO.getBanco().getProductDAO().SaveProduct(ConexaoBanco.instancia().getConnection(), pro);
+            ControleDAO.getBanco().getProductDAO().SaveProduct(DbConnection.instancia().getConnection(), pro);
             if (isUniqCodProStatus == true) {
                 listaPro.add(pro);
                 Alert msg = new Alert(AlertType.INFORMATION);
@@ -232,7 +232,7 @@ public class ProductController implements Initializable {
             pro.imagePath = imagePath;
 
             int resultado = tblViewPro.getSelectionModel().getSelectedItem().getProId();
-            database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.ConexaoBanco.instancia().getConnection(), pro, resultado);
+            database.ControleDAO.getBanco().getProductDAO().UpdateProduct(database.DbConnection.instancia().getConnection(), pro, resultado);
 
             listaPro.set(tblViewPro.getSelectionModel().getSelectedIndex(), pro);
 
@@ -253,9 +253,9 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaPro = FXCollections.observableArrayList();
-        ProductDAO.FillProInfo(ConexaoBanco.instancia().getConnection(), listaPro);
+        ProductDAO.FillProInfo(DbConnection.instancia().getConnection(), listaPro);
         tblViewPro.setItems(listaPro);
 
         clmnproMat.setCellValueFactory(new PropertyValueFactory<>("proMat"));
@@ -270,7 +270,7 @@ public class ProductController implements Initializable {
         clmnproData.setCellValueFactory(new PropertyValueFactory<>("proData"));
 
         listaCat = FXCollections.observableArrayList();
-        CatDAO.FillCatInfo(ConexaoBanco.instancia().getConnection(), listaCat);
+        CatDAO.FillCatInfo(DbConnection.instancia().getConnection(), listaCat);
         catCombo.setItems(listaCat);
 
         ManEvents();

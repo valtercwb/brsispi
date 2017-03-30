@@ -5,8 +5,8 @@
  */
 package controller;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -128,7 +128,7 @@ public class UserController implements Initializable {
 
         int resultado = tblViewUser.getSelectionModel().getSelectedItem().getUserId();
 
-        if (database.ControleDAO.getBanco().getUserDAO().editUser(database.ConexaoBanco.instancia().getConnection(), user, resultado) != 0) {
+        if (database.ControleDAO.getBanco().getUserDAO().editUser(database.DbConnection.instancia().getConnection(), user, resultado) != 0) {
             listaUser.set(tblViewUser.getSelectionModel().getSelectedIndex(), user);
 
             Alert msg = new Alert(AlertType.INFORMATION);
@@ -160,7 +160,7 @@ public class UserController implements Initializable {
             user.setUserSenha(txtPass.getText());
             user.setUserStatus(userStaCombo.getSelectionModel().getSelectedItem());
             user.setUserType(userTypeCombo.getSelectionModel().getSelectedItem());
-            ControleDAO.getBanco().getUserDAO().SaveUser(ConexaoBanco.instancia().getConnection(), user);
+            ControleDAO.getBanco().getUserDAO().SaveUser(DbConnection.instancia().getConnection(), user);
 
             if (UserDAO.isUniqUserLogin == true) {
                 listaUser.add(user);
@@ -186,19 +186,19 @@ public class UserController implements Initializable {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaUser = FXCollections.observableArrayList();
-        UserDAO.FillUserInfo(ConexaoBanco.instancia().getConnection(), listaUser);
+        UserDAO.FillUserInfo(DbConnection.instancia().getConnection(), listaUser);
         tblViewUser.setItems(listaUser);
 
         clmnuserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
         listaUserType = FXCollections.observableArrayList();
-        UserTypeDAO.FillUserTypeInfo(ConexaoBanco.instancia().getConnection(), listaUserType);
+        UserTypeDAO.FillUserTypeInfo(DbConnection.instancia().getConnection(), listaUserType);
         userTypeCombo.setItems(listaUserType);
 
         listaUserSta = FXCollections.observableArrayList();
-        UserStatusDAO.FillUserStaInfo(ConexaoBanco.instancia().getConnection(), listaUserSta);
+        UserStatusDAO.FillUserStaInfo(DbConnection.instancia().getConnection(), listaUserSta);
         userStaCombo.setItems(listaUserSta);
 
         ManEvents();

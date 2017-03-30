@@ -5,6 +5,8 @@
  */
 package modelDAO;
 
+import database.DAO;
+
 /**
  *
  * @author valterFranco<unicuritiba/ads>

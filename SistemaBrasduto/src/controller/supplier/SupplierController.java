@@ -5,8 +5,8 @@
  */
 package controller.supplier;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.net.URL;
 import java.sql.Date;
 import java.util.Optional;
@@ -181,7 +181,7 @@ public class SupplierController implements Initializable {
         supplier.setSupCountry(txtCountry.getText());
         supplier.setSupDate(Date.valueOf(datePic.getValue()));
 
-        ControleDAO.getBanco().getSupplierDAO().SaveSup(ConexaoBanco.instancia().getConnection(), supplier);
+        ControleDAO.getBanco().getSupplierDAO().SaveSup(DbConnection.instancia().getConnection(), supplier);
         if (isUniqSupStatus == true) {
             listaSup.add(supplier);
 
@@ -214,7 +214,7 @@ public class SupplierController implements Initializable {
         supplier.setSupDate(Date.valueOf(datePic.getValue()));
 
         int resultado = tblViewSup.getSelectionModel().getSelectedItem().getSupId();
-        if (database.ControleDAO.getBanco().getSupplierDAO().UpdateSup(database.ConexaoBanco.instancia().getConnection(), supplier, resultado) != 0) {
+        if (database.ControleDAO.getBanco().getSupplierDAO().UpdateSup(database.DbConnection.instancia().getConnection(), supplier, resultado) != 0) {
             listaSup.set(tblViewSup.getSelectionModel().getSelectedIndex(), supplier);
 
             Alert msg = new Alert(AlertType.INFORMATION);
@@ -233,9 +233,9 @@ public class SupplierController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        database.ConexaoBanco.instancia();
+        database.DbConnection.instancia();
         listaSup = FXCollections.observableArrayList();
-        SupplierDAO.FillSupInfo(ConexaoBanco.instancia().getConnection(), listaSup);
+        SupplierDAO.FillSupInfo(DbConnection.instancia().getConnection(), listaSup);
         tblViewSup.setItems(listaSup);
 
         clmnsupName.setCellValueFactory(new PropertyValueFactory<>("supName"));

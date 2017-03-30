@@ -23,7 +23,7 @@ import modelDAO.UserTypeDAO;
  *
  * Deal with taking care of the DAO objects and a lot of database operations filtering these operations.
  *
- * @autor valterFranco<unciritibaAds>
+ * @autor valterFranco<uncuritibaAds>
  */
 public class ControleDAO {
 

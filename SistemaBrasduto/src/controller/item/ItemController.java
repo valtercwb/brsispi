@@ -6,8 +6,8 @@
 package controller.item;
 
 import static controller.product.ProductController.phImg;
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -194,7 +194,7 @@ public class ItemController implements Initializable {
             item.setItemDate(Date.valueOf(datePic.getValue()));
             item.imagePath = imagePath;
 
-            ControleDAO.getBanco().getItemDAO().SaveInput(ConexaoBanco.instancia().getConnection(), item);
+            ControleDAO.getBanco().getItemDAO().SaveInput(DbConnection.instancia().getConnection(), item);
             if (isUniqItemCodStatus == true) {
                 listaItem.add(item);
 
@@ -239,7 +239,7 @@ public class ItemController implements Initializable {
 
             int resultado = tblViewItem.getSelectionModel().getSelectedItem().getItemId();
 
-            if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.ConexaoBanco.instancia().getConnection(), item, resultado) != 0) {
+            if (database.ControleDAO.getBanco().getItemDAO().UpdateItem(database.DbConnection.instancia().getConnection(), item, resultado) != 0) {
                 listaItem.set(tblViewItem.getSelectionModel().getSelectedIndex(), item);
 
                 Alert msg = new Alert(AlertType.INFORMATION);
@@ -263,9 +263,9 @@ public class ItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaItem = FXCollections.observableArrayList();
-        ItemDAO.FillItemInfo(ConexaoBanco.instancia().getConnection(), listaItem);
+        ItemDAO.FillItemInfo(DbConnection.instancia().getConnection(), listaItem);
         tblViewItem.setItems(listaItem);
 
         clmnitemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
@@ -282,13 +282,13 @@ public class ItemController implements Initializable {
         clmnitemDate.setCellValueFactory(new PropertyValueFactory<>("itemDate"));
 
         listaMat = FXCollections.observableArrayList();
-        MatterDAO.FillMatInfo(ConexaoBanco.instancia().getConnection(), listaMat);
+        MatterDAO.FillMatInfo(DbConnection.instancia().getConnection(), listaMat);
         matCombo.setItems(listaMat);
         listaSec = FXCollections.observableArrayList();
-        SectorDAO.FillSecInfo(ConexaoBanco.instancia().getConnection(), listaSec);
+        SectorDAO.FillSecInfo(DbConnection.instancia().getConnection(), listaSec);
         secCombo.setItems(listaSec);
         listaSup = FXCollections.observableArrayList();
-        SupplierDAO.FillBoxSupInfo(ConexaoBanco.instancia().getConnection(), listaSup);
+        SupplierDAO.FillBoxSupInfo(DbConnection.instancia().getConnection(), listaSup);
         supCombo.setItems(listaSup);
 
         ManEvents();

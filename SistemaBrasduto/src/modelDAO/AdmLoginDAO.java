@@ -5,6 +5,7 @@
  */
 package modelDAO;
 
+import database.DAO;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import service.Criptografia;
@@ -77,6 +78,8 @@ public class AdmLoginDAO extends DAO {
 //    public void inserir(User user) throws SQLException {
 //
 //        try {
+//           msg.show();
+//       }
 //            String sql = "INSERT INTO usuario (usu_nome, usu_login, usu_senha) VALUES (?, ?,MD5(?),?,?)";
 //
 //            pst = conector.prepareStatement(sql);

@@ -5,8 +5,8 @@
  */
 package controller;
 
-import database.ConexaoBanco;
 import database.ControleDAO;
+import database.DbConnection;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -117,7 +117,7 @@ public class IncomeController implements Initializable {
         inc.setIncSaleQtt(Integer.valueOf(txtSellGoal.getText()));
         inc.setIncSaleQttGoal(Integer.valueOf(txtSellGoal.getText()));
         
-        ControleDAO.getBanco().getIncomeDAO().SaveIncInput(ConexaoBanco.instancia().getConnection(), inc);
+        ControleDAO.getBanco().getIncomeDAO().SaveIncInput(DbConnection.instancia().getConnection(), inc);
         buildPieChart();
         //Line Graph
         HistoryTableView();
@@ -141,7 +141,7 @@ public class IncomeController implements Initializable {
         inc.setIncSaleQttGoal(Integer.valueOf(txtSellGoal.getText()));
         
         int resultado = tblViewInc.getSelectionModel().getSelectedItem().getIncId();
-        database.ControleDAO.getBanco().getIncomeDAO().UpdateInc(database.ConexaoBanco.instancia().getConnection(), inc, resultado);
+        database.ControleDAO.getBanco().getIncomeDAO().UpdateInc(database.DbConnection.instancia().getConnection(), inc, resultado);
         
         listaInc.set(tblViewInc.getSelectionModel().getSelectedIndex(), inc);
         CleanFields();
@@ -192,7 +192,7 @@ public class IncomeController implements Initializable {
             String getData = "SELECT A.inc_mes,B.mes_nome,A.inc_fat,A.inc_fatplan FROM income A INNER JOIN meses B ON (A.inc_mes = B.mes_cod)";
 //            ObservableList<XYChart.Series<Integer, Double>> chartData = FXCollections.observableArrayList();
 
-            Statement stm = database.ConexaoBanco.instancia().getConnection().createStatement();
+            Statement stm = database.DbConnection.instancia().getConnection().createStatement();
             ResultSet resultado = stm.executeQuery(getData);
             
             while (resultado.next()) {
@@ -231,7 +231,7 @@ public class IncomeController implements Initializable {
             
             String getData = "SELECT A.inc_mes,B.mes_nome,A.inc_fat,A.inc_fatplan FROM income A INNER JOIN meses B ON (A.inc_mes = B.mes_cod)";
             
-            Statement stm = database.ConexaoBanco.instancia().getConnection().createStatement();
+            Statement stm = database.DbConnection.instancia().getConnection().createStatement();
             ResultSet resultado = stm.executeQuery(getData);
             
             while (resultado.next()) {
@@ -255,9 +255,9 @@ public class IncomeController implements Initializable {
     }
     
     private void HistoryTableView() {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         listaInc = FXCollections.observableArrayList();
-        IncomeDAO.FillIncInfo(ConexaoBanco.instancia().getConnection(), listaInc);
+        IncomeDAO.FillIncInfo(DbConnection.instancia().getConnection(), listaInc);
         tblViewInc.setItems(listaInc);
         
         clmnincMonth.setCellValueFactory(new PropertyValueFactory<>("monthfat"));
@@ -270,10 +270,10 @@ public class IncomeController implements Initializable {
     
     private void buildPieChart() {
         try {
-            ConexaoBanco.instancia();
+            DbConnection.instancia();
             data = FXCollections.observableArrayList();
             String getData = "SELECT A.inc_mes,B.mes_nome,A.inc_fat FROM income A INNER JOIN meses B ON (A.inc_mes = B.mes_cod)";
-            ResultSet rs = ConexaoBanco.instancia().getConnection().createStatement().executeQuery(getData);
+            ResultSet rs = DbConnection.instancia().getConnection().createStatement().executeQuery(getData);
             while (rs.next()) {
                 String mesPie = String.valueOf(rs.getInt(1));
                 String mesName = rs.getString(2);
@@ -291,10 +291,10 @@ public class IncomeController implements Initializable {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConexaoBanco.instancia();
+        DbConnection.instancia();
         
         listaMon = FXCollections.observableArrayList();
-        MonthDAO.FillMonInfo(ConexaoBanco.instancia().getConnection(), listaMon);
+        MonthDAO.FillMonInfo(DbConnection.instancia().getConnection(), listaMon);
         monthCombo.setItems(listaMon);
         
         buildPieChart();
