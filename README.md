@@ -1,6 +1,6 @@
 # Bras Project - Projeto Integrador
 
-Desktop Application Prototype with internet acces implemented with JAVAFX8 and MySql.
+Desktop Application Prototype with internet access implemented with JAVAFX8 and MySql.
 
 ## System Features
 

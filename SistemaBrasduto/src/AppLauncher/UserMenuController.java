@@ -9,6 +9,7 @@
  import java.net.URL;
  import java.util.logging.Level;
  import java.util.logging.Logger;
+ import javafx.application.Platform;
  import javafx.event.ActionEvent;
  import javafx.fxml.FXML;
  import javafx.fxml.FXMLLoader;
@@ -24,23 +25,29 @@
  
  /**
   *
-  * @author valterFranco<unicuritibaAds>
+  * @author valterFranco<unicuritiba/ads>
   */
- public class AdmMenuController {
+ public class UserMenuController {
  
-     public static BorderPane border = HomeLauncher.getRoot();
+     public static BorderPane border = HomeLauncher2.getRoot();
  
      AnchorPane manPro;
      AnchorPane home;
      AnchorPane manSup;
      WebView suporte;
-     WebView msgServ;
+     WebView whats;
      BorderPane employee;
      AnchorPane itemTable;
      AnchorPane manCus;
-     BorderPane users;
+ 
      @FXML
      private MenuButton btnOption;
+     @FXML
+     private MenuItem UserProfile;
+ 
+     @FXML
+     private MenuItem logOffUser;
+ 
      @FXML
      private Button btnCos;
  
@@ -77,11 +84,6 @@
  
      @FXML
      public Button btnFun;
-     @FXML
-     private MenuItem UserProfile;
- 
-     @FXML
-     private MenuItem logOffUser;
  
      private boolean itLoadedHome = false;
      private boolean itLoadedPro = false;
@@ -93,7 +95,6 @@
      private boolean itLoadedEmp = false;
      private boolean itLoadedCos = false;
      private boolean itLoadedInc = false;
-     private boolean itLoadedUsers = false;
  
      @FXML
      void btnHomeOnClicked(ActionEvent event) {
@@ -104,7 +105,7 @@
                  border.setCenter(home);
                  setItLoadedHome(true);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
              border.setCenter(home);
@@ -120,7 +121,7 @@
                  border.setCenter(manPro);
                  setItLoadedPro(true);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
              border.setCenter(manPro);
@@ -134,8 +135,9 @@
                  URL addListItemTable = getClass().getResource("/view/Item.fxml");
                  itemTable = FXMLLoader.load(addListItemTable);
                  border.setCenter(itemTable);
+ 
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
              border.setCenter(itemTable);
@@ -150,10 +152,10 @@
                  manCus = FXMLLoader.load(manCusTable);
                  border.setCenter(manCus);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
-             border.setCenter(itemTable);
+             border.setCenter(manCus);
          }
      }
  
@@ -166,7 +168,7 @@
                  border.setCenter(manSup);
                  setItLoadedSupp(true);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
              border.setCenter(manSup);
@@ -187,23 +189,7 @@
          } else {
              border.setCenter(employee);
          }
-     }
  
-     @FXML
-     void btnCosOnClicked(ActionEvent event) {
-         if (isItLoadedCos() == false) {
- 
-             setItLoadedCos(true);
-         } else {
-         }
-     }
- 
-     @FXML
-     void btnIncOnClicked(ActionEvent event) {
-         if (itLoadedInc == false) {
-             setItLoadedInc(true);
-         } else {
-         }
      }
  
      @FXML
@@ -211,16 +197,16 @@
          if (itLoadedMsg == false) {
              try {
                  URL msgUrl = getClass().getResource("/view/Msg.fxml");
-                 msgServ = FXMLLoader.load(msgUrl);
-                 WebEngine engine = msgServ.getEngine();
+                 whats = FXMLLoader.load(msgUrl);
+                 WebEngine engine = whats.getEngine();
                  engine.load("https://www.skype.com/ptbr/#");
-                 border.setCenter(msgServ);
+                 border.setCenter(whats);
                  setItLoadedMsg(true);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
-             border.setCenter(msgServ);
+             border.setCenter(whats);
          }
      }
  
@@ -228,35 +214,17 @@
      void btnSupOnClicked(ActionEvent event) {
          if (isItLoadedSup() == false) {
              try {
-                 //        WebView whats = new WebView();
                  URL suporteUrl = getClass().getResource("/view/Support.fxml");
                  suporte = FXMLLoader.load(suporteUrl);
                  WebEngine engine = suporte.getEngine();
                  engine.load("https://valtercwb.github.io/");
- //        Scene scene = new Scene(root,1280,680);
                  border.setCenter(suporte);
                  setItLoadedSup(true);
              } catch (IOException ex) {
-                 Logger.getLogger(AdmMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserMenuController.class.getName()).log(Level.SEVERE, null, ex);
              }
          } else {
              border.setCenter(suporte);
-         }
-     }
- 
-     @FXML
-     void btnUserOnClicked(ActionEvent event) {
-         if (isItLoadedUsers() == false) {
-             try {
-                 URL usersListUrl = getClass().getResource("/view/User.fxml");
-                 users = FXMLLoader.load(usersListUrl);
-                 border.setCenter(users);
-                 setItLoadedUsers(true);
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
-         } else {
-             border.setCenter(users);
          }
      }
  
@@ -267,10 +235,12 @@
  
      @FXML
      void logOffUserOnClicked(ActionEvent event) {
+ //        Stage stage = (Stage) border.getScene().getWindow();
+ //        stage.close();
          
-         Stage stage = (Stage) border.getScene().getWindow();
-         stage.close();
          new FirstPage().start(new Stage());
+        Platform.exit();
+        System.exit(0);
      }
  
      /**
@@ -387,13 +357,4 @@
      public void setItLoadedCus(boolean itLoadedCus) {
          this.itLoadedCus = itLoadedCus;
      }
- 
-     public boolean isItLoadedUsers() {
-         return itLoadedUsers;
-     }
- 
-     public void setItLoadedUsers(boolean itLoadedUsers) {
-         this.itLoadedUsers = itLoadedUsers;
-     }
- 
  }
