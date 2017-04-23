@@ -1,6 +1,5 @@
 package modelDAO;
 
-import database.DAO;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import service.Criptografia;

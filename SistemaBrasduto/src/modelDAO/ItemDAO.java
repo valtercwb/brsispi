@@ -5,7 +5,6 @@
  */
 package modelDAO;
 
-import database.DAO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
