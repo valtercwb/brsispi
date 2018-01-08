@@ -10,3 +10,5 @@ Desktop Application Prototype with internet access implemented with JAVAFX8 and 
 #### Access Levels 
 #### Users management
 
+![Alt text](/relative/path/to/emp_reg.jpg?raw=true "Optional Title")
+
